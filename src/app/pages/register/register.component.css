@@ -1,0 +1,158 @@
+/* Page Background */
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+  padding: 20px;
+}
+
+/* Card Container */
+.register-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px; /* Made slightly wider for side-by-side inputs */
+}
+
+.header h2 {
+  margin: 0 0 10px;
+  color: #333;
+  text-align: center;
+}
+
+.header p {
+  margin: 0 0 30px;
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* --- NEW: Flexbox Row for First/Last Name --- */
+.row-group {
+  display: flex;
+  gap: 15px; /* Space between the two inputs */
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%; /* Default full width */
+}
+
+/* Helper for 50/50 split */
+.half-width {
+  width: 50%;
+  margin-bottom: 0; /* Remove bottom margin inside the row */
+}
+/* -------------------------------------------- */
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Input Wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+  font-size: 15px;
+}
+.error-happen{
+  border-color: #dc3545 !important;
+}
+.input-wrapper input:focus {
+  border-color: #3ea2ee !important;
+  box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+}
+
+
+/* Eye Toggle */
+.toggle-eye {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: #888;
+  font-size: 14px;
+}
+
+.toggle-eye:hover {
+  color: #ee3e55;
+}
+
+/* Button & Footer */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ee3e55;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #fc2e49;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-footer a {
+  color: #ee3e55;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 12px;
+  padding-left: 10px;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 480px) {
+  .row-group {
+    flex-direction: column; /* Stack them on phone */
+    gap: 20px;
+  }
+
+  .half-width {
+    width: 100%; /* Make them full width on phone */
+  }
+}

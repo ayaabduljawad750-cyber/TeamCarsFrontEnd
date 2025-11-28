@@ -1,0 +1,119 @@
+<div class="register-page">
+  <div class="register-card">
+    <div class="header">
+      <h2>Join us!</h2>
+      <p>Create your account</p>
+    </div>
+
+    <div>
+      <!-- ROW: First Name & Last Name -->
+      <div class="row-group">
+        <!-- First Name -->
+        <div class="form-group half-width">
+          <label for="firstName">First Name</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user input-icon"></i>
+            <input
+              type="text"
+              id="firstName"
+              [(ngModel)]="firstName"
+              name="firstName"
+              placeholder="First Name"
+              required
+            />
+          </div>
+          <p class="error-text">{{ firstNameError }}</p>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group half-width">
+          <label for="lastName">Last Name</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user input-icon"></i>
+            <input
+              type="text"
+              id="lastName"
+              [(ngModel)]="lastName"
+              name="lastName"
+              placeholder="Last Name"
+              required
+            />
+          </div>
+          <p class="error-text">{{ lastNameError }}</p>
+        </div>
+      </div>
+      <!-- End Row -->
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <i class="fas fa-envelope input-icon"></i>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Enter your email"
+          />
+        </div>
+        <p class="error-text">{{ emailError }}</p>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            [type]="typePassword ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Create a password"
+            required
+          />
+          <span class="toggle-eye" (click)="togglePassword()">
+            <i
+              class="fas"
+              [ngClass]="typePassword ? 'fa-eye-slash' : 'fa-eye'"
+            ></i>
+          </span>
+        </div>
+        <p class="error-text">{{ passwordError }}</p>
+      </div>
+
+      <!-- Confirm Password -->
+      <div *ngIf="isPassword()" class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            [type]="typeConfirm ? 'text' : 'password'"
+            id="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+          <span class="toggle-eye" (click)="toggleConfirmPassword()">
+            <i
+              class="fas"
+              [ngClass]="typeConfirm ? 'fa-eye-slash' : 'fa-eye'"
+            ></i>
+          </span>
+        </div>
+        <p class="error-text">{{ confirmPasswordError }}</p>
+      </div>
+
+      <button type="button" (click)="register()" class="submit-btn">
+        Sign Up
+      </button>
+      <p class="error-text" style="text-align: center">{{ errorMessage }}</p>
+
+      <div class="form-footer">
+        Already have an account? <a routerLink="/login">Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>

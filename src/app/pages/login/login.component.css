@@ -1,0 +1,125 @@
+/* Page Background */
+.login-page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Card Container */
+.login-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.header h2 {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.header p {
+  margin: 0 0 30px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Form Group Styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Input Wrapper for Icons */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* The Left Icon (Envelope/Lock) */
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* The Input Field */
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 40px 12px 40px; /* Left padding for icon, right for eye */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+  font-size: 15px;
+}
+
+.error-happen{
+  border-color: #dc3545 !important;
+}
+
+.input-wrapper input:focus {
+  border-color: #ee3e55;
+  box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+}
+
+/* The Eye Toggle (Right Side) */
+.toggle-eye {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: #888;
+  font-size: 14px;
+  user-select: none; /* Prevents highlighting text on double click */
+}
+
+.toggle-eye:hover {
+  color: #ee3e55;
+}
+
+/* Footer & Button */
+.form-footer {
+  text-align: right;
+  margin-bottom: 25px;
+}
+
+.form-footer a ,.register-link{
+  color: #ee3e55;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ee3e55;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  background: #fc2e49;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 12px;
+  padding-left: 10px;
+}
