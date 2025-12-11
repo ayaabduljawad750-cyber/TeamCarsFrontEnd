@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OurNavComponent } from './components/our-nav/our-nav.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,6 +45,7 @@ import { MyOrdersComponent } from './components/my-orders/my-orders.component';
     FormsModule,
     MatIconModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
