@@ -7,6 +7,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 // import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
 // import { OrderDetailsComponent } from './pages/order-details/order-details.component';
+import { ContactUsComponent } from './components/contactus/contactus.component';
 
 const routes: Routes = [
   {
@@ -27,13 +28,9 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: '',
-    // component: OrderListComponent
-  },
-  {
-    path: ':id',
-    // component: OrderDetailsComponent
-  },
+    path:"contactus",
+    component:ContactUsComponent
+  }
 ];
 
 @NgModule({

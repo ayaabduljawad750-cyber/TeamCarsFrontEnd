@@ -1,0 +1,43 @@
+<footer class="footer">
+    <div class="footer-top">
+        <div class="address">
+            <img src="assets/images/logo.jpg" class="footer-logo" alt="logo">
+            <p>{{ address}}</p>
+            <div class="social">
+                <a *ngFor="let icon of socialIcons"  [href]="icon.link" target="_blank">
+                <img [src]="icon.img" class="social-icon" alt="social" />
+                </a>
+            </div>
+        </div>
+
+        <div class="solutions">
+            <h4>Solutions</h4>
+            <a *ngFor="let sol of solutions" [routerLink]="sol.path">
+                {{ sol.name}}
+            </a>
+        </div>
+
+        <div class="links">
+            <h4>More</h4>
+            <a *ngFor="let link of moreLinks" [routerLink]="link.path">
+                {{ link.name}}
+            </a>
+        </div>
+
+        <div class="contact">
+            <h4>Hotline</h4>
+            <div class="phone">
+                <img src="assets/images/phone.jpg" class="phone-icon" alt="phone">
+                {{ hotline}}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Yourparts, All Rights Reserved</p>
+        <div class="partners">
+        <img *ngFor="let partner of partners" [src]="partner" alt="partner" />
+    </div>
+    </div>
+</footer>
