@@ -1,0 +1,36 @@
+.homePage {
+  background-image: url("/assets/images/HomeImgs/homeBG.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.homePage .container {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  /* min-height: calc(-80px + 100vh); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 50px;
+  gap: 20px;
+}
+
+.homePage .container .categories {
+  /* height: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 55%;
+}
+
+.homePage .container .title {
+  color: white;
+  font-size: 45px;
+  font-weight: bold;
+}

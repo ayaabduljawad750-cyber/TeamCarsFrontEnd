@@ -19,6 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { CardComponent } from './pages/home/card/card.component';
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     ContactUsComponent,
     MyOrdersComponent,
     CheckoutComponent,
+    CardComponent
     // MyOrdersComponent
   ],
   imports: [
