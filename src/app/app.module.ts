@@ -14,6 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ContactUsComponent } from './components/contactus/contactus.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { DashboardUserComponent } from './components/dashboard-user/dashboard-us
     RegisterComponent,
     DashboardComponent,
     DashboardAdminComponent,
-    DashboardUserComponent
+    DashboardUserComponent,
+    HeaderComponent,
+    FooterComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,
