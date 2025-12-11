@@ -1,0 +1,82 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}
+.contact-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    direction: rtl;
+  text-align: left;
+  padding: 50px 20px;
+}
+h2,
+span{
+    color: #ef465c;
+    font-weight: bold;
+}
+.contact-container p {
+    align-items: center;
+    justify-content: center;
+}
+.contact-link {
+  display: block;
+  color: #000;
+  margin: 10px 0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .contact-container {
+    padding: 20px 10px;
+    max-width: 100%;
+  }
+
+  .contact-link {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-container {
+    padding: 25px 12px;
+  }
+} 
+@media (max-width: 768px) {
+
+  .contact-container {
+    padding: 30px 15px;
+    max-width: 100%;
+  }
+
+  .contact-link {
+    font-size: 15px;
+  }
+}
+@media (max-width: 992px) {
+
+  .contact-container {
+    max-width: 500px;
+  }
+}
+@media (max-width: 1200px) {
+
+  .contact-container {
+    max-width: 550px;
+  }
+}
+@media (max-width: 1400px) {
+
+  .contact-container {
+    max-width: 650px;
+  }
+}
+@media (min-width: 1401px) {
+
+  .contact-container {
+    max-width: 750px;
+    padding: 50px 40px;
+  }
+}
