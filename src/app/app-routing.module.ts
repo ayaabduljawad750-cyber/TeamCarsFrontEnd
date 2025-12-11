@@ -5,6 +5,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
+// import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
+// import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 
 const routes: Routes = [
   {
@@ -23,7 +25,15 @@ const routes: Routes = [
     path:"dashboard",
     component:DashboardComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: '',
+    // component: OrderListComponent
+  },
+  {
+    path: ':id',
+    // component: OrderDetailsComponent
+  },
 ];
 
 @NgModule({
