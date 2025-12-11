@@ -1,23 +1,12 @@
 .footer{
-  width: 100%;
-  background: #2f3140;
-  color: #fff;
-  padding: 40px 80px;
-  min-height: 100vh; /* أهم حاجة */
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* .footer{
+  position: relative;
+  bottom: 0;
   width: 100%;
     background: #2f3140;
     color: #fff;
     padding: 40px 80px;
   box-sizing: border-box;
-} */
+}
 .footer-top{
     display: flex;
     justify-content: space-between;
@@ -94,10 +83,6 @@ margin-bottom: 25px;
   height: 40px;
   object-fit: contain;
 }
-
-/* ------------------------------------------------ */
-/* 📱 1) Extra Small Mobiles — max 480px */
-/* ------------------------------------------------ */
 @media (max-width: 480px) {
 
   .footer {
@@ -139,11 +124,6 @@ margin-bottom: 25px;
     text-align: center;
   }
 }
-
-
-/* ------------------------------------------------ */
-/* 📱 2) Small Mobiles — max 576px */
-/* ------------------------------------------------ */
 @media (max-width: 576px) {
 
   .footer {
@@ -154,11 +134,6 @@ margin-bottom: 25px;
     gap: 30px;
   }
 }
-
-
-/* ------------------------------------------------ */
-/* 📱 3) Mobiles & Tablets — max 768px */
-/* ------------------------------------------------ */
 @media (max-width: 768px) {
 
   .footer {
@@ -190,11 +165,6 @@ margin-bottom: 25px;
     margin-top: 50px;
   }
 }
-
-
-/* ------------------------------------------------ */
-/* 💻 4) Small Laptops/Tablets — max 992px */
-/* ------------------------------------------------ */
 @media (max-width: 992px) {
 
   .footer-top {
@@ -210,11 +180,6 @@ margin-bottom: 25px;
     height: 35px;
   }
 }
-
-
-/* ------------------------------------------------ */
-/* 🖥️ 5) Medium Screens — max 1200px */
-/* ------------------------------------------------ */
 @media (max-width: 1200px) {
 
   .footer {
@@ -229,11 +194,6 @@ margin-bottom: 25px;
     width: 90px;
   }
 }
-
-
-/* ------------------------------------------------ */
-/* 🖥️ 6) Large Screens — max 1400px */
-/* ------------------------------------------------ */
 @media (max-width: 1400px) {
 
   .footer {
@@ -244,11 +204,6 @@ margin-bottom: 25px;
     height: 40px;
   }
 }
-
-
-/* ------------------------------------------------ */
-/* 🖥️ 7) Extra Large Screens — min 1401px */
-/* ------------------------------------------------ */
 @media (min-width: 1401px) {
 
   .footer {

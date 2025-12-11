@@ -8,12 +8,11 @@ import { Component } from '@angular/core';
 export class HeaderComponent {
 
   menuItems = [
-    "Inner And Outer spare Parts",
     "Spare Parts",
-    "Engine Oil & Fluids",
-    "Tires & Rims & Batteries",
-    "Accessories",
-    "Commercial Vehicles"
+    "Engine Oil",
+    "Tires",
+    "Batteries",
+    "Liquids"
   ];
 
   toggleMenu = false;
@@ -23,7 +22,7 @@ export class HeaderComponent {
     this.toggleMenu = !this.toggleMenu;
   }
 
-  changeLang(){
+  changeLang() {
     alert("Lang changed!");
   }
 }
