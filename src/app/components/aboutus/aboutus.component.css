@@ -1,0 +1,145 @@
+.about-page {
+    padding: 40px;
+}
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.hero-image .image-box {
+    width: 420px;
+    position: relative;
+    border-radius: 14px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #e53935 40%, #b71c1c 100%);
+  background-size: 200% 200%;
+   box-shadow: 0 10px 30px rgba(183, 28, 28, 0.18), 0 2px 6px rgba(0,0,0,0.12);
+  transition: transform 260ms ease, box-shadow 260ms ease, background-position 700ms ease;
+  overflow: hidden; 
+}
+
+.image-wrap {
+    overflow: hidden;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(174, 112, 112, 0.15);
+}
+
+.image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* transition: .4s ease-in-out; */
+}
+
+/* .image-wrap img:hover {
+    transform: scale(1.05);
+} */
+
+.image-title {
+    top: 15px;
+    left: 15px;
+    color: #fff;
+    padding: 6px 12px;
+}
+
+
+.site-title {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #0a3d62;
+}
+
+.lead {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+
+.content {
+    max-width: 900px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.content h2 {
+    font-size: 30px;
+    margin-bottom: 12px;
+    color: #0a3d62;
+    position: relative;
+}
+
+.content h2::after {
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #0a3d62;
+    display: block;
+    margin-top: 6px;
+    border-radius: 2px;
+}
+
+.content p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.content h3 {
+    margin-top: 25px;
+    font-size: 24px;
+    color: #0a3d62;
+}
+
+address {
+    font-style: normal;
+    line-height: 1.7;
+    font-size: 17px;
+    color: #333;
+    background: #f4f7fa;
+    padding: 12px 15px;
+    border-left: 4px solid #0a3d62;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.contacts {
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.contacts li {
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+.contacts a {
+    color: #0a3d62;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contacts a:hover {
+    text-decoration: underline;
+}
+
+/* ---------------------- RESPONSIVE ---------------------- */
+
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-right {
+        max-width: 100%;
+    }
+
+    .image-title {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

@@ -17,6 +17,7 @@ import { DashboardUserComponent } from './components/dashboard-user/dashboard-us
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
+import { AboutusComponent } from './components/aboutus/aboutus.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ContactUsComponent } from './components/contactus/contactus.component';
     DashboardUserComponent,
     HeaderComponent,
     FooterComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,7 @@ import { ContactUsComponent } from './components/contactus/contactus.component';
     HttpClientModule,
     FormsModule,
     MatIconModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
