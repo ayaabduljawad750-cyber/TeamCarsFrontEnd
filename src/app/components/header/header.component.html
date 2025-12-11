@@ -5,8 +5,10 @@
     <a routerLink="/products" routerLinkActive="active-link" class="nav-link">Products</a>
   </div>
   <div class="right-section">
-    <a routerLink="/login" class="login-btn">Login</a>
-    <a routerLink="/register" class="register-btn">Register</a>
+    <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">Login</a>
+    <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">Register</a>
+    <a routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
+    <button (click)="logout()" *ngIf="isLogin()">Logout</button>
     <button class="lang-btn" (click)="changeLang()">
       <img src="assets/images/lang.jpg" class="lang-icon">
       English
