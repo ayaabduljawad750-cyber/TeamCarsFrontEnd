@@ -18,6 +18,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+// import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { AboutusComponent } from './components/aboutus/aboutus.component';
     HeaderComponent,
     FooterComponent,
     ContactUsComponent,
-    AboutusComponent
+    AboutusComponent,
+    MyOrdersComponent,
+    // MyOrdersComponent
   ],
   imports: [
     BrowserModule,
