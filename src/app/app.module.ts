@@ -17,6 +17,7 @@ import { DashboardUserComponent } from './components/dashboard-user/dashboard-us
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ContactUsComponent } from './components/contactus/contactus.component';
     HeaderComponent,
     FooterComponent,
     ContactUsComponent,
+    MyOrdersComponent,
     // MyOrdersComponent
   ],
   imports: [
