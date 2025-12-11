@@ -15,10 +15,11 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
 import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { CardComponent } from './pages/home/card/card.component';
+import { Section4Component } from './pages/home/section4/section4.component';
+import { FooterComponent } from './components/footer/footer.component';
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
@@ -32,10 +33,11 @@ import { CardComponent } from './pages/home/card/card.component';
     DashboardAdminComponent,
     DashboardUserComponent,
     HeaderComponent,
-    FooterComponent,
     ContactUsComponent,
     MyOrdersComponent,
-    CardComponent
+    CardComponent,
+    Section4Component,
+    FooterComponent
     // MyOrdersComponent
   ],
   imports: [
