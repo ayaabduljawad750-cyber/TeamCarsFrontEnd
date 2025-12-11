@@ -8,11 +8,16 @@ import { AuthGuard } from './guards/auth.guard';
 // import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
 // import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 const routes: Routes = [
   {
     path: "",
     component: HomeComponent
+  },
+  {
+   path: 'checkout', 
+   component: CheckoutComponent 
   },
   {
     path: "login",
