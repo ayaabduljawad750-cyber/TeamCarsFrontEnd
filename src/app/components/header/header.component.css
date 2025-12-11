@@ -9,7 +9,7 @@
   width: 100%;
   z-index: 2000; */
 }
-.right-section {
+.left-section {
   display: flex;
   align-items: center;
   gap: 20px; 
@@ -18,10 +18,10 @@
   height: 100px;
   width: auto;
 }
-.menu-btn {
+/* .menu-btn {
   width: 40px;
   cursor: pointer;
-}
+} */
 .nav-link {
   text-decoration: none;
   color: #333;
@@ -31,7 +31,7 @@
 .active-link {
   color: #ee3e55;
 }
-.left-section {
+.right-section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,10 +110,6 @@
   content: "›";
   color: #444;
 }
-
-/* ======================= */
-/* 📱 موبايل */
-/* ======================= */
 @media (max-width: 768px) {
 
   .navbar {
@@ -121,11 +117,11 @@
   }
 
   .right-section {
-    gap: 10px; /* بدل 20px */
+    gap: 10px; 
   }
 
   .logo {
-    height: 50px; /* كانت 100px */
+    height: 50px;
   }
 
   .menu-btn {
@@ -137,10 +133,6 @@
     font-size: 14px;
   }
 }
-
-/* ======================= */
-/* 💻 لابتوب صغير */
-/* ======================= */
 @media (max-width: 992px) {
 
   .right-section {

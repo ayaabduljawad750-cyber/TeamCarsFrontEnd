@@ -1,40 +1,14 @@
-/* خلي الكومبوننت نفسه عنصر Block */
 :host {
   display: block;
   width: 100%;
-  height: 100vh; /* ← ارتفاع الشاشة كله */
-}
-
-/* الفوتر ياخد الشاشة كاملة */
-.footer {
-  width: 100%;
-  height: 100vh; /* ← أهم سطر */
-  background: #2f3140;
-  color: #fff;
-  padding: 40px 80px;
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* يوزع المحتوى جوا الفوتر */
-}
-
-/* .footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-} */
-
-.footer * {
-  direction: rtl;
-  text-align: right;  
+  height: 100vh;
 }
 .contact-container {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
     direction: rtl;
-  text-align: right;
+  text-align: left;
   padding: 50px 20px;
 }
 h2,
@@ -54,11 +28,6 @@ span{
   text-decoration: none;
 }
 
-
-
-/* -------------------------------------- */
-/* 📱 1) Extra Small Mobiles — max 480px */
-/* -------------------------------------- */
 @media (max-width: 480px) {
   .contact-container {
     padding: 20px 10px;
@@ -70,20 +39,11 @@ span{
   }
 }
 
-
-/* -------------------------------------- */
-/* 📱 2) Small Mobiles — max 576px */
-/* -------------------------------------- */
 @media (max-width: 576px) {
   .contact-container {
     padding: 25px 12px;
   }
-}
-
-
-/* -------------------------------------- */
-/* 📱 3) Mobiles & Small Tablets — max 768px */
-/* -------------------------------------- */
+} 
 @media (max-width: 768px) {
 
   .contact-container {
@@ -95,44 +55,24 @@ span{
     font-size: 15px;
   }
 }
-
-
-/* -------------------------------------- */
-/* 💻 4) Small Laptops/Tablets — max 992px */
-/* -------------------------------------- */
 @media (max-width: 992px) {
 
   .contact-container {
     max-width: 500px;
   }
 }
-
-
-/* -------------------------------------- */
-/* 🖥️ 5) Medium Screens — max 1200px */
-/* -------------------------------------- */
 @media (max-width: 1200px) {
 
   .contact-container {
     max-width: 550px;
   }
 }
-
-
-/* -------------------------------------- */
-/* 🖥️ 6) Large Screens — max 1400px */
-/* -------------------------------------- */
 @media (max-width: 1400px) {
 
   .contact-container {
     max-width: 650px;
   }
 }
-
-
-/* -------------------------------------- */
-/* 🖥️ 7) Extra Large Screens — min 1401px */
-/* -------------------------------------- */
 @media (min-width: 1401px) {
 
   .contact-container {
