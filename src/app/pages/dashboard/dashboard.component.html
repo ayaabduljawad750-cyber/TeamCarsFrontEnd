@@ -1,4 +1,5 @@
 <div [ngSwitch]="getRole()">
   <app-dashboard-admin *ngSwitchCase="'admin'"> </app-dashboard-admin>
   <app-dashboard-user *ngSwitchCase="'user'"></app-dashboard-user>
+  <app-dashboard-seller *ngSwitchCase="'seller'"></app-dashboard-seller>
 </div>

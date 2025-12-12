@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OurNavComponent } from './components/our-nav/our-nav.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,6 +19,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { CardComponent } from './pages/home/card/card.component';
+import { DashboardSellerComponent } from './components/dashboard-seller/dashboard-seller.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
@@ -35,7 +37,9 @@ import { CardComponent } from './pages/home/card/card.component';
     FooterComponent,
     ContactUsComponent,
     MyOrdersComponent,
-    CardComponent
+    CardComponent,
+    DashboardSellerComponent,
+    ForgotPasswordComponent
     // MyOrdersComponent
   ],
   imports: [
@@ -44,7 +48,8 @@ import { CardComponent } from './pages/home/card/card.component';
     HttpClientModule,
     FormsModule,
     MatIconModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

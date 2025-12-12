@@ -1,71 +1,68 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  email = '';
-  password = '';
-
-  emailError = ''
-  passwordError = ''
-  errorMessage = '';
-
-  isValidInputs = true
-
+export class LoginComponent implements OnInit {
+  
+  loginForm!: FormGroup;
   fieldTextType: boolean = false;
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    // Initialize Reactive Form
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]], // Built-in email validator
+      password: ['', [Validators.required]]
+    });
+  }
+
+  // Helper to toggle password visibility
   togglePasswordVisibility() {
     this.fieldTextType = !this.fieldTextType;
   }
 
-  constructor(private auth: AuthService, private router: Router) { }
+  // Helper to check validity for HTML styling
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.loginForm.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
 
   login() {
-    // validation email
-    if (this.email.length == 0) {
-      this.emailError = "Required"
-      document.getElementById("email")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z]{2,})+$/.test(this.email)) {
-      this.emailError = "Invalid Email"
-      document.getElementById("email")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else {
-      this.emailError = ''
-      document.getElementById("email")?.classList.remove("error-happen")
+    // 1. Trigger validation on all fields if user clicks submit immediately
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
     }
 
-    // validation password
-    if (this.password.length == 0) {
-      this.passwordError = 'Required'
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    } else {
-      this.passwordError = ''
-      document.getElementById("password")?.classList.remove("error-happen")
-    }
+    this.isLoading = true;
+    this.errorMessage = '';
 
-    if (!this.isValidInputs) {
-      return
-    }
-
-    const data = {
-      email: this.email,
-      password: this.password
-    };
-    this.auth.login(data).subscribe({
+    // 2. Call Service
+    this.auth.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        localStorage.setItem('token', res.data.token);
+        this.isLoading = false;
+        // The service likely handles localStorage, but ensuring it here is fine
+        if(res.data && res.data.token) {
+           localStorage.setItem('token', res.data.token);
+        }
         this.router.navigate(['']);
       },
       error: (err) => {
-        this.errorMessage = err.error.message || 'Login failed';
+        this.isLoading = false;
+        this.errorMessage = err.error.message || 'Invalid email or password';
       }
     });
   }

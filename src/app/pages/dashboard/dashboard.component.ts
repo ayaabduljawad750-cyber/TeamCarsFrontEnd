@@ -22,6 +22,7 @@ export class DashboardComponent {
         console.error('Error:', err);
       }
     });
+  //  console.log(this.role)
   }
 
 }
