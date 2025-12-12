@@ -1,25 +1,58 @@
-.homePage{
-  background-image: url("/assets/images/HomeImgs/homeBG.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-
-.homePage .container {
+/* .container {
   padding-left: 10px;
   padding-right: 10px;
   margin-left: auto;
   margin-right: auto;
-min-height: calc(-80px + 100vh);
+} */
+
+@media (max-width:1200px) {
+  .container {
+    width: 1190px;
+  }
+}
+
+@media (max-width:900px) {
+  .container {
+    width: 880px;
+  }
+}
+@media (max-width:787px) {
+  .container {
+    width: 750px;
+  }
+}
+/* .homePage{
+
+
+} */
+ /* .homePage{
+  display: flex;
+  align-items: center;
+    justify-content: center;
+    flex-direction: column;
+ } */
+
+.homePage .categories-section {
+  min-height: calc(-80px + 100vh);
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding-top: 50px;
-  gap:20px;
+  gap: 20px;
+  background-image: url("/assets/images/HomeImgs/homeBG.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
+
 .homePage .container .categories {
   /* height: 100%; */
   display: flex;
@@ -29,9 +62,34 @@ min-height: calc(-80px + 100vh);
   flex-wrap: wrap;
   width: 55%;
 }
-.homePage .container .title{
+
+.homePage .container .title {
   color: white;
   font-size: 45px;
   font-weight: bold;
 }
+
+.homePage .best-companies{
+
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+padding: 100px 0;
+
+
+p{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.companies{
+  display: flex;
+  gap:20px;
+}
+}
+.homePage .best-companies .title {
+  margin-bottom: 30px;
+    color: black;
+  }
 

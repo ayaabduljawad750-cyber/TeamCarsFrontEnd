@@ -3,3 +3,8 @@ export interface Icategory{
   title: string,
   imgUrl:string,
 }
+
+export interface Icompany{
+  id:number,
+  imgUrl : string
+}
