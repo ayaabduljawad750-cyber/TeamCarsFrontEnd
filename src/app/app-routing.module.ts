@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 // import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -20,21 +21,25 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path:"register",
-    component:RegisterComponent
+    path: "register",
+    component: RegisterComponent
   },
   {
-    path:"dashboard",
-    component:DashboardComponent,
+    path: "dashboard",
+    component: DashboardComponent,
     canActivate: [AuthGuard]
   },
   {
-    path:"contactus",
-    component:ContactUsComponent
+    path: "contactus",
+    component: ContactUsComponent
   },
   {
-    path:"aboutus",
-    component:AboutusComponent
+    path: "aboutus",
+    component: AboutusComponent
+  },
+  {
+    path: "forgot-password",
+    component: ForgotPasswordComponent
   }
 ];
 

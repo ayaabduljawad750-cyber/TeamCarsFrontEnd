@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent {
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,private router: Router) { }
 
   menuItems = [
     "Spare Parts",
@@ -25,6 +26,7 @@ export class HeaderComponent {
   }
   logout(){
     this.auth.logout()
+    this.router.navigate(['/']);
   }
 
   openMenu() {

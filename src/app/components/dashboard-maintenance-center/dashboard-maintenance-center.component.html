@@ -1,0 +1,161 @@
+<div class="dashboard-container">
+  <div class="card full-width">
+    
+    <!-- HEADER -->
+    <div class="card-header dashboard-header">
+      <div>
+        <h2>Maintenance Center Dashboard</h2>
+        <p class="subtitle" *ngIf="hasCenterProfile">Manage bookings, center details, and your profile.</p>
+        <p class="subtitle" *ngIf="!hasCenterProfile">Please create your Center Profile to start.</p>
+      </div>
+
+      <!-- 3 TABS -->
+      <div class="view-toggles" *ngIf="hasCenterProfile">
+        
+        <button class="btn" 
+          [class.btn-primary]="currentView === 'requests'" 
+          [class.btn-outline]="currentView !== 'requests'" 
+          (click)="currentView = 'requests'">
+          Incoming Requests
+        </button>
+        
+        <button class="btn" 
+          [class.btn-primary]="currentView === 'center'" 
+          [class.btn-outline]="currentView !== 'center'" 
+          (click)="currentView = 'center'">
+          Center Details
+        </button>
+
+        <button class="btn" 
+          [class.btn-primary]="currentView === 'profile'" 
+          [class.btn-outline]="currentView !== 'profile'" 
+          (click)="currentView = 'profile'">
+          My Profile
+        </button>
+
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div *ngIf="successMessage" class="alert success fade-in">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert error fade-in">{{ errorMessage }}</div>
+
+    <div class="card-body">
+
+      <!-- VIEW 1: INCOMING REQUESTS -->
+      <div *ngIf="currentView === 'requests'" class="fade-in">
+        <div class="controls-bar">
+           <h3>Booking Management</h3>
+           <button class="btn btn-outline" (click)="loadBookings()">Refresh List</button>
+        </div>
+
+        <div *ngIf="bookings.length === 0" class="empty-state">
+          <p>No pending booking requests found.</p>
+        </div>
+
+        <div class="requests-grid" *ngIf="bookings.length > 0">
+          <div class="request-card" *ngFor="let book of bookings">
+            <div class="req-header">
+              <span class="req-id">#{{ book._id | slice: -6 }}</span>
+              <span class="badge" [ngClass]="book.status.toLowerCase()">{{ book.status }}</span>
+            </div>
+            <div class="req-body">
+              <h4 class="car-info">{{ book.carModel }} <small>({{ book.ModelYear }})</small></h4>
+              <div class="info-row"><span class="label">Client:</span> <span class="value">{{ book.userFullName }}</span></div>
+              <div class="info-row"><span class="label">Phone:</span> <span class="value">{{ book.userTelephone }}</span></div>
+              <div class="info-row"><span class="label">Service:</span> <span class="value highlight">{{ book.service }}</span></div>
+              <div class="comment-box" *ngIf="book.comment">"{{ book.comment }}"</div>
+            </div>
+            <div class="req-footer" *ngIf="book.status === 'Pending'">
+              <button class="btn btn-success full-w" (click)="updateStatus(book._id, 'Accepted')">Accept</button>
+              <button class="btn btn-danger full-w" (click)="updateStatus(book._id, 'Rejected')">Reject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: CENTER DETAILS (BUSINESS INFO) -->
+      <div *ngIf="currentView === 'center'" class="fade-in">
+        <form [formGroup]="centerForm" (ngSubmit)="onSubmitCenter()">
+          <h3 class="section-title">Maintenance Center Information</h3>
+          <p class="subtitle mb-4">Update the details shown to customers.</p>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Center Name</label>
+              <input type="text" formControlName="name" class="form-control" placeholder="e.g. Speed Motors">
+              <div *ngIf="centerForm.get('name')?.touched && centerForm.get('name')?.invalid" class="error-text">
+                <small>Name is required.</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" formControlName="location" class="form-control" placeholder="City, Street">
+              <div *ngIf="centerForm.get('location')?.touched && centerForm.get('location')?.invalid" class="error-text">
+                 <small>Location is required.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- PHONE INPUT WITH VALIDATION -->
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input 
+                type="text" 
+                formControlName="phone" 
+                class="form-control" 
+                placeholder="01xxxxxxxxx"
+                [class.is-invalid]="centerForm.get('phone')?.invalid && centerForm.get('phone')?.touched"
+              >
+              <!-- Error Messages -->
+              <div *ngIf="centerForm.get('phone')?.touched && centerForm.get('phone')?.invalid" class="error-text fade-in">
+                <small *ngIf="centerForm.get('phone')?.errors?.['required']">Phone number is required.</small>
+                <small *ngIf="centerForm.get('phone')?.errors?.['pattern']">Phone must be exactly 11 digits.</small>
+              </div>
+            </div>
+
+            <!-- EMAIL INPUT WITH VALIDATION -->
+            <div class="form-group">
+              <label>Business Email</label>
+              <input 
+                type="email" 
+                formControlName="email" 
+                class="form-control"
+                placeholder="contact@company.com"
+                [class.is-invalid]="centerForm.get('email')?.invalid && centerForm.get('email')?.touched"
+              >
+              <!-- Error Messages -->
+              <div *ngIf="centerForm.get('email')?.touched && centerForm.get('email')?.invalid" class="error-text fade-in">
+                <small *ngIf="centerForm.get('email')?.errors?.['required']">Email is required.</small>
+                <small *ngIf="centerForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Services Offered <small>(Comma separated)</small></label>
+            <input type="text" formControlName="services" class="form-control" placeholder="Oil Change, Tires, Brakes">
+          </div>
+
+          <div class="form-group">
+            <label>Working Hours <small>(Comma separated)</small></label>
+            <input type="text" formControlName="workingHours" class="form-control" placeholder="Mon-Fri 9am-5pm">
+          </div>
+
+          <div class="action-buttons">
+            <button type="submit" class="btn btn-primary" [disabled]="centerForm.invalid || isLoading">
+              {{ hasCenterProfile ? 'Save Center Details' : 'Create Center' }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- VIEW 3: USER PROFILE (PERSONAL INFO) -->
+      <div *ngIf="currentView === 'profile'" class="fade-in">
+         <app-dashboard-user></app-dashboard-user>
+      </div>
+
+    </div>
+  </div>
+</div>

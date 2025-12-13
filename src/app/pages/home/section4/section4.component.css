@@ -1,0 +1,16 @@
+.card{
+  /* background-color: red; */
+  box-shadow: 0 0 10px rgba(56, 56, 56, 0.096);
+  border-radius: 100%;
+  padding: 25px;
+  img{
+    width: 130px;
+  border-radius: 100%;
+  }
+}
+
+.card:hover{
+  transition: .5s;
+    box-shadow: 0 0 10px rgba(22, 22, 22, 0.274);
+    transform: scale(1.09);
+}

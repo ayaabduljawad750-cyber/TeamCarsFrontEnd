@@ -1,119 +1,203 @@
 <div class="register-page">
-  <div class="register-card">
+  
+  <!-- ================= STEP 1: SELECT ROLE ================= -->
+  <div class="register-card fade-in" *ngIf="currentStep === 1">
     <div class="header">
-      <h2>Join us!</h2>
-      <p>Create your account</p>
+      <h2>Welcome!</h2>
+      <p>Choose your account type to get started</p>
     </div>
 
-    <div>
+    <div class="role-grid">
+      <!-- User Role -->
+      <div class="role-card" (click)="selectRole('user')">
+        <div class="role-icon user-bg"><i class="fas fa-user"></i></div>
+        <div class="role-info">
+          <h3>User</h3>
+          <p>Buy products and manage your profile</p>
+        </div>
+      </div>
+
+      <!-- Seller Role -->
+      <div class="role-card" (click)="selectRole('seller')">
+        <div class="role-icon seller-bg"><i class="fas fa-store"></i></div>
+        <div class="role-info">
+          <h3>Seller</h3>
+          <p>List cars/parts and manage sales</p>
+        </div>
+      </div>
+
+      <!-- Maintenance Center Role -->
+      <div class="role-card" (click)="selectRole('maintenanceCenter')">
+        <div class="role-icon maint-bg"><i class="fas fa-tools"></i></div>
+        <div class="role-info">
+          <h3>Maintenance</h3>
+          <p>Offer repair services to users</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      Already have an account? <a routerLink="/login">Sign In</a>
+    </div>
+  </div>
+
+
+  <!-- ================= STEP 2: REGISTRATION FORM ================= -->
+  <div class="register-card fade-in" *ngIf="currentStep === 2">
+    
+    <button class="back-link" (click)="goBackToRoles()">
+      <i class="fas fa-arrow-left"></i> Change Role
+    </button>
+
+    <div class="header">
+      <h2>Create {{ selectedRole | titlecase }} Account</h2>
+      <p>Please fill in your details</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      
       <!-- ROW: First Name & Last Name -->
       <div class="row-group">
+        
         <!-- First Name -->
         <div class="form-group half-width">
-          <label for="firstName">First Name</label>
+          <label>First Name</label>
           <div class="input-wrapper">
             <i class="fas fa-user input-icon"></i>
-            <input
-              type="text"
-              id="firstName"
-              [(ngModel)]="firstName"
-              name="firstName"
-              placeholder="First Name"
-              required
-            />
+            <input type="text" formControlName="firstName" placeholder="First Name" 
+                   [class.error-happen]="isFieldInvalid('firstName')">
           </div>
-          <p class="error-text">{{ firstNameError }}</p>
+          
+          <!-- ERROR LOGIC: PRIORITY BASED -->
+          <div class="error-text" *ngIf="isFieldInvalid('firstName')">
+            <span *ngIf="f['firstName'].hasError('required')">Required</span>
+            
+            <span *ngIf="!f['firstName'].hasError('required') && f['firstName'].hasError('minlength')">
+              Must be at least 3 characters
+            </span>
+            
+            <span *ngIf="!f['firstName'].hasError('required') && !f['firstName'].hasError('minlength') && f['firstName'].hasError('pattern')">
+              Must start with a Capital letter (letters only)
+            </span>
+          </div>
         </div>
 
         <!-- Last Name -->
         <div class="form-group half-width">
-          <label for="lastName">Last Name</label>
+          <label>Last Name</label>
           <div class="input-wrapper">
             <i class="fas fa-user input-icon"></i>
-            <input
-              type="text"
-              id="lastName"
-              [(ngModel)]="lastName"
-              name="lastName"
-              placeholder="Last Name"
-              required
-            />
+            <input type="text" formControlName="lastName" placeholder="Last Name" 
+                   [class.error-happen]="isFieldInvalid('lastName')">
           </div>
-          <p class="error-text">{{ lastNameError }}</p>
+
+          <!-- ERROR LOGIC: PRIORITY BASED -->
+          <div class="error-text" *ngIf="isFieldInvalid('lastName')">
+            <span *ngIf="f['lastName'].hasError('required')">Required</span>
+            
+            <span *ngIf="!f['lastName'].hasError('required') && f['lastName'].hasError('minlength')">
+              Must be at least 3 characters
+            </span>
+
+            <span *ngIf="!f['lastName'].hasError('required') && !f['lastName'].hasError('minlength') && f['lastName'].hasError('pattern')">
+              Must start with a Capital letter (letters only)
+            </span>
+          </div>
         </div>
       </div>
-      <!-- End Row -->
 
       <!-- Email -->
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label>Email Address</label>
         <div class="input-wrapper">
           <i class="fas fa-envelope input-icon"></i>
-          <input
-            type="email"
-            id="email"
-            [(ngModel)]="email"
-            name="email"
-            placeholder="Enter your email"
-          />
+          <input type="email" formControlName="email" placeholder="Enter your email" 
+                 [class.error-happen]="isFieldInvalid('email')">
         </div>
-        <p class="error-text">{{ emailError }}</p>
+        <div class="error-text" *ngIf="isFieldInvalid('email')">
+          <span *ngIf="f['email'].hasError('required')">Required</span>
+          <span *ngIf="!f['email'].hasError('required') && f['email'].hasError('email')">Invalid Email format</span>
+        </div>
       </div>
 
       <!-- Password -->
       <div class="form-group">
-        <label for="password">Password</label>
+        <label>Password</label>
         <div class="input-wrapper">
           <i class="fas fa-lock input-icon"></i>
-          <input
-            [type]="typePassword ? 'text' : 'password'"
-            id="password"
-            [(ngModel)]="password"
-            name="password"
-            placeholder="Create a password"
-            required
-          />
+          <input [type]="typePassword ? 'text' : 'password'" formControlName="password" placeholder="Create password" 
+                 [class.error-happen]="isFieldInvalid('password')">
           <span class="toggle-eye" (click)="togglePassword()">
-            <i
-              class="fas"
-              [ngClass]="typePassword ? 'fa-eye-slash' : 'fa-eye'"
-            ></i>
+            <i class="fas" [ngClass]="typePassword ? 'fa-eye-slash' : 'fa-eye'"></i>
           </span>
         </div>
-        <p class="error-text">{{ passwordError }}</p>
+        
+        <!-- ERROR LOGIC: PRIORITY BASED -->
+        <div class="error-text" *ngIf="isFieldInvalid('password')">
+          <span *ngIf="f['password'].hasError('required')">Required</span>
+          
+          <span *ngIf="!f['password'].hasError('required') && f['password'].hasError('minlength')">
+            Must be at least 8 characters
+          </span>
+          
+          <span *ngIf="!f['password'].hasError('required') && !f['password'].hasError('minlength') && f['password'].hasError('pattern')">
+            Must contain Uppercase, Lowercase & Number
+          </span>
+        </div>
       </div>
 
       <!-- Confirm Password -->
-      <div *ngIf="isPassword()" class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+      <div class="form-group fade-in" *ngIf="f['password'].value">
+        <label>Confirm Password</label>
         <div class="input-wrapper">
           <i class="fas fa-lock input-icon"></i>
-          <input
-            [type]="typeConfirm ? 'text' : 'password'"
-            id="confirmPassword"
-            [(ngModel)]="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirm your password"
-            required
-          />
+          <input [type]="typeConfirm ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Confirm password" 
+                 [class.error-happen]="(isFieldInvalid('confirmPassword') || registerForm.hasError('mismatch')) && f['confirmPassword'].touched">
           <span class="toggle-eye" (click)="toggleConfirmPassword()">
-            <i
-              class="fas"
-              [ngClass]="typeConfirm ? 'fa-eye-slash' : 'fa-eye'"
-            ></i>
+            <i class="fas" [ngClass]="typeConfirm ? 'fa-eye-slash' : 'fa-eye'"></i>
           </span>
         </div>
-        <p class="error-text">{{ confirmPasswordError }}</p>
+        <div class="error-text" *ngIf="f['confirmPassword'].touched">
+          <span *ngIf="f['confirmPassword'].hasError('required')">Required</span>
+          <span *ngIf="!f['confirmPassword'].hasError('required') && registerForm.hasError('mismatch')">Passwords do not match</span>
+        </div>
       </div>
 
-      <button type="button" (click)="register()" class="submit-btn">
-        Sign Up
+      <!-- NEW: COMMERCIAL IMAGE INPUT (Only for Seller/Maintenance) -->
+      <div class="form-group fade-in" *ngIf="isCommercialRole()">
+        <label>Commercial License / Record Image</label>
+        
+        <div class="file-upload-wrapper" [class.error-border]="commercialFileError">
+          <input 
+            type="file" 
+            (change)="onFileSelected($event)" 
+            accept="image/*"
+            class="file-input"
+          >
+          <div class="file-custom-label">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span *ngIf="!commercialFile">Click to upload image</span>
+            <span *ngIf="commercialFile" class="file-name">{{ commercialFile.name }}</span>
+          </div>
+        </div>
+        
+        <p class="error-text" *ngIf="commercialFileError">{{ commercialFileError }}</p>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        {{ isLoading ? 'Creating Account...' : 'Sign Up' }}
       </button>
-      <p class="error-text" style="text-align: center">{{ errorMessage }}</p>
 
-      <div class="form-footer">
-        Already have an account? <a routerLink="/login">Sign In</a>
+      <!-- Server Side Error Message -->
+      <div class="server-error" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
       </div>
+
+    </form>
+
+    <div class="form-footer">
+      Already have an account? <a routerLink="/login">Sign In</a>
     </div>
   </div>
 </div>
