@@ -1,38 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { BackendValidators } from 'src/app/validators/backend.validators';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-user',
   templateUrl: './dashboard-user.component.html',
   styleUrls: ['./dashboard-user.component.css']
 })
-export class DashboardUserComponent implements OnInit {
-  profileForm: FormGroup;
-  passwordForm: FormGroup;
+export class DashboardUserComponent implements OnInit, OnDestroy {
+  // Forms with ! (definite assignment assertion) to satisfy strict mode
+  profileForm!: FormGroup;
+  passwordForm!: FormGroup;
   
-  showPasswordSection: boolean = false;
-  isLoading: boolean = false;
-  
-  // Toggles for Password Visibility
-  hideOld: boolean = true;
-  hideNew: boolean = true;
-  hideConfirm: boolean = true;
+  // UI State
+  isLoading = false;
+  showPasswordSection = false;
+  successMessage = '';
+  errorMessage = '';
 
-  successMessage: string = '';
-  errorMessage: string = '';
+  // Password Visibility Flags (Restored for your HTML)
+  hideOld = true;
+  hideNew = true;
+  hideConfirm = true;
+
+  // Cleanup Subject
+  private destroy$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
-    
-    // --- Profile Form ---
+    this.initForms();
+  }
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private initForms() {
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.required, BackendValidators.nameValidator()]], 
       lastName: ['', [Validators.required, BackendValidators.nameValidator()]],
       email: [{ value: '', disabled: true }]
     });
 
-    // --- Password Form ---
     this.passwordForm = this.fb.group({
       oldPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, BackendValidators.strongPasswordValidator()]],
@@ -40,92 +55,85 @@ export class DashboardUserComponent implements OnInit {
     }, { validators: this.passwordMatchValidator });
   }
 
-  ngOnInit(): void {
-    this.loadUserData();
-  }
-
   loadUserData() {
     this.isLoading = true;
-    this.authService.getCurrentUser().subscribe({
-      next: (user: any) => {
-        const userData = user?.data?.user || user; 
-        this.profileForm.patchValue({
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          email: userData.email
-        });
-        this.isLoading = false;
-      },
-      error: () => this.isLoading = false
-    });
+    this.authService.getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          const user = res?.data?.user || res;
+          if (user) {
+            this.profileForm.patchValue({
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email
+            });
+          }
+          this.isLoading = false;
+        },
+        error: () => this.handleFeedback('error', 'Failed to load user data.')
+      });
   }
 
   onSaveProfile() {
-    if (this.profileForm.valid) {
-      this.isLoading = true;
-      const { firstName, lastName } = this.profileForm.value;
-      
-      this.authService.updateUser({ firstName, lastName }).subscribe({
-        next: () => {
-          this.showSuccess('Profile updated successfully!');
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.showError('Failed to update profile.');
-          this.isLoading = false;
-        }
+    if (this.profileForm.invalid) return;
+
+    this.isLoading = true;
+    this.authService.updateUser(this.profileForm.value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => this.handleFeedback('success', 'Profile updated successfully!'),
+        error: () => this.handleFeedback('error', 'Failed to update profile.')
       });
-    }
   }
 
   onChangePassword() {
-    if (this.passwordForm.valid) {
-      this.isLoading = true;
-      const { oldPassword, newPassword } = this.passwordForm.value;
+    if (this.passwordForm.invalid) return;
 
-      this.authService.updateMyPassword({ oldPassword, newPassword }).subscribe({
+    this.isLoading = true;
+    this.authService.updateMyPassword(this.passwordForm.value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: () => {
-          this.showSuccess('Password changed successfully!');
-          this.passwordForm.reset();
-          this.showPasswordSection = false;
-          this.isLoading = false;
+          this.handleFeedback('success', 'Password changed successfully!');
+          this.togglePasswordSection(); 
         },
-        error: (err) => {
-          this.showError(err.error?.message || 'Incorrect old password.');
-          this.isLoading = false;
-        }
+        error: (err) => this.handleFeedback('error', err.error?.message || 'Incorrect old password.')
       });
-    }
   }
 
   togglePasswordSection() {
     this.showPasswordSection = !this.showPasswordSection;
-    if (!this.showPasswordSection) this.passwordForm.reset();
+    if (!this.showPasswordSection) {
+      this.passwordForm.reset();
+      // Reset visibility to hidden when closing
+      this.hideOld = true;
+      this.hideNew = true;
+      this.hideConfirm = true;
+    }
   }
 
-  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+  private passwordMatchValidator(control: AbstractControl) {
     const newPass = control.get('newPassword')?.value;
     const confirmPass = control.get('confirmPassword')?.value;
     return newPass === confirmPass ? null : { mismatch: true };
   }
 
-  // --- UPDATED HELPER METHODS ---
-
-  private scrollToTop() {
+  private handleFeedback(type: 'success' | 'error', msg: string) {
+    this.isLoading = false;
+    if (type === 'success') {
+      this.successMessage = msg;
+      this.errorMessage = '';
+    } else {
+      this.errorMessage = msg;
+      this.successMessage = '';
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  private showSuccess(msg: string) {
-    this.errorMessage = ''; // Clear error if success exists
-    this.successMessage = msg;
-    this.scrollToTop(); // Scroll up
-    setTimeout(() => this.successMessage = '', 3000);
-  }
-
-  private showError(msg: string) {
-    this.successMessage = ''; // Clear success if error exists
-    this.errorMessage = msg;
-    this.scrollToTop(); // Scroll up
-    setTimeout(() => this.errorMessage = '', 3000);
+    
+    // Clear message after 3 seconds
+    setTimeout(() => {
+      this.successMessage = '';
+      this.errorMessage = '';
+    }, 3000);
   }
 }
