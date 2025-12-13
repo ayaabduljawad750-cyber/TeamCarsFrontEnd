@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
@@ -9,49 +8,81 @@ import { BehaviorSubject, tap } from 'rxjs';
 export class AuthService {
   private usersUrl = 'http://localhost:3000/users';
 
+  // Current User State
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+
   constructor(private http: HttpClient) { }
-private currentUserSubject = new BehaviorSubject<any>(null);
-currentUser$ = this.currentUserSubject.asObservable();
+
+  // ================= LOGIN =================
   login(data: { email: string; password: string }) {
     return this.http.post(`${this.usersUrl}/login`, data).pipe(
-    tap((res: any) => {
-      localStorage.setItem('token', res.data.token);
-      this.currentUserSubject.next(res.data.user); 
-    })
-  );
+      tap((res: any) => {
+        localStorage.setItem('token', res.data.token);
+        this.currentUserSubject.next(res.data.user);
+      })
+    );
   }
 
-  logout(){
-    localStorage.removeItem("token")
+  // ================= REGISTER (UPDATED) =================
+  // changed 'data' type to 'any' to accept FormData
+  // added 'role' as a parameter to ensure correct URL
+  register(data: any, role: string) {
+    return this.http.post(
+      `${this.usersUrl}/register/${role}`,
+      data
+    );
   }
 
-  isLogin(){
-    if(localStorage.getItem('token')){
-      return true
-    }
-    else{
-      return false
-    }
+  // ================= UTILS =================
+  logout() {
+    localStorage.removeItem("token");
+    this.currentUserSubject.next(null);
   }
 
-  register(data: { firstName: string; lastName:string; email: string; password: string }) {
-  return this.http.post(
-    `${this.usersUrl}/register`,
-    data
-  );
-}
+  isLogin() {
+    return !!localStorage.getItem('token');
+  }
 
-getCurrentUser() {
-  const token = localStorage.getItem('token');
+  getCurrentUser() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
+    return this.http.get(`${this.usersUrl}/get`, { headers }).pipe(
+      tap((res: any) => {
+        this.currentUserSubject.next(res.data.user);
+      })
+    );
+  }
 
-  return this.http.get(`${this.usersUrl}/get`, { headers }).pipe(
-    tap((res: any) => {
-      this.currentUserSubject.next(res.data.user);
-    }))
-}
+  updateUser(data: { firstName: string; lastName: string; }) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
+    return this.http.put(`${this.usersUrl}/update`, data, { headers }).pipe(
+      tap((res: any) => {
+        // Merge new data with existing user state
+        const updatedUser = { ...this.currentUserSubject.value, ...data };
+        this.currentUserSubject.next(updatedUser);
+      })
+    );
+  }
+
+  updateMyPassword(data: { oldPassword: string; newPassword: string }) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return this.http.put(`${this.usersUrl}/update/password`, data, { headers });
+  }
+
+  // for forgot password functions
+  sendVerificationCode(data: { email: string }) {
+    return this.http.post(`${this.usersUrl}/send/verificationCode`, data)
+  }
+  verifyVerificationCode(data: { email: string; verificationCode: string }) {
+    return this.http.post(`${this.usersUrl}/verify/verificationCode`, data)
+  }
+  changePassword(data: { email: string; verificationCode: string; newPassword: string }) {
+    return this.http.post(`${this.usersUrl}/change/password`, data)
+  }
 }

@@ -1,185 +1,152 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
-  firstName = '';
-  lastName = '';
-  email = '';
-  password = '';
-  confirmPassword = '';
+export class RegisterComponent implements OnInit {
 
-  lastNameError = ''
-  firstNameError = ''
-  emailError = ''
-  passwordError = ''
-  confirmPasswordError = ''
+  registerForm!: FormGroup;
+  currentStep = 1;
+  selectedRole = '';
+  
+  commercialFile: File | null = null;
+  commercialFileError = '';
+  errorMessage = '';
+  
+  typePassword = false;
+  typeConfirm = false;
+  isLoading = false;
 
-  errorMessage = ''
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) { }
 
-  isValidInputs = true
-
-  typePassword: boolean = false; // For Main Password
-  typeConfirm: boolean = false;  // For Confirm Password
-
-  isPassword(){
-    return this.password.length!=0
+  ngOnInit(): void {
+    this.initForm();
+    
+    // Check for saved role
+    const storedRole = localStorage.getItem('temp_reg_role');
+    if (storedRole) {
+      this.selectedRole = storedRole;
+      this.currentStep = 2;
+    }
   }
 
-  togglePassword() {
-    this.typePassword = !this.typePassword;
+  // --- Initialize Reactive Form ---
+  initForm() {
+    this.registerForm = this.fb.group({
+      firstName: ['', [
+        Validators.required, 
+        Validators.minLength(3), 
+        Validators.pattern('^[A-Z][a-zA-Z]*$') // Starts with Cap, letters only
+      ]],
+      lastName: ['', [
+        Validators.required, 
+        Validators.minLength(3), 
+        Validators.pattern('^[A-Z][a-zA-Z]*$')
+      ]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(8), 
+        Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$/) // Number, upper, lower
+      ]],
+      confirmPassword: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
   }
 
-  toggleConfirmPassword() {
-    this.typeConfirm = !this.typeConfirm;
+  // --- Custom Validator for Password Match ---
+  passwordMatchValidator(control: AbstractControl) {
+    const password = control.get('password')?.value;
+    const confirm = control.get('confirmPassword')?.value;
+    return password === confirm ? null : { mismatch: true };
   }
 
-  constructor(private auth: AuthService, private router: Router) { }
+  // --- Role Selection ---
+  selectRole(role: string) {
+    this.selectedRole = role;
+    localStorage.setItem('temp_reg_role', role);
+    this.currentStep = 2;
+    this.errorMessage = '';
+    this.commercialFile = null;
+  }
 
+  goBackToRoles() {
+    this.currentStep = 1;
+    this.errorMessage = '';
+  }
+
+  // --- Form Getters for cleaner HTML ---
+  get f() { return this.registerForm.controls; }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
+
+  // --- Logic ---
+  isCommercialRole(): boolean {
+    return this.selectedRole === 'seller' || this.selectedRole === 'maintenanceCenter';
+  }
+
+  togglePassword() { this.typePassword = !this.typePassword; }
+  toggleConfirmPassword() { this.typeConfirm = !this.typeConfirm; }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.commercialFile = file;
+      this.commercialFileError = '';
+    }
+  }
+
+  // --- Submit ---
   register() {
+    this.errorMessage = '';
+    this.commercialFileError = '';
 
-    // validation first name
-    if (this.firstName.length == 0) {
-      this.firstNameError = 'Required'
-      document.getElementById("firstName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[A-Z]/.test(this.firstName[0])) {
-      this.firstNameError = 'First character must be capital'
-      document.getElementById("firstName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[A-Za-z]/.test(this.firstName)) {
-      this.firstNameError = 'Must be letters only'
-      document.getElementById("firstName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (this.firstName.length < 3) {
-      this.firstNameError = "Must be greater than 3 characters"
-      document.getElementById("firstName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else {
-      this.firstNameError = ''
-      document.getElementById("firstName")?.classList.remove("error-happen")
+    // 1. Mark all fields as touched to trigger UI errors
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
     }
 
-    // validation last name
-    if (this.lastName.length == 0) {
-      this.lastNameError = 'Required'
-      document.getElementById("lastName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[A-Z]/.test(this.lastName[0])) {
-      this.lastNameError = 'First character must be capital'
-      document.getElementById("lastName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[A-Za-z]/.test(this.lastName)) {
-      this.lastNameError = 'Must be letters only'
-      document.getElementById("lastName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (this.lastName.length < 3) {
-      this.lastNameError = "Must be greater than 3 characters"
-      document.getElementById("lastName")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else {
-      this.lastNameError = ''
-      document.getElementById("lastName")?.classList.remove("error-happen")
+    // 2. Validate File (Manual check as it's not in FormGroup)
+    if (this.isCommercialRole() && !this.commercialFile) {
+      this.commercialFileError = 'Commercial license image is required';
+      return;
     }
 
-    // validation email
-    if (this.email.length == 0) {
-      this.emailError = "Required"
-      document.getElementById("email")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z]{2,})+$/.test(this.email)) {
-      this.emailError = "Invalid Email"
-      document.getElementById("email")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else {
-      this.emailError = ''
-      document.getElementById("email")?.classList.remove("error-happen")
+    this.isLoading = true;
+
+    // 3. Prepare FormData
+    const formData = new FormData();
+    formData.append('firstName', this.f['firstName'].value);
+    formData.append('lastName', this.f['lastName'].value);
+    formData.append('email', this.f['email'].value);
+    formData.append('password', this.f['password'].value);
+    
+    if (this.commercialFile) {
+      formData.append('commercial', this.commercialFile);
     }
 
-    // validation password
-    if (this.password.length == 0) {
-      this.passwordError = 'Required'
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/\W/.test(this.password)) {
-      this.passwordError = 'Must be contain at least one special character'
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[a-z]/.test(this.password)) {
-      this.passwordError = 'Must be contain at least one letter from a to z'
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[A-Z]/.test(this.password)) {
-      this.passwordError = 'Must be contain at least one letter from A to Z'
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (!/[0-9]/.test(this.password)) {
-      this.passwordError = 'Must be contain at least one number from 0 to 9'
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (this.password.length < 8 || this.password.length > 20) {
-      this.passwordError = "Must be between 8 and 20 characters"
-      document.getElementById("password")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else {
-      this.passwordError = ''
-      document.getElementById("password")?.classList.remove("error-happen")
-    }
-
-    if (this.confirmPassword.length == 0) {
-      this.confirmPasswordError = 'Required'
-      document.getElementById("confirmPassword")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else if (this.confirmPassword != this.password) {
-      this.confirmPasswordError = 'Must be equal password'
-      document.getElementById("confirmPassword")?.classList.add("error-happen")
-      this.isValidInputs = false
-    }
-    else {
-      this.confirmPasswordError = ''
-      document.getElementById("confirmPassword")?.classList.remove("error-happen")
-    }
-
-
-    if (!this.isValidInputs) {
-      return
-    }
-
-    const data = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      password: this.password
-    };
-
-    this.auth.register(data).subscribe({
-      next: (res: any) => {
+    // 4. API Call
+    this.auth.register(formData, this.selectedRole).subscribe({
+      next: () => {
+        this.isLoading = false;
+        localStorage.removeItem('temp_reg_role');
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        this.errorMessage = err.error.message || 'Register failed';
+        this.isLoading = false;
+        this.errorMessage = err.error.message || 'Registration failed. Please try again.';
       }
     });
   }

@@ -1,64 +1,155 @@
-/* Page Background */
+/* ================= GLOBAL LAYOUT ================= */
 .register-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Segoe UI", sans-serif;
+  background-color: #f3f4f6; /* Modern light gray */
+  font-family: 'Inter', 'Segoe UI', sans-serif;
   padding: 20px;
 }
 
-/* Card Container */
 .register-card {
   background: white;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: 500px; /* Made slightly wider for side-by-side inputs */
+  max-width: 550px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ================= BACK BUTTON (FIXED) ================= */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #6b7280; /* Soft gray */
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem; /* Pushes the header down nicely */
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.back-link:hover {
+  color: #111;
+  transform: translateX(-3px); /* Subtle slide effect */
+}
+
+/* ================= HEADER ================= */
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .header h2 {
-  margin: 0 0 10px;
-  color: #333;
-  text-align: center;
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .header p {
-  margin: 0 0 30px;
-  color: #666;
-  font-size: 14px;
-  text-align: center;
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.95rem;
 }
 
-/* --- NEW: Flexbox Row for First/Last Name --- */
+/* ================= ROLE CARDS ================= */
+.role-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-card {
+  display: flex;
+  align-items: center; /* Vertically centers Icon & Text */
+  padding: 1rem 1.25rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background: #fff;
+  text-align: left;
+}
+
+.role-card:hover {
+  border-color: #dc2626; /* Red Theme */
+  background-color: #fef2f2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.role-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-right: 1rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+/* Role Gradients */
+.user-bg { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.seller-bg { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+.maint-bg { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+/* Text Wrapper */
+.role-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.role-card h3 {
+  margin: 0 0 2px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.role-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* ================= FORM INPUTS ================= */
 .row-group {
   display: flex;
-  gap: 15px; /* Space between the two inputs */
-  margin-bottom: 20px;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .form-group {
-  margin-bottom: 20px;
-  width: 100%; /* Default full width */
+  margin-bottom: 1.25rem;
+  width: 100%;
 }
 
-/* Helper for 50/50 split */
 .half-width {
   width: 50%;
-  margin-bottom: 0; /* Remove bottom margin inside the row */
 }
-/* -------------------------------------------- */
 
-.form-group label {
+label {
   display: block;
-  margin-bottom: 8px;
-  color: #444;
-  font-weight: 500;
-  font-size: 14px;
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
-/* Input Wrapper */
 .input-wrapper {
   position: relative;
   display: flex;
@@ -67,70 +158,98 @@
 
 .input-icon {
   position: absolute;
-  left: 15px;
-  color: #aaa;
-  font-size: 14px;
+  left: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
 }
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 40px;
-  border: 1px solid #ddd;
+  padding: 0.75rem 1rem 0.75rem 2.5rem; /* Padding left for icon */
+  border: 1px solid #d1d5db;
   border-radius: 8px;
-  outline: none;
-  transition: border-color 0.3s;
-  font-size: 15px;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
+  color: #111;
+  transition: all 0.2s;
+  box-sizing: border-box;
 }
-.error-happen{
-  border-color: #dc3545 !important;
-}
+
 .input-wrapper input:focus {
-  border-color: #3ea2ee !important;
-  box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+  background-color: #fff;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  outline: none;
 }
 
+.input-wrapper input.error-happen {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
 
-/* Eye Toggle */
 .toggle-eye {
   position: absolute;
-  right: 15px;
+  right: 1rem;
   cursor: pointer;
-  color: #888;
-  font-size: 14px;
+  color: #9ca3af;
+}
+.toggle-eye:hover { color: #dc2626; }
+
+/* ================= ERRORS ================= */
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+  min-height: 1rem; /* Prevents layout jumping */
+  display: block;
 }
 
-.toggle-eye:hover {
-  color: #ee3e55;
+.server-error {
+  background: #fef2f2;
+  color: #991b1b;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid #fecaca;
 }
 
-/* Button & Footer */
+/* ================= BUTTONS & FOOTER ================= */
 .submit-btn {
   width: 100%;
-  padding: 12px;
-  background: #ee3e55;
+  padding: 0.875rem;
+  background: #dc2626;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 10px;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
 }
 
-.submit-btn:hover {
-  background: #fc2e49;
+.submit-btn:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.submit-btn:disabled {
+  background: #fca5a5;
+  cursor: not-allowed;
 }
 
 .form-footer {
   text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #666;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+  color: #6b7280;
 }
 
 .form-footer a {
-  color: #ee3e55;
+  color: #dc2626;
   text-decoration: none;
   font-weight: 600;
 }
@@ -139,20 +258,72 @@
   text-decoration: underline;
 }
 
-.error-text {
-  color: #dc3545;
-  font-size: 12px;
-  padding-left: 10px;
+/* ================= FILE UPLOAD ================= */
+.file-upload-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-sizing: border-box;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
-@media (max-width: 480px) {
-  .row-group {
-    flex-direction: column; /* Stack them on phone */
-    gap: 20px;
+.file-upload-wrapper:hover {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.file-upload-wrapper.error-border {
+  border-color: #ef4444;
+  background-color: #fff1f2;
+}
+
+.file-input {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-custom-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.file-custom-label i { font-size: 1.5rem; color: #dc2626; }
+.file-name { color: #111; font-weight: 600; }
+
+/* ================= ANIMATIONS ================= */
+.fade-in { animation: fadeIn 0.4s ease-out; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .register-card {
+    padding: 1.5rem;
   }
 
+  .header h2 { font-size: 1.5rem; }
+
+  /* Stack form inputs on mobile */
+  .row-group {
+    flex-direction: column;
+    gap: 0;
+  }
+  
   .half-width {
-    width: 100%; /* Make them full width on phone */
+    width: 100%;
   }
 }

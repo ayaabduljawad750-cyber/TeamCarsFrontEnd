@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 // import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path:"contactus",
     component:ContactUsComponent
+  },
+  {
+    path:"forgot-password",
+    component:ForgotPasswordComponent
   }
 ];
 

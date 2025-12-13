@@ -1,0 +1,176 @@
+<div class="dashboard-container">
+  <div class="card full-width">
+    
+    <!-- Header with Navigation Buttons -->
+    <div class="card-header dashboard-header">
+      <div>
+        <h2>Seller Dashboard</h2>
+        <p class="subtitle">
+          {{ currentView === 'products' ? 'Manage your product listings' : 'Manage your profile settings' }}
+        </p>
+      </div>
+      
+      <!-- TOGGLE BUTTONS -->
+      <div class="view-toggles">
+        <button 
+          class="btn" 
+          [class.btn-primary]="currentView === 'products'" 
+          [class.btn-outline]="currentView !== 'products'" 
+          (click)="currentView = 'products'">
+          <i class="fas fa-box-open"></i> Manage Products
+        </button>
+        
+        <button 
+          class="btn" 
+          [class.btn-primary]="currentView === 'profile'" 
+          [class.btn-outline]="currentView !== 'profile'" 
+          (click)="currentView = 'profile'">
+          <i class="fas fa-user"></i> Profile
+        </button>
+      </div>
+    </div>
+
+    <!-- Global Messages (Visible on both views) -->
+    <div *ngIf="successMessage" class="alert success fade-in">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert error fade-in">{{ errorMessage }}</div>
+
+    <div class="card-body">
+
+      <!-- ========================== VIEW 1: PRODUCT MANAGEMENT ========================== -->
+      <!-- Only shows if currentView is 'products' -->
+      <div class="fade-in" *ngIf="currentView === 'products'">
+        
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+          <div class="search-group">
+            <input type="text" class="form-control" placeholder="Search products..." [(ngModel)]="searchQuery" (keyup.enter)="onFilterChange()">
+            
+            <select class="form-control" [(ngModel)]="selectedCriteria">
+              <option value="name">By Name</option>
+              <option value="brand">By Brand</option>
+              <option value="model">By Model</option>
+            </select>
+
+            <select class="form-control" [(ngModel)]="selectedCategory" (change)="onFilterChange()">
+              <option value="">All Categories</option>
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+            
+            <button class="btn btn-primary" (click)="onFilterChange()">Search</button>
+          </div>
+          
+          <button class="btn btn-primary" (click)="openProductModal()">+ Add New Product</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" *ngIf="products.length > 0; else noProducts">
+          <div class="product-card" *ngFor="let product of products">
+            
+            <!-- Image Helper Function -->
+            <div class="product-image" [style.backgroundImage]="'url(' + getProductImage(product) + ')'"></div>
+            
+            <div class="product-details">
+              <div class="product-meta">
+                <span class="badge">{{ product.category }}</span>
+                <span class="price">${{ product.price }}</span>
+              </div>
+              <h3>{{ product.name }}</h3>
+              <p class="car-info">{{ product.brand }} - {{ product.carModel }}</p>
+              <p class="stock-info" [class.out-stock]="product.stock == 0">
+                {{ product.stock > 0 ? 'In Stock: ' + product.stock : 'Out of Stock' }}
+              </p>
+              
+              <div class="product-actions">
+                <button class="btn-icon edit" (click)="editProduct(product)">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn-icon delete" (click)="deleteProduct(product._id)">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noProducts>
+          <div class="empty-state">
+            <p>No products found matching your criteria.</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- ========================== VIEW 2: USER PROFILE ========================== -->
+      <!-- Only shows if currentView is 'profile' -->
+      <div class="fade-in" *ngIf="currentView === 'profile'">
+         <app-dashboard-user></app-dashboard-user>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========================== MODAL FOR ADD/EDIT PRODUCT ========================== -->
+<!-- Kept outside the *ngIf so it doesn't get destroyed if you toggle views while it is open (optional) -->
+<div class="modal-overlay" *ngIf="showProductModal">
+  <div class="modal-card fade-in">
+    <div class="modal-header">
+      <h3>{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h3>
+      <button class="close-btn" (click)="closeProductModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="productForm" (ngSubmit)="onSaveProduct()">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" class="form-control" formControlName="name">
+          </div>
+          <div class="form-group">
+            <label>Price ($)</label>
+            <input type="number" class="form-control" formControlName="price">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Brand</label>
+            <input type="text" class="form-control" formControlName="brand" placeholder="e.g. Toyota">
+          </div>
+          <div class="form-group">
+            <label>Model</label>
+            <input type="text" class="form-control" formControlName="model" placeholder="e.g. Corolla">
+          </div>
+        </div>
+
+        <div class="form-row">
+           <div class="form-group">
+            <label>Category</label>
+            <select class="form-control" formControlName="category">
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Stock Quantity</label>
+            <input type="number" class="form-control" formControlName="stock">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" formControlName="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Product Image</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+          <small class="subtitle" *ngIf="isEditing">Leave empty to keep current image</small>
+        </div>
+
+        <div class="action-buttons">
+          <button type="button" class="btn btn-outline" (click)="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid || isLoading">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

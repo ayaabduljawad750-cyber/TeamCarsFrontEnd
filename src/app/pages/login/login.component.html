@@ -1,11 +1,13 @@
 <div class="login-page">
-  <div class="login-card">
+  <div class="login-card fade-in">
+    
     <div class="header">
       <h2>Welcome Back</h2>
-      <p>Login With Account</p>
+      <p>Login to continue managing your account</p>
     </div>
 
-    <div >
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      
       <!-- Email Input -->
       <div class="form-group">
         <label for="email">Email Address</label>
@@ -14,12 +16,17 @@
           <input
             type="email"
             id="email"
-            [(ngModel)]="email"
-            name="email"
+            formControlName="email"
             placeholder="Enter your email"
+            [class.error-happen]="isFieldInvalid('email')"
           />
         </div>
-        <p class="error-text">{{emailError}}</p>
+        
+        <!-- Reactive Error Messages -->
+        <div class="error-text" *ngIf="isFieldInvalid('email')">
+          <span *ngIf="loginForm.get('email')?.hasError('required')">Email is required</span>
+          <span *ngIf="loginForm.get('email')?.hasError('email')">Please enter a valid email address</span>
+        </div>
       </div>
 
       <!-- Password Input -->
@@ -30,32 +37,38 @@
           <input
             [type]="fieldTextType ? 'text' : 'password'"
             id="password"
-            [(ngModel)]="password"
-            name="password"
+            formControlName="password"
             placeholder="Enter your password"
+            [class.error-happen]="isFieldInvalid('password')"
           />
-
-          <!-- 2. Toggle Icon Click Event -->
+          
           <span class="toggle-eye" (click)="togglePasswordVisibility()">
-            <i
-              class="fas"
-              [ngClass]="fieldTextType ? 'fa-eye-slash' : 'fa-eye'"
-            >
-            </i>
+            <i class="fas" [ngClass]="fieldTextType ? 'fa-eye-slash' : 'fa-eye'"></i>
           </span>
         </div>
-        <p class="error-text">{{passwordError}}</p>
+
+        <div class="error-text" *ngIf="isFieldInvalid('password')">
+          <span>Password is required</span>
+        </div>
       </div>
 
       <div class="form-footer">
-        <a href="#">Forgot Password?</a>
+        <a routerLink="/forgot-password">Forgot Password?</a>
       </div>
 
-      <button type="button" class="submit-btn" (click)="login()">Sign In</button>
-      <p class="error-text" style="text-align: center;">{{errorMessage}}</p>
-    </div>
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        {{ isLoading ? 'Signing In...' : 'Sign In' }}
+      </button>
+
+      <!-- Global API Error -->
+      <div class="server-error" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+    </form>
+
     <div class="question-box">
       <p>Don't have an account? <a class="register-link" routerLink="/register">Sign Up</a></p>
     </div>
+    
   </div>
 </div>
