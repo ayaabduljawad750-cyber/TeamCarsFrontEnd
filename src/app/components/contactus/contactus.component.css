@@ -1,82 +1,47 @@
-:host {
-  display: block;
-  width: 100%;
-  height: 100vh;
-}
 .contact-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    direction: rtl;
-  text-align: left;
-  padding: 50px 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
 }
-h2,
-span{
-    color: #ef465c;
+.contact-container .cont {
+    border: #ee3e569f 2px solid;
+}
+.contact-container h2 {
+    color: #ee3e55;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.contact-container p {
+    margin-bottom: 12px;
+}
+
+.contact-link {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px 14px;
+    color: #000;
+}
+
+.contact-link span {
+    color: #ee3e55;
     font-weight: bold;
 }
-.contact-container p {
-    align-items: center;
-    justify-content: center;
-}
-.contact-link {
-  display: block;
-  color: #000;
-  margin: 10px 0;
-  font-weight: bold;
-  text-decoration: none;
+
+.hotline {
+    margin-top: 20px;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
-@media (max-width: 480px) {
-  .contact-container {
-    padding: 20px 10px;
-    max-width: 100%;
-  }
-
-  .contact-link {
-    font-size: 14px;
-  }
+.hotline span {
+    color: #ee3e55;
 }
 
-@media (max-width: 576px) {
-  .contact-container {
-    padding: 25px 12px;
-  }
-} 
-@media (max-width: 768px) {
-
-  .contact-container {
-    padding: 30px 15px;
-    max-width: 100%;
-  }
-
-  .contact-link {
-    font-size: 15px;
-  }
-}
-@media (max-width: 992px) {
-
-  .contact-container {
-    max-width: 500px;
-  }
-}
-@media (max-width: 1200px) {
-
-  .contact-container {
-    max-width: 550px;
-  }
-}
-@media (max-width: 1400px) {
-
-  .contact-container {
-    max-width: 650px;
-  }
-}
-@media (min-width: 1401px) {
-
-  .contact-container {
-    max-width: 750px;
-    padding: 50px 40px;
-  }
+.map-container {
+    margin-top: 25px;
+    overflow: hidden;
+    /* box-shadow: 0 6px 10px rgba(0,0,0,0.15); */
 }

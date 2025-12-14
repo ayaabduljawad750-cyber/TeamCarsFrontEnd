@@ -1,0 +1,96 @@
+.about-page {
+    padding: 40px;
+}
+
+.offer-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.text-box {
+    flex: 1;
+    min-width: 300px;
+}
+
+.content {
+    max-width: 1000px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.content h2 {
+    font-size: 30px;
+    margin-bottom: 12px;
+    color: #ee3e55;
+    position: relative;
+}
+
+.content p {
+    margin-bottom: 15px;
+}
+
+.content h3 {
+    margin-top: 25px;
+    color: #ee3e55;
+}
+
+address {
+    padding: 6px 15px;
+    display: inline-block;
+}
+
+.contacts {
+    padding-left: 15px;
+    margin-top: 10px;
+}
+.question p{
+    font-weight: bold;
+}
+.question span{
+    color: #000;
+    font-weight: bold;
+}
+.question a {
+    color: #000;
+    text-decoration: none;
+}
+
+.image-box {
+    width: 420px;
+    min-height: 420px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #e53935 40%, #b71c1c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+    transition: transform 260ms ease, box-shadow 260ms ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.image-box strong{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.image {
+    width: 90%;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.image img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s ease;
+}
+.image:hover img {
+    cursor: pointer;
+    transform: scale(1.08);
+}

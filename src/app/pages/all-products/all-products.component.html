@@ -1,0 +1,73 @@
+<div class="container">
+
+  <h2>All Products</h2>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input
+      type="text"
+      placeholder="Search product..."
+      [(ngModel)]="filters.search"
+      (keyup.enter)="search()"
+    />
+
+    <select [(ngModel)]="filters.category" (change)="search()">
+      <option value="">All Categories</option>
+      <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+    </select>
+
+    <select [(ngModel)]="filters.sortBy" (change)="search()">
+      <option value="latest">Latest</option>
+      <option value="price-high">Price High</option>
+      <option value="price-low">Price Low</option>
+    </select>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <!-- Products Grid -->
+  <div class="grid" *ngIf="!loading && products.length > 0">
+    <div class="card" *ngFor="let product of products">
+      <img
+        [src]="'data:' + product.image?.contentType + ';base64,' + product.image?.data"
+        alt="{{ product.name }}"
+      />
+      <h3>{{ product.name }}</h3>
+      <p class="category">{{ product.category }}</p>
+      <p class="price">{{ product.price }} EGP</p>
+      <button (click)="addToCart(product)">Add to Cart 🛒</button>
+    </div>
+  </div>
+
+  <!-- No products -->
+  <div *ngIf="!loading && products.length === 0" class="no-products">
+    No products found 😔
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button
+      [disabled]="filters.page === 1"
+      (click)="changePage(filters.page - 1)"
+    >
+      Prev
+    </button>
+
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="filters.page === i + 1"
+      (click)="changePage(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+
+    <button
+      [disabled]="filters.page === totalPages"
+      (click)="changePage(filters.page + 1)"
+    >
+      Next
+    </button>
+  </div>
+
+</div>

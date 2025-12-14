@@ -24,14 +24,9 @@ export class AuthService {
     );
   }
 
-  // ================= REGISTER (UPDATED) =================
-  // changed 'data' type to 'any' to accept FormData
-  // added 'role' as a parameter to ensure correct URL
+  // ================= REGISTER =================
   register(data: any, role: string) {
-    return this.http.post(
-      `${this.usersUrl}/register/${role}`,
-      data
-    );
+    return this.http.post(`${this.usersUrl}/register/${role}`, data);
   }
 
   // ================= UTILS =================
@@ -61,7 +56,6 @@ export class AuthService {
 
     return this.http.put(`${this.usersUrl}/update`, data, { headers }).pipe(
       tap((res: any) => {
-        // Merge new data with existing user state
         const updatedUser = { ...this.currentUserSubject.value, ...data };
         this.currentUserSubject.next(updatedUser);
       })
@@ -71,18 +65,22 @@ export class AuthService {
   updateMyPassword(data: { oldPassword: string; newPassword: string }) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
     return this.http.put(`${this.usersUrl}/update/password`, data, { headers });
   }
 
-  // for forgot password functions
   sendVerificationCode(data: { email: string }) {
-    return this.http.post(`${this.usersUrl}/send/verificationCode`, data)
+     return this.http.post(`${this.usersUrl}/send/verificationCode`, data);
   }
+
   verifyVerificationCode(data: { email: string; verificationCode: string }) {
-    return this.http.post(`${this.usersUrl}/verify/verificationCode`, data)
+    return this.http.post(`${this.usersUrl}/verify/verificationCode`, data);
   }
+
   changePassword(data: { email: string; verificationCode: string; newPassword: string }) {
-    return this.http.post(`${this.usersUrl}/change/password`, data)
+    return this.http.post(`${this.usersUrl}/change/password`, data);
   }
+
+  // ================= NEW =================
+  // Getter for userId to fix AllProductsComponent
+
 }

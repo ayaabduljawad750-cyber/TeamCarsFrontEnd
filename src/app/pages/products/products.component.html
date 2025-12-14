@@ -1,0 +1,51 @@
+<!-- <div class="container">
+
+<h2>All Products</h2>
+
+<div class="filters">
+
+
+  <input
+    type="text"
+    placeholder="Search product..."
+    [(ngModel)]="filters.search"
+    (keyup.enter)="loadProducts()"
+  />
+
+
+  <select [(ngModel)]="filters.category" (change)="loadProducts()">
+    <option value="">All Categories</option>
+    <option *ngFor="let c of categories" [value]="c">
+      {{ c }}
+    </option>
+  </select>
+
+
+  <select [(ngModel)]="filters.sortBy" (change)="loadProducts()">
+    <option value="latest">Latest</option>
+    <option value="price-high">Price High</option>
+    <option value="price-low">Price Low</option>
+  </select>
+
+</div>
+<div *ngIf="loading" class="loading">Loading...</div>
+
+<div class="grid" *ngIf="!loading">
+
+  <div class="card" *ngFor="let p of products">
+
+    <img
+      [src]="'data:' + p.image.contentType + ';base64,' + p.image.data"
+      alt="product"
+    />
+
+    <h3>{{ p.name }}</h3>
+
+    <p class="category">{{ p.category }}</p>
+
+    <p class="price">{{ p.price }} EGP</p>
+
+  </div>
+
+</div>
+</div> -->

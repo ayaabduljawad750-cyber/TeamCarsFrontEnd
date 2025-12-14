@@ -9,7 +9,7 @@ export class FooterComponent {
   hotline = "15145";
 
   moreLinks = [
-    { name: 'About Us', path: '/about' },
+    { name: 'About Us', path: '/aboutus' },
     { name: 'Contact Us', path: '/contactus' },
     { name: 'Terms & Conditions', path: '/terms' },
     { name: 'Privacy & Policy', path: '/privacy' }
