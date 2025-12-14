@@ -28,40 +28,42 @@ export interface Booking {
   providedIn: 'root'
 })
 export class MaintenanceService {
-  // Adjust API URL as needed
   private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
   // --- Center Profile ---
   getMyCenter(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get(`${this.apiUrl}/centers/my-center`,{headers});
+    return this.http.get(`${this.apiUrl}/centers/my-center`, { headers: this.getAuthHeaders() });
+  }
+
+  getCenters(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/centers`, { headers: this.getAuthHeaders() });
   }
 
   createCenter(data: MaintenanceCenter): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.post(`${this.apiUrl}/centers`, data,{headers});
+    return this.http.post(`${this.apiUrl}/centers`, data, { headers: this.getAuthHeaders() });
   }
 
   updateCenter(id: string, data: MaintenanceCenter): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.put(`${this.apiUrl}/centers/${id}`, data,{headers});
+    return this.http.put(`${this.apiUrl}/centers/${id}`, data, { headers: this.getAuthHeaders() });
+  }
+
+  deleteCenter(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/centers/${id}`, { headers: this.getAuthHeaders() });
   }
 
   // --- Bookings ---
   getMyBookings(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get(`${this.apiUrl}/booking/my-incoming-requests`,{headers});
+    return this.http.get(`${this.apiUrl}/booking/my-incoming-requests`, { headers: this.getAuthHeaders() });
   }
 
   updateBookingStatus(bookingId: string, status: 'Accepted' | 'Rejected'): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.patch(`${this.apiUrl}/booking/${bookingId}/status`, { status },{headers});
+    return this.http.patch(`${this.apiUrl}/booking/${bookingId}/status`, { status }, { headers: this.getAuthHeaders() });
   }
 }

@@ -1,21 +1,105 @@
-<div class="cards">
-  <div class="card">
-    <h3>Users</h3>
-    <p>120</p>
-  </div>
+<div class="dashboard-container">
+  <div class="card full-width">
+    <div class="card-header dashboard-header">
+      <h2>Admin Dashboard</h2>
+      <div class="view-toggles">
+        <button class="btn" [class.btn-primary]="currentView==='users'" (click)="currentView='users'; loadUsers()">Users</button>
+        <button class="btn" [class.btn-primary]="currentView==='orders'" (click)="currentView='orders'; loadOrders()">Orders</button>
+        <button class="btn" [class.btn-primary]="currentView==='centers'" (click)="currentView='centers'; loadCenters()">Maintenance Centers</button>
+        <button class="btn" [class.btn-primary]="currentView==='profiles'" (click)="currentView='profiles'">Profiles</button>
+      </div>
+    </div>
 
-  <div class="card">
-    <h3>Orders</h3>
-    <p>75</p>
-  </div>
+    <!-- Alerts -->
+    <div *ngIf="successMessage" class="alert success fade-in">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert error fade-in">{{ errorMessage }}</div>
 
-  <div class="card">
-    <h3>Products</h3>
-    <p>50</p>
-  </div>
+    <div class="card-body">
+      <!-- USERS -->
+      <div *ngIf="currentView==='users'" class="fade-in">
+        <h3>Users</h3>
 
-  <div class="card">
-    <h3>Revenue</h3>
-    <p>$5,200</p>
+        <!-- Filters -->
+        <div class="filters">
+          <input type="text" placeholder="Search by name or email" [(ngModel)]="searchTerm" />
+          <select [(ngModel)]="roleFilter">
+            <option value="">All Roles</option>
+            <option value="admin">Admin</option>
+            <option value="seller">Seller</option>
+            <option value="maintenanceCenter">Maintenance Center</option>
+            <option value="user">User</option>
+          </select>
+          <button class="btn" (click)="loadUsers()">Apply Filters</button>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users">
+              <td><input [(ngModel)]="u.firstName" /></td>
+              <td><input [(ngModel)]="u.lastName" /></td>
+              <td>{{u.email}}</td>
+              <td><span class="role-tag">{{u.role}}</span></td>
+              <td class="actions">
+                <button class="btn save" (click)="updateUserName(u._id, u.firstName, u.lastName)">Save</button>
+                <button class="btn delete" (click)="deleteUser(u._id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ORDERS -->
+      <div *ngIf="currentView==='orders'" class="fade-in">
+        <h3>Orders</h3>
+        <table class="table">
+          <thead><tr><th>ID</th><th>User</th><th>Status</th><th>Total</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let o of orders">
+              <td>{{o._id}}</td>
+              <td>{{o.userId?.email}}</td>
+              <td>
+                <select [(ngModel)]="o.status" (ngModelChange)="updateOrderStatus(o._id, $event)">
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                </select>
+              </td>
+              <td>{{o.totalPrice}}</td>
+              <td><button class="btn-icon delete" (click)="deleteOrder(o._id)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MAINTENANCE CENTERS -->
+      <div *ngIf="currentView==='centers'" class="fade-in">
+        <h3>Maintenance Centers</h3>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Address</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let c of centers">
+              <td>{{c.name}}</td>
+              <td>{{c.location}}</td>
+              <td><button class="btn-icon delete" (click)="deleteCenter(c._id)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PROFILES -->
+      <div *ngIf="currentView==='profiles'" class="fade-in">
+        <h3>Profiles</h3>
+        <app-dashboard-user></app-dashboard-user>
+      </div>
+    </div>
   </div>
 </div>
