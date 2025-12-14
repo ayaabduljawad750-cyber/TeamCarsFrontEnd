@@ -1,20 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class OrderService {
-  private baseUrl = 'http://localhost:5000/api'; // عدليها حسب باكك
+  private apiUrl = 'http://localhost:3000/orders';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  createOrder(orderData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/orders`, orderData);
+  private getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  getProducts(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/products`);
+  getOrders() {
+    return this.http.get(this.apiUrl, { headers: this.getAuthHeaders() });
+  }
+
+  updateOrderStatus(id: string, status: string) {
+    return this.http.patch(`${this.apiUrl}/status/${id}`, { status }, { headers: this.getAuthHeaders() });
+  }
+
+  deleteOrder(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+  }
+   
+  createOrder(d:any){
+
   }
 }

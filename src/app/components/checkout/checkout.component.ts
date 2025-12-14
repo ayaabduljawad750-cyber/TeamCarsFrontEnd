@@ -75,15 +75,15 @@ export class CheckoutComponent implements OnInit {
       totalPrice: this.totalPrice
     };
 
-    this.orderService.createOrder(orderData).subscribe({
-      next: (res: any) => {
-        alert("Order placed successfully!");
-        this.cartProducts = [];
-        this.totalPrice = 0;
-        this.checkoutForm.reset();
-        localStorage.removeItem('cart');
-      },
-      error: err => console.error(err)
-    });
+    // this.orderService.createOrder(orderData).subscribe({
+    //   next: (res: any) => {
+    //     alert("Order placed successfully!");
+    //     this.cartProducts = [];
+    //     this.totalPrice = 0;
+    //     this.checkoutForm.reset();
+    //     localStorage.removeItem('cart');
+    //   },
+    //   error: err => console.error(err)
+    // });
   }
 }

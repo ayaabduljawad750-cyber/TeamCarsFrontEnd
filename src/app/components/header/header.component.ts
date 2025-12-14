@@ -2,18 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
- cartCount: number = 0;
-  FirstChar: string = '';
+cartCount = 0;
+  isAuthenticated = false;
+  isLoading = false;
+  
+  // private cartSubscription!: Subscription;
+  // private authSubscription!: Subscription;
+  // private loadingSubscription!: Subscription;
+  FirstChar= '';
 
-  // ✅ إضافات
   toggleMenu = false;
 
   menuItems = [
@@ -27,22 +33,36 @@ export class HeaderComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private cartService: CartService
+   // private cartService: CartService
   ) {}
 
   ngOnInit() {
 
     // user
     this.auth.currentUser$.subscribe(user => {
+      console.log(user);
       if (user) {
         this.FirstChar = user.firstName[0];
       } 
     });
-
+this.auth.getCurrentUser().subscribe();
     // cart count
-   this.cartService.cart$.subscribe((cartItems: any[]) => {
-  this.cartCount = cartItems.length;
-});
+    //   this.cartSubscription = this.cartService.cart$.subscribe(cart => {
+    //   this.cartCount = this.cartService.getItemCount() ;
+    // });
+
+    
+
+    // // الاشتراك في حالة التحميل
+    // this.loadingSubscription = this.cartService.isLoading$.subscribe(loading => {
+    //   this.isLoading = loading;
+    // });
+
+    
+
+//    this.cartService.cart$.subscribe((cartItems: any[]) => {
+//   this.cartCount = cartItems.length;
+// });
 
   }
 
@@ -53,10 +73,9 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.auth.logout();
     this.router.navigate(['/']);
-    this.cartCount = 0;
+    // this.cartCount = 0;
   }
 
-  // ✅ إضافات
   openMenu() {
     this.toggleMenu = !this.toggleMenu;
   }

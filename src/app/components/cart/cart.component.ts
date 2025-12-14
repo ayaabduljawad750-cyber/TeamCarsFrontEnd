@@ -16,56 +16,56 @@ export interface CartItem {
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit, OnDestroy {
-  cart: CartItem[] = [];
-  private cartSubscription!: Subscription;
+export class CartComponent /*implements OnInit, OnDestroy */{
+  // cart: CartItem[] = [];
+  // private cartSubscription!: Subscription;
 
-  constructor(private cartService: CartService) {}
+  // constructor(private cartService: CartService) {}
 
-  ngOnInit(): void {
-    // الاشتراك في التحديثات من خدمة الكارت
-    this.cartSubscription = this.cartService.cart$.subscribe(cart => {
-      this.cart = cart;
-    });
+  // ngOnInit(): void {
+
+  //   this.cartSubscription = this.cartService.cart$.subscribe(cart => {
+  //     this.cart = cart;
+  //   });
     
-    // جلب الكارت الحالي
-    this.cart = this.cartService.getMyCart();
-  }
 
-  increase(item: CartItem) {
-    // تصحيح: استدعاء الدالة الصحيحة من الخدمة
-    this.cartService.increaseQty(item._id);
-  }
+  //   this.cart = this.cartService.getMyCart();
+  // }
 
-  decrease(item: CartItem) {
-    // تصحيح: استدعاء الدالة الصحيحة من الخدمة
-    this.cartService.decreaseQty(item._id);
-  }
+  // increase(item: CartItem) {
 
-  remove(id: string) {
-    // تصحيح: استخدام دالة removeItem من الخدمة
-    this.cartService.removeItem(id);
-  }
+  //   this.cartService.increaseQty(item._id);
+  // }
 
-  getTotal(): number {
-    return this.cart.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-  }
+  // decrease(item: CartItem) {
 
-  ngOnDestroy(): void {
-    // تنظيف الاشتراك لمنع تسرب الذاكرة
-    if (this.cartSubscription) {
-      this.cartSubscription.unsubscribe();
-    }
-  }
+  //   this.cartService.decreaseQty(item._id);
+  // }
 
-  // دالة إضافية لحساب عدد المنتجات
-  getItemCount(): number {
-    return this.cart.reduce(
-      (count, item) => count + item.quantity,
-      0
-    );
-  }
+  // remove(id: string) {
+ 
+  //   this.cartService.removeItem(id);
+  // }
+
+  // getTotal(): number {
+  //   return this.cart.reduce(
+  //     (sum, item) => sum + item.price * item.quantity,
+  //     0
+  //   );
+  // }
+
+  // ngOnDestroy(): void {
+
+  //   if (this.cartSubscription) {
+  //     this.cartSubscription.unsubscribe();
+  //   }
+  // }
+
+
+  // getItemCount(): number {
+  //   return this.cart.reduce(
+  //     (count, item) => count + item.quantity,
+  //     0
+  //   );
+  // }
 }
