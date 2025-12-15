@@ -8,10 +8,9 @@
   padding: 15px;
   border-radius: 10px;
   background-color: white;
-
   img {
     width: 50%;
-    height: 50%;
+    height: 40%;
     margin-bottom: 15px;
   }
 }
@@ -25,8 +24,51 @@
 }
 
 
-@media (max-widht:992px) {
+
+
+
+@media (max-width:992px) {
+.card{
+        width: 117px;
+  height: 160px;
+  text-align: center;
+
+}
+    .card img {
+
+            width: 70%;
+      height: 40%;
+
+    }
+}
+
+@media (max-width:787px) {
   .card {
-    width: 100%;
+              width: 121px;
+    height: 160px;
+    text-align: center;
+  }
+
+  .card img {
+
+        width: 66%;
+    height: 40%;
+
+  }
+}
+
+@media (max-width:512px) {
+  .card {
+        width: 83px;
+    height: 160px;
+    text-align: center;
+  }
+
+  .card img {
+
+          width: 79%;
+    height: 40%;
+
+
   }
 }

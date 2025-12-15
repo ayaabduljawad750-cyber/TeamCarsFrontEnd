@@ -24,6 +24,9 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { Section4Component } from './pages/home/section4/section4.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DashboardMaintenanceCenterComponent } from './components/dashboard-maintenance-center/dashboard-maintenance-center.component';
+import { Section2Component } from './pages/home/section2/section2.component';
+import { ProductCardComponent } from './pages/home/section2/product-card/product-card.component';
+import { SelectFormComponent } from './pages/home/section2/select-form/select-form.component';
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
@@ -45,7 +48,10 @@ import { DashboardMaintenanceCenterComponent } from './components/dashboard-main
     ForgotPasswordComponent,
     Section4Component,
     FooterComponent,
-    DashboardMaintenanceCenterComponent
+    DashboardMaintenanceCenterComponent,
+    Section2Component,
+    ProductCardComponent,
+    SelectFormComponent
     // MyOrdersComponent
   ],
   imports: [
