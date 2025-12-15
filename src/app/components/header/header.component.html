@@ -1,22 +1,22 @@
 <nav class="navbar">
   <div class="left-section">
     <!-- <img src="assets/images/menu.jpg" class="menu-btn" (click)="openMenu()"> -->
-    <img src="assets/images/logo.jpg" class="logo">
+    <a routerLink="/Home"><img src="assets/images/logo.jpg" class="logo"></a>
     <a routerLink="/products" routerLinkActive="active-link" class="nav-link">Products</a>
   </div>
   <div class="right-section">
     <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">Login</a>
     <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">Register</a>
-    <a routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
     <button (click)="logout()" *ngIf="isLogin()">Logout</button>
     <button class="lang-btn" (click)="changeLang()">
       <img src="assets/images/lang.jpg" class="lang-icon">
       English
     </button>
-    <div class="cart">
+    <div routerLink="cart" class="cart">
       <img src="assets/images/cart.jpg" class="cart-img">
       <span *ngIf="cartCount > 0" class="cart-count">{{ cartCount }}</span>
     </div>
+     <a class="dash" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
   </div>
   <!-- <ul class="menu" *ngIf="toggleMenu">
     <li *ngFor="let item of menuItems">
