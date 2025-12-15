@@ -10,6 +10,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 const routes: Routes = [
   {
@@ -40,7 +41,12 @@ const routes: Routes = [
   {
     path: "forgot-password",
     component: ForgotPasswordComponent
+  },
+  {
+    path: "product/:id",
+    component: ProductDetailsComponent
   }
+
 ];
 
 @NgModule({

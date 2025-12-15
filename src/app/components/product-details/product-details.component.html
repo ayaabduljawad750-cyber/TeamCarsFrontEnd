@@ -1,0 +1,80 @@
+<section class="product-details">
+  <div class="container" *ngIf="product">
+    <div class="details">
+      <div class="img">
+        <img [src]="product.image" [alt]="product.name" class="product-image">
+      </div>
+
+      <div class="product-info">
+        <div class="badges">
+          <span class="badges-category">{{product.category}}</span>
+          <span *ngIf="product.brand" class="product-brand">{{product.brand}}</span>
+        </div>
+        <h1 class="product-name">{{product.name}}</h1>
+
+        <div class="rating">
+          <div class="stars">
+            <span *ngFor="let star of getStarArray(product.evaluation); let i = index" [class.filled]="star" class="star">★</span>
+          </div>
+          <span class="rating-text">{{product.evaluation}} from 5</span>
+        </div>
+        <div class="price">{{product.price}} EGP</div>
+        <div class="seller-name">Seller: {{getsellerName()}}</div>
+      </div>
+      <div class="action" *ngIf="product.stock">
+        <div class="quantity-selector">
+          <button (click)="decreaseQuantity()" class="qun-btn">-</button>
+          <span class="qun-value">{{quantity}}</span>
+          <button (click)="increaseQuantity()" class="qun-btn">+</button>
+        </div>
+        <button (click)="addToCart()" class="addToCart-btn">
+          Add to Cart
+          <i class="fa-solid fa-cart-plus"></i>
+        </button>
+      </div>
+      <div *ngIf="product.stock === 0" class="out-of-stock">
+        Out of stock
+      </div>
+    </div>
+  </div>
+  <div class="description-title">Product Description</div>
+  <div class="description">
+    <h3>Description</h3>
+    <p *ngIf="product?.description"></p>
+    <div class="description-info">
+      <h3 class="Specification">Specification</h3>
+
+      <div class="spec-item" *ngIf="product?.name">
+        <span class="spec-label">Name: </span>
+        <span class="spec-value">{{product?.name}}</span>
+      </div>
+
+      <div class="spec-item" *ngIf="product?.category">
+        <span class="spec-label">Category: </span>
+        <span class="spec-value">{{product?.category}}</span>
+      </div>
+
+      <div class="spec-item" *ngIf="product?.brand">
+        <span class="spec-label">Brand: </span>
+        <span class="spec-value">{{product?.brand}}</span>
+      </div>
+
+      <div class="spec-item" *ngIf="product?.carModel">
+        <span class="spec-label">Car Model: </span>
+        <span class="spec-value">{{product?.carModel}}</span>
+      </div>
+
+      <div class="spec-item" *ngIf="product?.creatAt">
+        <span class="spec-label">Creat at: </span>
+        <span class="spec-value">{{product?.creatAt}}</span>
+      </div>
+      <div class="spec-item" *ngIf="product?.lastUpdateAt">
+        <span class="spec-label">Last Update: </span>
+        <span class="spec-value">{{product?.lastUpdateAt}}</span>
+      </div>
+
+
+    </div>
+  </div>
+
+</section>
