@@ -40,6 +40,7 @@ export class HeaderComponent {
 ngOnInit() {
   // 
   this.auth.currentUser$.subscribe(user => {
+    console.log(user)
     if (user) {
       this.FirstChar = user.firstName[0];
       console.log("Updated FirstChar:", this.FirstChar);
