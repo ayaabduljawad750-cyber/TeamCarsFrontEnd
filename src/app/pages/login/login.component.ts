@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CartService , CartItem} from '../../services/cart.service';
+import { Observable,map } from 'rxjs';
+
 
 @Component({
   selector: 'app-login',
@@ -14,12 +17,17 @@ export class LoginComponent implements OnInit {
   fieldTextType: boolean = false;
   isLoading: boolean = false;
   errorMessage: string = '';
-
+  //cart$:Observable<any>
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+   private cartService: CartService
+  ) {
+    // this.cart$ = this.cartService.getMyCart().pipe(
+    // map((res:any)=>res.data?.cart)
+    // )
+  }
 
   ngOnInit(): void {
     // Initialize Reactive Form
@@ -59,11 +67,21 @@ export class LoginComponent implements OnInit {
            localStorage.setItem('token', res.data.token);
         }
         this.router.navigate(['']);
+       const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+  cart.forEach((item: CartItem) => {
+    this.cartService.addToCart(item); // sync with backend
+  });
+
       },
       error: (err) => {
         this.isLoading = false;
         this.errorMessage = err.error.message || 'Invalid email or password';
       }
     });
+    // this.cartService.cart$.subscribe(cart=>{
+
+    // });
+    //this.cartService.loadCart().subscribe()
+
   }
 }

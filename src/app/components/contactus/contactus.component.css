@@ -1,9 +1,11 @@
 .contact-container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 40px auto;
     padding: 40px;
 }
-
+.contact-container .cont {
+    border: #ee3e569f 2px solid;
+}
 .contact-container h2 {
     color: #ee3e55;
     margin-bottom: 12px;
@@ -41,5 +43,5 @@
 .map-container {
     margin-top: 25px;
     overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    /* box-shadow: 0 6px 10px rgba(0,0,0,0.15); */
 }
