@@ -7,7 +7,7 @@
   <div class="right-section">
     <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">Login</a>
     <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">Register</a>
-    <button (click)="logout()" *ngIf="isLogin()">Logout</button>
+    <button (click)="logout()" *ngIf="isLogin()" class="logout-btn">Logout</button>
     <button class="lang-btn" (click)="changeLang()">
       <img src="assets/images/lang.jpg" class="lang-icon">
       English

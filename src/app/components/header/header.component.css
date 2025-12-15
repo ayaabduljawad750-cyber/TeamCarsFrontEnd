@@ -1,54 +1,51 @@
 .navbar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 25px;
+  width: 100%;
   background: #fff;
   border-bottom: 1px solid #000;
-  /* position: fixed;
-  width: 100%;
-  z-index: 2000; */
+  padding: 14px 25px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
-.left-section {
+.left-section,
+.right-section {
   display: flex;
   align-items: center;
-  gap: 20px; 
+  gap: 18px; 
 }
 .logo {
-  height: 80px;
-  width: auto;
+  height: 46px;
+  object-fit: contain;
 }
-/* .menu-btn {
-  width: 40px;
-  cursor: pointer;
-} */
 .nav-link {
   text-decoration: none;
   color: #333333b7;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
 }
 .active-link {
   color: #ee3e55;
 }
-.right-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
 .lang-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  width: auto;
   background: #fff;
   border: 1px solid #b3b3b3;
-  border-radius: 10%;
   cursor: pointer;
-  font-size: 16px;
 }
+
 .lang-icon {
-  width: 45px;
+  width: 25px;
+  object-fit: contain;
 }
 .cart {
   position: relative;
@@ -56,7 +53,7 @@
 }
 
 .cart-img {
-  width: 35px;
+  width: 28px;
 }
 
  .cart-count {
@@ -71,46 +68,36 @@
   font-size: 12px;
 } 
 
-.login-btn{
+.login-btn,
+.logout-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
   text-decoration: none;
   color: #000;
-  padding: 8px 14px;
   border: 1px solid #b3b3b3;
-  border-radius: 10%;
   cursor: pointer;
+  flex: 0 0 auto;
+  width: auto;
 }
 .login-btn:hover {
   background: #eeeff5;
 }
 .register-btn {
+  display: inline-flex;
     text-decoration: none;
     padding: 8px 14px;
   background: #ee3e55;
   color: #fff;
   border-radius: 10%;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  width: auto;
 }
 
-.menu {
-  position: absolute;
-  top: 80px;
-  left: 10px;
-  background:  #fff;
-  width: 250px;
-  padding: 10px;
-  list-style: none;
-}
-
-.menu li {
-  padding: 12px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-
-.menu li::after {
-  content: "›";
-  color: #444;
-}
 .dash{
   margin: 10px;
   border: 2px rgba(255, 0, 0, 0.747) solid;
@@ -125,40 +112,108 @@
   font-weight: bold;
   background-color: #f0e3e34f;
 }
-@media (max-width: 768px) {
-
+ @media (max-width: 1200px) {
   .navbar {
-    padding: 10px 15px;
-  }
-
-  .right-section {
-    gap: 10px; 
+    padding: 18px 40px;
   }
 
   .logo {
-    height: 50px;
-  }
-
-  .menu-btn {
-    height: 30px;
-    width: 30px;
-  }
-
-  .nav-link {
-    font-size: 14px;
+    width: 100px;
   }
 }
 @media (max-width: 992px) {
-
-  .right-section {
-    gap: 15px;
-  }
-
-  .logo {
-    height: 70px;
+  .navbar {
+    padding: 16px 30px;
   }
 
   .nav-link {
     font-size: 15px;
+  }
+
+  .logo {
+    width: 90px;
+  }
+  .login-btn,
+  .logout-btn,
+  .register-btn {
+    padding: 5px 12px;
+    font-size: 13px;
+  }
+   .lang-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+    gap: 5px;
+  }
+
+  .lang-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 15px 20px;
+    gap: 15px;
+  }
+
+  /* كل سيكشن صف كامل */
+  .left-section,
+  .right-section {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .logo {
+    width: 80px;
+  }
+
+ .login-btn,
+ .logout-btn,
+  .register-btn {
+    padding: 4px 10px;
+    font-size: 12.5px;
+  }
+  .lang-btn {
+    padding: 4px 8px;
+    font-size: 12.5px;
+    gap: 4px;
+  }
+
+  .lang-icon {
+    width: 19px;
+    height: 19px;
+  }
+}
+@media (max-width: 480px) {
+
+  .navbar {
+    padding: 12px 15px;
+  }
+
+  .left-section {
+    justify-content: center;
+  }
+
+  .right-section {
+    justify-content: center;
+  }
+
+ .login-btn,
+ .logout-btn,
+  .register-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .lang-btn {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+
+  .lang-icon {
+    width: 16px;
+    height: 16px;
   }
 }
