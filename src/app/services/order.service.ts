@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+
+const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000',
+  stripePublicKey: 'sk_test_1122334455'
+};
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private apiUrl = 'http://localhost:3000/orders';
-
+ private stripePromise = loadStripe(environment.stripePublicKey);
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders() {
@@ -25,6 +32,20 @@ export class OrderService {
   }
    
   createOrder(d:any){
+      return this.http.post<any>(
+      `${environment.apiUrl}/orders`,d,
+      {headers:this.getAuthHeaders()}
+    );
+  }
+  
+  async pay(clientSecret: string, cardElement: any) {
+    const stripe = await this.stripePromise;
+    if (!stripe) return;
 
+    return stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement
+      }
+    });
   }
 }

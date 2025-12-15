@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -8,82 +10,31 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  checkoutForm!: FormGroup;
-  cartProducts: any[] = [];
-  totalPrice: number = 0;
-  paymentMethods: string[] = ['Credit Card', 'Cash on Delivery', 'PayPal'];
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) { }
-
-  ngOnInit(): void {
-    // init form
-    this.checkoutForm = this.fb.group({
-      fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      address: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
-      paymentMethod: ['', Validators.required]
-    });
-
-    // load cart items
-    this.loadCart();
-  }
-
-  loadCart() {
-    const cart = localStorage.getItem('cart');
-    this.cartProducts = cart ? JSON.parse(cart) : [];
-    this.calculateTotal();
-  }
-
-  calculateTotal() {
-    this.totalPrice = this.cartProducts.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  }
-
-  updateQuantity(item: any, value: number) {
-    const qty = Number(value);
-    if (qty < 1) return;
-    item.quantity = qty;
-    this.calculateTotal();
-    localStorage.setItem('cart', JSON.stringify(this.cartProducts));
-  }
-
-  placeOrder() {
-    if (this.cartProducts.length === 0) {
-      alert("Your cart is empty!");
-      return;
-    }
-
-    if (this.checkoutForm.invalid) {
-      alert("Please fill all required fields correctly!");
-      return;
-    }
-
-    const orderData = {
-      items: {
-        products: this.cartProducts.map(p => ({
-          productId: p._id,
-          quantity: p.quantity
-        }))
-      },
-      userDetails: {
-        fullName: this.checkoutForm.value.fullName,
-        email: this.checkoutForm.value.email,
-        address: this.checkoutForm.value.address,
-        phone: this.checkoutForm.value.phone
-      },
-      paymentMethod: this.checkoutForm.value.paymentMethod,
-      totalPrice: this.totalPrice
-    };
-
-    // this.orderService.createOrder(orderData).subscribe({
-    //   next: (res: any) => {
-    //     alert("Order placed successfully!");
-    //     this.cartProducts = [];
-    //     this.totalPrice = 0;
-    //     this.checkoutForm.reset();
-    //     localStorage.removeItem('cart');
-    //   },
-    //   error: err => console.error(err)
-    // });
-  }
-}
+  @ViewChild('cardElement') cardElement!: ElementRef; 
+  stripe: any;
+   elements: any; 
+   card: any;
+    loading = false;
+     errorMsg:string|undefined = '';
+      orderId = 'PUT_ORDER_ID_HERE'; 
+      constructor(private OrderService: OrderService) {} 
+      async ngOnInit() { 
+        this.stripe = await this.OrderService['stripePromise'];
+         this.elements = this.stripe.elements(); 
+         this.card = this.elements.create('card'); 
+         this.card.mount(this.cardElement.nativeElement); 
+        } 
+        async submit() { 
+          this.loading = true;
+           this.OrderService.createOrder(this.orderId) .subscribe(async res => 
+            { 
+              const result = await this.OrderService.pay( res.clientSecret, this.card ); 
+              this.loading = false; 
+              if (result?.error) { 
+                this.errorMsg = result.error.message; 
+                console.log(this.errorMsg);
+              }
+               else { alert('Payment Successful 🎉'); } });
+               } 
+            }

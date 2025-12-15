@@ -1,0 +1,30 @@
+<div class="order-form-container">
+  <h2>Place Your Order</h2>
+
+  <form (ngSubmit)="submitOrder()" #orderForm="ngForm">
+
+    <label>Name</label>
+    <input type="text" [(ngModel)]="name" name="name" required />
+
+    <label>Email</label>
+    <input type="email" [(ngModel)]="email" name="email" required />
+
+    <label>Address</label>
+    <textarea [(ngModel)]="address" name="address" required></textarea>
+
+    <label>Phone</label>
+    <input type="tel" [(ngModel)]="phone" name="phone" required />
+
+    <label>Payment Method</label>
+    <select [(ngModel)]="paymentMethod" name="paymentMethod" required>
+      <option value="cod">Cash on Delivery</option>
+      <option value="stripe">Credit / Debit Card (Stripe)</option>
+    </select>
+
+    <button type="submit" [disabled]="loading || !orderForm.form.valid">
+      {{ loading ? 'Processing...' : 'Place Order' }}
+    </button>
+
+    <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+  </form>
+</div>

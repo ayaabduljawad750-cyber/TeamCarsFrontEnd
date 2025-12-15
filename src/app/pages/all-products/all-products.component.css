@@ -85,7 +85,7 @@ h2 {
   padding: 8px 12px;
   border: none;
   border-radius: 5px;
-  background-color: #ff7f50;
+  background-color: #e91515;
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -93,7 +93,7 @@ h2 {
 }
 
 .card button:hover {
-  background-color: #ff6333;
+  background-color: #e91515;
 }
 
 /* No products */
@@ -122,9 +122,9 @@ h2 {
 }
 
 .pagination button.active {
-  background-color: #ff7f50;
+  background-color: #e91515;
   color: white;
-  border-color: #ff7f50;
+  border-color: #e91515;
 }
 
 .pagination button:disabled {

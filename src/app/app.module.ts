@@ -38,6 +38,7 @@ import { CartComponent } from './components/cart/cart.component';
 
 import { CardComponent } from './pages/home/card/card.component';
 import { Section4Component } from './pages/home/section4/section4.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { Section4Component } from './pages/home/section4/section4.component';
     CartComponent,
 
     CardComponent,
-    Section4Component
+    Section4Component,
+    OrderComponent
   ],
   imports: [
     BrowserModule,
