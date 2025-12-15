@@ -38,15 +38,12 @@ import { CartComponent } from './components/cart/cart.component';
 
 import { CardComponent } from './pages/home/card/card.component';
 import { Section4Component } from './pages/home/section4/section4.component';
-<<<<<<< HEAD
+
 import { FooterComponent } from './components/footer/footer.component';
-import { DashboardMaintenanceCenterComponent } from './components/dashboard-maintenance-center/dashboard-maintenance-center.component';
 import { Section2Component } from './pages/home/section2/section2.component';
 import { ProductCardComponent } from './pages/home/section2/product-card/product-card.component';
 import { SelectFormComponent } from './pages/home/section2/select-form/select-form.component';
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
-=======
->>>>>>> 153688ed5861b7a491cada6189e5d40fe7318c57
 
 @NgModule({
   declarations: [
@@ -79,7 +76,7 @@ import { SelectFormComponent } from './pages/home/section2/select-form/select-fo
     CartComponent,
 
     CardComponent,
-<<<<<<< HEAD
+
     DashboardSellerComponent,
     ForgotPasswordComponent,
     Section4Component,
@@ -87,11 +84,10 @@ import { SelectFormComponent } from './pages/home/section2/select-form/select-fo
     DashboardMaintenanceCenterComponent,
     Section2Component,
     ProductCardComponent,
-    SelectFormComponent
+    SelectFormComponent,
     // MyOrdersComponent
-=======
     Section4Component
->>>>>>> 153688ed5861b7a491cada6189e5d40fe7318c57
+
   ],
   imports: [
     BrowserModule,
@@ -99,8 +95,8 @@ import { SelectFormComponent } from './pages/home/section2/select-form/select-fo
     AppRoutingModule,
     HttpClientModule,
 
-    FormsModule,           
-    ReactiveFormsModule,   
+    FormsModule,
+    ReactiveFormsModule,
 
     BrowserAnimationsModule,
     MatIconModule
