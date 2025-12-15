@@ -8,3 +8,7 @@ export interface Icompany{
   id:number,
   imgUrl : string
 }
+export interface CarModel {
+  id: number;
+  model: string;
+}

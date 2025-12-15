@@ -1,0 +1,129 @@
+.search-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 0;
+
+  h1 {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+}
+
+
+.search-section .title {
+  font-size: 45px;
+  font-weight: bold;
+  text-align: center;
+}
+
+@media (max-width:787px) {
+.search-section .title {
+    font-size: 25px;
+  }
+}
+
+
+.search-section .search-input {
+  display: flex;
+  margin-bottom: 50px;
+  width: 50%;
+
+  input {
+    outline: none;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid gray;
+    overflow: none;
+    background-color: white;
+  }
+
+  span {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+    background-color: red;
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    img {
+      width: 24px;
+    }
+  }
+}
+
+
+.search-section .down-part {
+  display: flex;
+  gap: 30px;
+
+  .left {
+    /* position: relative; */
+    padding: 20px;
+    background-color: rgb(248, 249, 251);
+    border-radius: 15px;
+    border: 1px solid rgb(196, 200, 227);
+
+    h5 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+  }
+
+  .right {
+    ul {
+      display: flex;
+      list-style: none;
+      gap: 15px;
+
+      li {
+        background-color: rgb(196, 200, 227);
+        padding: 5px;
+        border-radius: 5px;
+
+        a {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .down {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+  }
+}
+
+     @media(max-width:992px) {
+      .search-section .search-input {
+        input {
+          width: 100%;
+        }
+      }
+
+      .search-section .down-part {
+        flex-wrap: wrap;
+         width: 100%;
+         .left{
+          width: 100%;
+         }
+         .right{
+           width:100%;
+          ul{
+            flex-wrap: wrap;
+          }
+          .down{
+            /* display: flex; */
+            flex-wrap: wrap;
+          }
+         }
+       }
+
+     }

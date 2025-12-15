@@ -4,29 +4,75 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.349);
+  box-shadow: 0 8ء 10px rgba(0, 0, 0, 0.12);
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   padding: 15px;
   border-radius: 10px;
   background-color: white;
-
   img {
     width: 50%;
-    height: 50%;
+    height: 40%;
     margin-bottom: 15px;
   }
 }
 
 .card:hover {
-  transition: .5s;
-  background-color: red;
+  transform: scale(1.05);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2);
+  background-color: #ee3e55;
   h2 {
-    color: white;
+    color: white ;
   }
 }
 
 
+
+
+
 @media (max-width:992px) {
+.card{
+        width: 117px;
+  height: 160px;
+  text-align: center;
+
+}
+    .card img {
+
+            width: 70%;
+      height: 40%;
+
+    }
+}
+
+@media (max-width:787px) {
   .card {
-    width: 100%;
+              width: 121px;
+    height: 160px;
+    text-align: center;
+  }
+
+  .card img {
+
+        width: 66%;
+    height: 40%;
+
+  }
+}
+
+@media (max-width:512px) {
+  .card {
+        width: 83px;
+    height: 160px;
+    text-align: center;
+  }
+
+  .card img {
+
+          width: 79%;
+    height: 40%;
+
+
   }
 }

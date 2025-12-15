@@ -72,7 +72,7 @@ export class HomeComponent {
 
 
   company1 = this.companies[0]
-  company2=this.companies[1]
+  company2= this.companies[1]
   company3=this.companies[2]
   company4=this.companies[3]
   company5=this.companies[4]

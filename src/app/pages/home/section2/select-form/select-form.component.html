@@ -1,0 +1,18 @@
+<form id="carData" action="">
+  <select id="car-select" [(ngModel)]="selectedCar">
+    <option selected  hidden>
+      Select car Type
+    </option>
+    <option *ngFor="let car of carTypes" [value]="car">
+      {{ car }}
+    </option>
+  </select>
+  <select id="car-select" [(ngModel)]="selectedCarId">
+    <option selected  hidden >Select Car Model</option>
+    <option *ngFor="let car of cars" [ngValue]="car.id">
+      {{ car.model }}
+    </option>
+  </select>
+
+  <button class="confirm-select-btn">Search</button>
+</form>
