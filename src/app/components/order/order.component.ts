@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';
-
+import { CartService, CartItem } from '../../services/cart.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
-export class OrderComponent {
+export class OrderComponent implements OnInit {
   name = '';
   email = '';
   address = '';
@@ -15,11 +16,29 @@ export class OrderComponent {
   loading = false;
   errorMsg = '';
 
-  constructor(private orderService: OrderService) {}
+  cartItems: CartItem[] = [];
+
+  constructor(
+    private orderService: OrderService,
+    private cartService: CartService,
+    private router: Router,
+  ) {}
+
+  ngOnInit() {
+    this.cartService.getCart().subscribe(items => this.cartItems = items);
+  }
 
   submitOrder() {
-    if (!this.name || !this.email || !this.address || !this.phone) return;
+    if (!this.name || !this.email || !this.address || !this.phone) {
+      this.errorMsg = 'Please fill all fields!';
+      return;
+    }
 
+    if (this.cartItems.length === 0) {
+      this.errorMsg = 'Cart is empty!';
+      return;
+    }
+   console.log(this.cartItems);
     this.loading = true;
     this.errorMsg = '';
 
@@ -31,12 +50,12 @@ export class OrderComponent {
       paymentMethod: this.paymentMethod
     };
 
-    if (this.paymentMethod === 'cod') {
-      // الدفع عند الاستلام
-      this.orderService.createOrder('cod').subscribe({
+    if (this.paymentMethod === 'cash') {
+      this.orderService.createOrder(this.cartItems, orderData).subscribe({
         next: (res) => {
           this.loading = false;
           alert('Order placed successfully! Payment on delivery.');
+          this.cartService.clearCart().subscribe(); // تفريغ الكارت بعد الطلب
         },
         error: (err) => {
           this.loading = false;
@@ -44,10 +63,11 @@ export class OrderComponent {
         }
       });
     } else {
-      // الدفع عن طريق Stripe
-      // هنا ممكن توجه المستخدم لصفحة checkout
+   
       this.loading = false;
       alert('Redirect to Stripe checkout...');
+    
+       this.router.navigate(['checkout']);
     }
   }
 }

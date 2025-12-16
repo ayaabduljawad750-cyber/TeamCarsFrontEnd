@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-/* ===================== PAGES ===================== */
+
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -20,10 +20,10 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { ProductsComponent } from './pages/products/products.component';
 import { AllProductsComponent } from './pages/all-products/all-products.component';
 
-/* ===================== COMPONENTS ===================== */
+
 import { OurNavComponent } from './components/our-nav/our-nav.component';
 import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+// import { FooterComponent } from './components/footer/footer.component';
 
 import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
@@ -39,12 +39,17 @@ import { CartComponent } from './components/cart/cart.component';
 import { CardComponent } from './pages/home/card/card.component';
 import { Section4Component } from './pages/home/section4/section4.component';
 import { OrderComponent } from './components/order/order.component';
+import { FooterComponent } from './components/footer/footer.component';
+// import { DashboardMaintenanceCenterComponent } from './components/dashboard-maintenance-center/dashboard-maintenance-center.component';
+import { Section2Component } from './pages/home/section2/section2.component';
+import { ProductCardComponent } from './pages/home/section2/product-card/product-card.component';
+import { SelectFormComponent } from './pages/home/section2/select-form/select-form.component';
+// import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 
 @NgModule({
   declarations: [
     AppComponent,
 
-    /* Pages */
     LoginComponent,
     HomeComponent,
     RegisterComponent,
@@ -53,11 +58,9 @@ import { OrderComponent } from './components/order/order.component';
    ProductsComponent,
    AllProductsComponent,
 
-    /* Components */
     OurNavComponent,
     HeaderComponent,
     FooterComponent,
-
 
     DashboardAdminComponent,
     DashboardUserComponent,
@@ -72,7 +75,20 @@ import { OrderComponent } from './components/order/order.component';
 
     CardComponent,
     Section4Component,
-    OrderComponent
+    OrderComponent,
+
+    DashboardSellerComponent,
+    ForgotPasswordComponent,
+    Section4Component,
+    FooterComponent,
+    DashboardMaintenanceCenterComponent,
+    Section2Component,
+    ProductCardComponent,
+    SelectFormComponent,
+    // MyOrdersComponent
+
+    Section4Component
+
   ],
   imports: [
     BrowserModule,
@@ -80,8 +96,8 @@ import { OrderComponent } from './components/order/order.component';
     AppRoutingModule,
     HttpClientModule,
 
-    FormsModule,           
-    ReactiveFormsModule,   
+    FormsModule,
+    ReactiveFormsModule,
 
     BrowserAnimationsModule,
     MatIconModule

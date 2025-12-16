@@ -2,24 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
-
-cartCount = 0;
-  isAuthenticated = false;
-  isLoading = false;
-  
-  // private cartSubscription!: Subscription;
-  // private authSubscription!: Subscription;
-  // private loadingSubscription!: Subscription;
-  FirstChar= '';
-
+export class HeaderComponent implements OnInit {
+  cartCount = 0;
+  FirstChar = '';
   toggleMenu = false;
 
   menuItems = [
@@ -33,37 +24,28 @@ cartCount = 0;
   constructor(
     private auth: AuthService,
     private router: Router,
-   // private cartService: CartService
-  ) {}
+    private cartService: CartService
+  ) { }
 
   ngOnInit() {
+    if(this.auth.isLogin()){
+  // user info
+  this.auth.currentUser$.subscribe(user => {
+    if (user) {
+      this.FirstChar = user.firstName[0];
+      // ✅ if logged in, load cart to initialize count
+      this.cartService.getCart().subscribe();
+    }
+  });
+  this.auth.getCurrentUser().subscribe();
 
-    // user
-    this.auth.currentUser$.subscribe(user => {
-      console.log(user);
-      if (user) {
-        this.FirstChar = user.firstName[0];
-      } 
-    });
-this.auth.getCurrentUser().subscribe();
-    // cart count
-    //   this.cartSubscription = this.cartService.cart$.subscribe(cart => {
-    //   this.cartCount = this.cartService.getItemCount() ;
-    // });
+  // ✅ listen to cart count
+  this.cartService.cartCount$.subscribe(count => {
+    this.cartCount = count;
+  });
 
-    
-
-    // // الاشتراك في حالة التحميل
-    // this.loadingSubscription = this.cartService.isLoading$.subscribe(loading => {
-    //   this.isLoading = loading;
-    // });
-
-    
-
-//    this.cartService.cart$.subscribe((cartItems: any[]) => {
-//   this.cartCount = cartItems.length;
-// });
-
+    }
+  
   }
 
   isLogin() {
@@ -73,7 +55,7 @@ this.auth.getCurrentUser().subscribe();
   logout() {
     this.auth.logout();
     this.router.navigate(['/']);
-    // this.cartCount = 0;
+    this.cartCount = 0
   }
 
   openMenu() {

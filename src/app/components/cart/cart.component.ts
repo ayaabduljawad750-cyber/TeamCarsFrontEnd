@@ -1,71 +1,79 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CartService } from '../../services/cart.service';
-import { Subscription } from 'rxjs';
-
-export interface CartItem {
-  _id: string;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  stock?: number;
-}
-
+import { Component, OnInit } from '@angular/core';
+import { CartService, CartItem } from '../../services/cart.service';
+import { OrderService } from 'src/app/services/order.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
 })
-export class CartComponent /*implements OnInit, OnDestroy */{
-  // cart: CartItem[] = [];
-  // private cartSubscription!: Subscription;
+export class CartComponent implements OnInit {
+  cart: CartItem[] = [];
 
-  // constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService) {}
 
-  // ngOnInit(): void {
-
-  //   this.cartSubscription = this.cartService.cart$.subscribe(cart => {
-  //     this.cart = cart;
-  //   });
-    
-
-  //   this.cart = this.cartService.getMyCart();
-  // }
-
-  // increase(item: CartItem) {
-
-  //   this.cartService.increaseQty(item._id);
-  // }
-
-  // decrease(item: CartItem) {
-
-  //   this.cartService.decreaseQty(item._id);
-  // }
-
-  // remove(id: string) {
- 
-  //   this.cartService.removeItem(id);
-  // }
-
-  // getTotal(): number {
-  //   return this.cart.reduce(
-  //     (sum, item) => sum + item.price * item.quantity,
-  //     0
-  //   );
-  // }
-
-  // ngOnDestroy(): void {
-
-  //   if (this.cartSubscription) {
-  //     this.cartSubscription.unsubscribe();
-  //   }
-  // }
+  ngOnInit(): void {
+    this.loadCart();
+  }
 
 
-  // getItemCount(): number {
-  //   return this.cart.reduce(
-  //     (count, item) => count + item.quantity,
-  //     0
-  //   );
-  // }
+
+
+loadCart(): void {
+  this.cartService.getCart().subscribe((items: CartItem[]) => {
+    this.cart = items.map((item) => ({
+      ...item,
+      price: Number(item.price) || 0,
+      // ✅ keep image object as-is
+      image: item.image ? { 
+        contentType: item.image.contentType, 
+        data: item.image.data 
+      } : undefined,
+    }));
+  });
+}
+
+
+
+  getImageSrc(item: CartItem): string | undefined {
+  if (item.image) {
+    return `data:${item.image.contentType};base64,${item.image.data}`;
+  }
+  return undefined;
+}
+
+increase(item: CartItem): void {
+  const updatedItem = { ...item, quantity: item.quantity + 1 };
+  this.cartService.updateCart(updatedItem).subscribe(() => {
+    // update local cart immediately
+    item.quantity++;
+  });
+}
+
+decrease(item: CartItem): void {
+  if (item.quantity > 1) {
+    const updatedItem = { ...item, quantity: item.quantity - 1 };
+    this.cartService.updateCart(updatedItem).subscribe(() => {
+      item.quantity--;
+    });
+  } else {
+    this.remove(item.productId);
+  }
+}
+
+  remove(productId: string): void {
+    this.cartService.updateCart({ productId, quantity: 0 })
+      .subscribe(() => this.loadCart());
+  }
+
+  clear(): void {
+    this.cartService.clearCart().subscribe(() => this.loadCart());
+  }
+
+  getTotal(): number {
+    return this.cart.reduce((sum, item) => sum + (item.price ?? 0) * item.quantity, 0);
+  }
+  Checkout(){
+    console.log(this.cart)
+
+  }
 }

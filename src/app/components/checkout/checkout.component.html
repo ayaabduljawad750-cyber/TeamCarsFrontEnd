@@ -1,25 +1,15 @@
 <div class="checkout-container">
-  <div class="checkout-card">
+  <h2>Secure Payment</h2>
 
-    <h2>Checkout</h2>
+  <div #cardElement class="card-box"></div>
 
-    <div #cardElement class="card-element"></div>
+  <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
 
-    <p *ngIf="errorMsg" class="error-message">
-      {{ errorMsg }}
-    </p>
-
-    <button
-      class="pay-btn"
-      (click)="submit()"
-      [disabled]="loading"
-    >
-      {{ loading ? 'Processing...' : 'Pay Now' }}
-    </button>
-
-    <p *ngIf="loading" class="loading-text">
-      Please wait, processing payment...
-    </p>
-
-  </div>
+  <button
+    class="pay-btn"
+    (click)="payNow()"
+    [disabled]="loading"
+  >
+    {{ loading ? 'Processing...' : 'Pay Now' }}
+  </button>
 </div>

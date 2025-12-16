@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/all-products.service';
-import { CartService } from '../../services/cart.service';
+import { CartService, CartItem } from '../../services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-products',
@@ -32,7 +33,8 @@ export class AllProductsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -67,10 +69,30 @@ export class AllProductsComponent implements OnInit {
     this.loadProducts();
   }
 
-  addToCart(product: any): void {
-    this.cartService.addToCart({ productId: product._id }).subscribe({
-      next: () => console.log('added'),
-      error: (err) => console.log(err.message),
-    });
+addToCart(product: any) {
+  if(this.authService.isLogin()){
+    const cartItem: CartItem = {
+    productId: product._id,
+    name: product.name,
+    brand: product.brand,
+    carModel: product.carModel,
+    price: Number(product.price),
+    stock: product.stock,
+    // ✅ wrap into object if backend sends {contentType, data}
+    image: product.image
+      ? { contentType: product.image.contentType, data: product.image.data }
+      : undefined,
+    quantity: 1,
+  };
+
+  this.cartService.addToCart(cartItem).subscribe(() => {
+    // handle success
+  });
   }
+  else{
+    this.router.navigate(['login']);
+  }
+}
+
+
 }

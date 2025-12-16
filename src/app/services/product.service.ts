@@ -68,13 +68,14 @@ export class ProductService {
     formData.append('carModel', data.model);
     formData.append('price', data.price);
     formData.append('category', data.category);
+    formData.append('stock', data.stock || '1');
     
     if (file) {
       formData.append('image', file);
     }
 
     // FIX: Added headers
-    return this.http.patch(`${this.apiUrl}/${id}`, formData, { 
+    return this.http.put(`${this.apiUrl}/${id}`, formData, { 
       headers: this.getHeaders() 
     });
   }

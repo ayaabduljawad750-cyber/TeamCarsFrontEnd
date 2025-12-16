@@ -33,14 +33,6 @@ export class AuthService {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('role', res.data.user.role);
         this.currentUserSubject.next(res.data.user);
-          //  this.cartService.reloadCartAfterLogin().subscribe({
-          //     next: (cartResponse) => {
-          //       console.log('Cart reloaded after login:', cartResponse);
-          //     },
-          //     error: (error) => {
-          //       console.error('Error reloading cart after login:', error);
-          //     }
-          //   });
       }),
       catchError(err => throwError(() => err))
     );

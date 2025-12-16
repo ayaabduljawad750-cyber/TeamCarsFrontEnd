@@ -11,33 +11,23 @@
   margin-right: auto;
 } */
 
-@media (max-width:1200px) {
-  .container {
-    width: 1190px;
-  }
-}
 
-@media (max-width:900px) {
-  .container {
-    width: 880px;
-  }
-}
-@media (max-width:787px) {
-  .container {
-    width: 750px;
-  }
-}
+
+
+
 /* .homePage{
 
 
 } */
- /* .homePage{
+/* .homePage{
   display: flex;
   align-items: center;
     justify-content: center;
     flex-direction: column;
  } */
-
+/* .homePage .title{
+  text-align: center;
+} */
 .homePage .categories-section {
   min-height: calc(-80px + 100vh);
   height: 100%;
@@ -51,45 +41,100 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+
 }
 
-.homePage .container .categories {
+
+.homePage .categories {
   /* height: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  width: 55%;
+width: 60%;
 }
 
-.homePage .container .title {
+
+.homePage .title {
   color: white;
   font-size: 45px;
   font-weight: bold;
+      /* font-size: 3.4rem; */
+      text-align: center;
 }
 
-.homePage .best-companies{
-
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-padding: 100px 0;
-
-
-p{
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 30px;
+@media (max-width:787px) {
+.homePage .title {
+    font-size: 25px;
+  }
 }
-.companies{
+.homePage .best-companies {
   display: flex;
-  gap:20px;
-}
-}
-.homePage .best-companies .title {
-  margin-bottom: 30px;
-    color: black;
+  justify-content: center;
+  padding: 100px 0;
+  align-items: center;
+  flex-direction: column;
+
+
+
+  p {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px;
   }
 
+  .companies {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+}
+
+.homePage .best-companies .title {
+  margin-bottom: 30px;
+  color: black;
+}
+.homePage .best-companies p{
+  font-size: 15px;
+}
+
+.homePage .search-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@media(max-widht:992px) {
+
+  .homePage,
+  .homePage .container,
+  .homePage .container .categories-section,
+  .homePage .best-companies {
+    width: 100%;
+    /* background-color: blue; */
+  }
+
+  .homePage .best-companies .container .companies {
+
+    flex-wrap: wrap;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  .homePage .categories {
+    width: 80%;
+
+    /* background-color: blue; */
+  }
+}
+
+/* h1{
+  width:100%;
+} */

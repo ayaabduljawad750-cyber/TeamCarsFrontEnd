@@ -1,0 +1,49 @@
+.product-card {
+  border: 1px solid rgb(196, 200, 227);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  border-radius: 10px;
+
+  #product-price {
+    font-weight: bold;
+  }
+
+  .btns {
+    display: flex;
+    gap: 10px;
+
+    button {
+      padding: 3px 10px ;
+      border-radius: 10px;
+      background-color: transparent;
+
+    }
+
+    button:first-child {
+      border: 1px solid red;
+      transition: .5s;
+    }
+
+    button:first-child:hover {
+      background-color: red;
+    }
+
+    button:last-child {
+      border: 1px solid rgba(0, 0, 0, 0.534);
+      transition: .5s;
+    }
+
+    button:last-child:hover {
+      background-color: black;
+      color:white;
+    }
+  }
+}
+
+@media (max-widht:992px){
+  .product-card{
+    width:100%;
+  }
+}
