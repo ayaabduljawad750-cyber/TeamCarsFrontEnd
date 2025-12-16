@@ -55,7 +55,7 @@ export class OrderComponent implements OnInit {
         next: (res) => {
           this.loading = false;
           alert('Order placed successfully! Payment on delivery.');
-          this.cartService.clearCart().subscribe(); // تفريغ الكارت بعد الطلب
+          this.cartService.clearCart().subscribe(); 
         },
         error: (err) => {
           this.loading = false;
@@ -66,8 +66,29 @@ export class OrderComponent implements OnInit {
    
       this.loading = false;
       alert('Redirect to Stripe checkout...');
-    
        this.router.navigate(['checkout']);
     }
   }
+  loadCartPreview(): void {
+    this.cartService.getCart().subscribe((items: CartItem[]) => {
+      this.cartItems = items.map(item => ({
+        ...item,
+        price: Number(item.price) || 0,
+        image: item.image ? { contentType: item.image.contentType, data: item.image.data } : undefined
+      }));
+    });
+  }
+
+  getImageSrc(item: CartItem): string | undefined {
+    if (item.image) {
+      return `data:${item.image.contentType};base64,${item.image.data}`;
+    }
+    return undefined;
+  }
+    getTotal(): number {
+    return this.cartItems.reduce((sum, item) => sum + (item.price ?? 0) * item.quantity, 0);
+  }
+  goBackToCart() {
+  this.router.navigate(['/cart']);
+}
 }
