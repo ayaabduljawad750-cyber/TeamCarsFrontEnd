@@ -15,6 +15,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 const routes: Routes = [
   {
@@ -69,7 +70,12 @@ const routes: Routes = [
   {
     path: "forgot-password",
     component: ForgotPasswordComponent
+  },
+  {
+    path: "products/:id",
+    component: ProductDetailsComponent
   }
+
 ];
 
 @NgModule({

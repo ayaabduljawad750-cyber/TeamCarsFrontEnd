@@ -1,0 +1,118 @@
+<section class="product-details">
+  <div class="container" *ngIf="product">
+    <!-- Alerts Section (completely separate) -->
+    <div class="alerts-section">
+      <div *ngIf="successMessage" class="alert success">
+        <i class="fas fa-check-circle"></i>
+        <span>{{ successMessage }}</span>
+      </div>
+      <div *ngIf="errorMessage" class="alert error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <div *ngIf="warningMessage" class="alert warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ warningMessage }}</span>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="content-wrapper">
+        <div class="img">
+          <img [src]="getImageSrc(product.image)" [alt]="product.name" class="product-image">
+        </div>
+
+        <div class="product-info">
+          <div class="badges">
+            <span class="badges-category">{{product.category}}</span>
+            <span *ngIf="product.brand" class="product-brand">{{product.brand}}</span>
+          </div>
+          
+          <h1 class="product-name">{{product.name}}</h1>
+
+          <div class="rating">
+            <div class="stars">
+              <span *ngFor="let star of getStarArray(product.evaluation); let i = index" 
+                    [class.filled]="star" 
+                    class="star">★</span>
+            </div>
+            <span class="rating-text">{{product.evaluation | number:'1.1-1'}} from 5</span>
+          </div>
+          
+          <div class="price">{{product.price | currency:'EGP ':'symbol':'1.0-0'}}</div>
+          <div class="seller-name">Seller: {{getSellerName()}}</div>
+          
+          <div class="action" *ngIf="product.stock">
+            <button (click)="addToCart(product)" class="addToCart-btn">
+              <i class="fa-solid fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+          
+          <div *ngIf="product.stock === 0" class="out-of-stock">
+            Out of stock
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-review">
+      <h3>Add your review</h3>
+      <div class="stars">
+        <span *ngFor="let star of [1,2,3,4,5]"
+              (click)="setRating(star)"
+              [class.filled]="star <= selectedRating"
+              class="star">
+          ★
+        </span>
+      </div>
+      <button (click)="submitReview()" 
+              [disabled]="!selectedRating"
+              class="submit-review-btn">
+        Submit Review
+      </button>
+    </div>
+
+    <div class="description-section">
+      <h2 class="section-title">Product Description</h2>
+      <div class="description">
+        <p *ngIf="product?.description">{{product.description}}</p>
+        
+        <div class="specifications">
+          <h3>Specifications</h3>
+          <div class="spec-grid">
+            <div class="spec-item" *ngIf="product?.name">
+              <span class="spec-label">Name:</span>
+              <span class="spec-value">{{product.name}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.category">
+              <span class="spec-label">Category:</span>
+              <span class="spec-value">{{product.category}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.brand">
+              <span class="spec-label">Brand:</span>
+              <span class="spec-value">{{product.brand}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.carModel">
+              <span class="spec-label">Car Model:</span>
+              <span class="spec-value">{{product.carModel}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.createAt">
+              <span class="spec-label">Created:</span>
+              <span class="spec-value">{{formatDate(product.createAt)}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.lastUpdateAt">
+              <span class="spec-label">Last Updated:</span>
+              <span class="spec-value">{{formatDate(product.lastUpdateAt)}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

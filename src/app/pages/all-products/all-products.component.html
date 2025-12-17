@@ -1,4 +1,19 @@
 <div class="container">
+    <!-- Alerts Section (completely separate) -->
+    <div class="alerts-section">
+      <div *ngIf="successMessage" class="alert success">
+        <i class="fas fa-check-circle"></i>
+        <span>{{ successMessage }}</span>
+      </div>
+      <div *ngIf="errorMessage" class="alert error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <div *ngIf="warningMessage" class="alert warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ warningMessage }}</span>
+      </div>
+    </div>
 
   <h2>All Products</h2>
 
@@ -32,8 +47,10 @@
       <img
         [src]="'data:' + product.image?.contentType + ';base64,' + product.image?.data"
         alt="{{ product.name }}"
+        (click)="goToDetailsProduct(product._id)"
+        
       />
-      <h3>{{ product.name }}</h3>
+      <h3 (click)="goToDetailsProduct(product._id)">{{ product.name }}</h3>
       <p class="category">{{ product.category }}</p>
       <p class="price">{{ product.price }} EGP</p>
       <button (click)="addToCart(product)">Add to Cart 🛒</button>

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../services/all-products.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+// Services
+import { ProductService } from 'src/app/services/product.service';
+import { ReviewService } from 'src/app/services/review.service';
 import { CartService, CartItem } from '../../services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
 
 interface Product {
   _id: string;
@@ -29,71 +33,75 @@ interface Product {
 }
 
 @Component({
-  selector: 'app-all-products',
-  templateUrl: './all-products.component.html',
-  styleUrls: ['./all-products.component.css'],
+  selector: 'app-product-details',
+  templateUrl: './product-details.component.html',
+  styleUrls: ['./product-details.component.css']
 })
-export class AllProductsComponent implements OnInit {
-  products: any[] = [];
-  loading: boolean = true;
-  totalPages: number = 0;
+export class ProductDetailsComponent implements OnInit {
+  product: Product | null = null;
+  selectedRating = 0;
   successMessage = '';
   errorMessage = '';
   warningMessage = ''
   isLoading = false;
-  filters = {
-    page: 1,
-    limit: 6,
-    category: '',
-    search: '',
-    sortBy: 'latest',
-  };
-
-  categories: string[] = [
-    'Spare parts',
-    'Tyres',
-    'Engine oil',
-    'Batteries',
-    'Liquids',
-  ];
-
   constructor(
+    private route: ActivatedRoute,
     private productService: ProductService,
+    private sanitizer: DomSanitizer,
+    private reviewService: ReviewService,
     private cartService: CartService,
     private authService: AuthService,
-    private router: Router,
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.loadProducts();
-  }
-
-  loadProducts(): void {
-    this.loading = true;
-
-    this.productService.getProducts(this.filters).subscribe({
-      next: (res: any) => {
-        console.log('API RESPONSE:', res);
-
-        this.products = res?.data?.products || [];
-        this.totalPages = res?.data?.pages || 0;
-        this.loading = false;
-      },
-      error: (err: any) => {
-        console.error('Error loading products:', err);
-        this.loading = false;
-      },
+    this.route.params.subscribe(params => {
+      const productId = params['id'];
+      this.loadProduct(productId);
     });
   }
 
-  changePage(page: number): void {
-    this.filters.page = page;
-    this.loadProducts();
+  loadProduct(id: string): void {
+    this.productService.getProduct(id).subscribe({
+      next: (res) => {
+        this.product = res.data.product;
+      },
+      error: (err) => {
+        this.handleFeedback("error", err.error.message)
+      }
+    });
   }
 
-  search(): void {
-    this.filters.page = 1;
-    this.loadProducts();
+  getImageSrc(image: any): string | undefined {
+    if (image) {
+      return `data:${image.contentType};base64,${image.data}`;
+    }
+    return undefined;
+  }
+
+  setRating(star: number): void {
+    this.selectedRating = star;
+  }
+
+  submitReview(): void {
+    if (!this.product) return;
+
+    this.reviewService
+      .addReview(this.product._id, this.selectedRating)
+      .subscribe({
+        next: () => {
+          this.handleFeedback("success", 'Review added successfully!');
+          this.loadProduct(this.product!._id);
+          this.selectedRating = 0;
+        },
+        error: (err) => {
+          if (err.error.message == "You have already reviewed this product") {
+            this.handleFeedback("warning", err.error.message);
+          } else {
+            this.handleFeedback("error", err.error.message || "Error adding review");
+          }
+        }
+      });
   }
 
   addToCart(product: Product): void {
@@ -132,11 +140,24 @@ export class AllProductsComponent implements OnInit {
       }
     });
   }
-goToDetailsProduct(id:any){
 
-this.router.navigate([`products/${id}`]);
-}
+  getStarArray(rating: number): boolean[] {
+    return Array(5).fill(false).map((_, i) => i < Math.floor(rating));
+  }
 
+  getSellerName(): string {
+    if (!this.product?.sellerId) return '';
+    return `${this.product.sellerId.firstName} ${this.product.sellerId.lastName}`;
+  }
+
+  formatDate(date: string): string {
+    const d = new Date(date);
+    return d.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
 
   private handleFeedback(type: 'success' | 'error' | 'warning', msg: string) {
     this.isLoading = false;
@@ -164,6 +185,5 @@ this.router.navigate([`products/${id}`]);
       this.warningMessage = ''
     }, 3000);
   }
-
 
 }
