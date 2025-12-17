@@ -1,4 +1,19 @@
 <div class="cart-container">
+    <!-- Alerts Section (completely separate) -->
+    <div class="alerts-section">
+      <div *ngIf="successMessage" class="alert success">
+        <i class="fas fa-check-circle"></i>
+        <span>{{ successMessage }}</span>
+      </div>
+      <div *ngIf="errorMessage" class="alert error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <div *ngIf="warningMessage" class="alert warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ warningMessage }}</span>
+      </div>
+    </div>
   <h2>Your Cart</h2>
 
   <div *ngIf="cart.length === 0" class="empty-message">

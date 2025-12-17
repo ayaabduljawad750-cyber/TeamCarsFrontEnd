@@ -131,7 +131,7 @@ export class ProductDetailsComponent implements OnInit {
         this.handleFeedback("success", 'Product added to cart!');
       },
       error: (err) => {
-        if (err.error.message == "Product already in your cart") {
+        if (err.error.message == "Product is already in your cart") {
           this.handleFeedback("warning", err.error.message);
         } else {
           this.handleFeedback("error", err.error.message || "Something is wrong");
