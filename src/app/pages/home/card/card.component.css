@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 8ء 10px rgba(0, 0, 0, 0.12);
-  transition: 
+  transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
   padding: 15px;
@@ -21,7 +21,7 @@
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2);
-  background-color: #ee3e55;
+  background-color: black;
   h2 {
     color: white ;
   }

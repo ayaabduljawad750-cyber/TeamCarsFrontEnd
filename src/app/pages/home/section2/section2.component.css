@@ -1,129 +1,126 @@
-.search-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.services-centers-container {
+
   padding: 100px 0;
+  width: 100%;
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 
   h1 {
-    font-size: 35px;
     font-weight: bold;
-    margin-bottom: 30px;
+    font-size: 30px;
+  }
+
+  .services-centers {
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 70%;
+
+
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      padding: 30px 35px;
+      align-self: stretch;
+      border-radius: 8px;
+      .center-services,
+      .center-workhours {
+        margin-top: 10px;
+        padding-right: 15px;
+
+        .list {
+          display: flex;
+          list-style: none;
+          gap: 10px;
+        }
+        .ser {
+          color: #b30000;
+          position: relative;
+          margin-left: 10px;
+        }
+
+        .ser::after {
+          position: absolute;
+          left: -7px;
+          width: 5px;
+          height: 5px;
+          background-color: rgba(194, 194, 194, 0.616);
+          content: "";
+          top: 50%;
+          transform: translateY(-50%);
+          border-radius: 100%;
+
+
+        }
+
+        .not {
+          color: gray;
+        }
+      }
+
+      .sp {
+        color: #b30000;
+        font-weight: bold;
+      }
+
+    }
+  }
+
+  @media (max-width: 992px) {
+
+    h1,
+    p {
+      text-align: center;
+    }
+
+    .services-centers {
+      width: 80%;
+      .card {
+        width: 100%;
+      }
+    }
+
+  }
+
+  .see-more-btn {
+    background: transparent;
+    color: #b30000;
+    border: 1px solid #b30000;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .see-more-btn:hover {
+    transition: .5s;
+    background: #b30000;
+    color: #fff;
   }
 }
 
 
-.search-section .title {
-  font-size: 45px;
-  font-weight: bold;
+
+.loading {
   text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 30px;
 }
-
-@media (max-width:787px) {
-.search-section .title {
-    font-size: 25px;
-  }
-}
-
-
-.search-section .search-input {
-  display: flex;
-  margin-bottom: 50px;
-  width: 50%;
-
-  input {
-    outline: none;
-    width: 100%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
-    padding: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border: 1px solid gray;
-    overflow: none;
-    background-color: white;
-  }
-
-  span {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
-    background-color: red;
-    padding: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-
-    img {
-      width: 24px;
-    }
-  }
-}
-
-
-.search-section .down-part {
-  display: flex;
-  gap: 30px;
-
-  .left {
-    /* position: relative; */
-    padding: 20px;
-    background-color: rgb(248, 249, 251);
-    border-radius: 15px;
-    border: 1px solid rgb(196, 200, 227);
-
-    h5 {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-  }
-
-  .right {
-    ul {
-      display: flex;
-      list-style: none;
-      gap: 15px;
-
-      li {
-        background-color: rgb(196, 200, 227);
-        padding: 5px;
-        border-radius: 5px;
-
-        a {
-          text-decoration: none;
-        }
-      }
-    }
-
-    .down {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-    }
-  }
-}
-
-     @media(max-width:992px) {
-      .search-section .search-input {
-        input {
-          width: 100%;
-        }
-      }
-
-      .search-section .down-part {
-        flex-wrap: wrap;
-         width: 100%;
-         .left{
-          width: 100%;
-         }
-         .right{
-           width:100%;
-          ul{
-            flex-wrap: wrap;
-          }
-          .down{
-            /* display: flex; */
-            flex-wrap: wrap;
-          }
-         }
-       }
-
-     }

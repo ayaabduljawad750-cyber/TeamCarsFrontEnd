@@ -1,5 +1,9 @@
-<div class="card">
-  <img src={{category.imgUrl}} alt="">
+<div class="card" (mouseenter)="img.src = category.hover" (mouseleave)="img.src = category.imgUrl">
+  <!-- <img src={{category.imgUrl}} alt="">
+    -->
+
+      <img [src]="category.imgUrl"  #img
+        alt="">
   <h2>{{category.title}}</h2>
 </div>
 

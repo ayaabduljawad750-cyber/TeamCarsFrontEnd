@@ -3,31 +3,13 @@
   margin: 0;
   box-sizing: border-box;
 }
-
-/* .container {
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
-
-
-
-
-/* .homePage{
-
-
-} */
 /* .homePage{
   display: flex;
+  justify-content: center;
   align-items: center;
-    justify-content: center;
-    flex-direction: column;
- } */
-/* .homePage .title{
-  text-align: center;
+  flex-direction: column;
 } */
+
 .homePage .categories-section {
   min-height: calc(-80px + 100vh);
   height: 100%;
@@ -41,7 +23,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
+padding: 50px 0;
 }
 
 
@@ -58,49 +40,43 @@ width: 60%;
 
 .homePage .title {
   color: white;
-  font-size: 45px;
+  font-size: 30px;
   font-weight: bold;
-      /* font-size: 3.4rem; */
       text-align: center;
 }
-
-@media (max-width:787px) {
-.homePage .title {
-    font-size: 25px;
-  }
+.homePage .best-companies .title {
+  margin-bottom: 15px;
+  color: black;
 }
+
+
 .homePage .best-companies {
   display: flex;
   justify-content: center;
-  padding: 100px 0;
+  padding: 20px 0 100px 0;
   align-items: center;
   flex-direction: column;
-
-
-
-  p {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 30px;
-  }
-
+p{
+  margin-bottom:30px
+}
   .companies {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+
   }
 
 }
 
-.homePage .best-companies .title {
-  margin-bottom: 30px;
-  color: black;
+@media(max-width:992px) {
+  .companies {
+      width: 90%;
+    }
 }
-.homePage .best-companies p{
-  font-size: 15px;
-}
+
+
 
 .homePage .search-section {
   display: flex;
@@ -116,23 +92,20 @@ width: 60%;
   .homePage .container .categories-section,
   .homePage .best-companies {
     width: 100%;
-    /* background-color: blue; */
   }
 
-  .homePage .best-companies .container .companies {
+  .homePage .best-companies .container  {
 
     flex-wrap: wrap;
   }
 
-  input {
-    width: 100%;
-  }
 
   .homePage .categories {
     width: 80%;
-
-    /* background-color: blue; */
   }
+  .best-companies {
+      width: 90%;
+    }
 }
 
 /* h1{
