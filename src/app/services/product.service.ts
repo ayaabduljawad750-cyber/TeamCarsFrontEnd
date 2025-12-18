@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
   // Ensure this matches your backend route prefix
-  private apiUrl = 'http://localhost:3000/products'; 
+  private apiUrl = 'http://localhost:3000/products';
 
   constructor(private http: HttpClient) {}
 
@@ -33,30 +33,36 @@ export class ProductService {
     if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
 
     // FIX: Pass params and headers in ONE object
-    return this.http.get(`${this.apiUrl}/get`, { 
-      params: params, 
-      headers: this.getHeaders() 
+    return this.http.get(`${this.apiUrl}/get`, {
+      params: params,
+      headers: this.getHeaders()
     });
   }
+
+  //GET SINGLE PRODUCT
+getProduct(id: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/${id}`);
+}
+
 
   // --- CREATE PRODUCT ---
   createProduct(data: any, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('brand', data.brand);
-    formData.append('carModel', data.model); 
+    formData.append('carModel', data.model);
     formData.append('price', data.price);
     formData.append('stock', data.stock || '1');
     formData.append('category', data.category);
     formData.append('description', data.description || '');
-    
+
     if (file) {
       formData.append('image', file);
     }
 
     // FIX: Added headers so backend gets req.user.id
-    return this.http.post(this.apiUrl, formData, { 
-      headers: this.getHeaders() 
+    return this.http.post(this.apiUrl, formData, {
+      headers: this.getHeaders()
     });
   }
 
@@ -70,6 +76,7 @@ export class ProductService {
     formData.append('category', data.category);
     formData.append('stock', data.stock || '1');
     
+
     if (file) {
       formData.append('image', file);
     }
@@ -83,8 +90,8 @@ export class ProductService {
   // --- DELETE PRODUCT ---
   deleteProduct(id: string): Observable<any> {
     // FIX: Added headers
-    return this.http.delete(`${this.apiUrl}/${id}`, { 
-      headers: this.getHeaders() 
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
     });
   }
 }

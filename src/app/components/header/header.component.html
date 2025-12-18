@@ -1,4 +1,5 @@
-<nav class="navbar">
+<div class="navC">
+  <nav class="navbar">
   <div class="left-section">
     <!-- <img src="assets/images/menu.jpg" class="menu-btn" (click)="openMenu()"> -->
     <a routerLink="/Home"><img src="assets/images/logo.jpg" class="logo"></a>
@@ -18,6 +19,7 @@
     </div>
      <a class="dash" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
   </div>
+
   <!-- <ul class="menu" *ngIf="toggleMenu">
     <li *ngFor="let item of menuItems">
       {{ item }}
@@ -25,3 +27,4 @@
   </ul> -->
 
 </nav>
+</div>

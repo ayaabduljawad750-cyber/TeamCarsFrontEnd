@@ -9,11 +9,13 @@ import { ProductsComponent } from './pages/products/products.component';
 import { AllProductsComponent } from './pages/all-products/all-products.component';
 // import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
 // import { OrderDetailsComponent } from './pages/order-details/order-details.component';
+import { OrderComponent } from './components/order/order.component';
 import { ContactUsComponent } from './components/contactus/contactus.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 const routes: Routes = [
   {
@@ -35,6 +37,10 @@ const routes: Routes = [
     {
     path:"cart",
     component: CartComponent
+  },
+    {
+    path: "order",
+    component: OrderComponent
   },
   {
    path: 'checkout', 
@@ -64,7 +70,12 @@ const routes: Routes = [
   {
     path: "forgot-password",
     component: ForgotPasswordComponent
+  },
+  {
+    path: "products/:id",
+    component: ProductDetailsComponent
   }
+
 ];
 
 @NgModule({

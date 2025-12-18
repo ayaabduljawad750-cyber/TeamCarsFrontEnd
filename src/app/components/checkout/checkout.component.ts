@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { OrderService } from '../../services/order.service';
+import { CartService, CartItem } from '../../services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -8,82 +9,86 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  checkoutForm!: FormGroup;
-  cartProducts: any[] = [];
-  totalPrice: number = 0;
-  paymentMethods: string[] = ['Credit Card', 'Cash on Delivery', 'PayPal'];
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) { }
+  @ViewChild('cardElement') cardElement!: ElementRef;
 
-  ngOnInit(): void {
-    // init form
-    this.checkoutForm = this.fb.group({
-      fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      address: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
-      paymentMethod: ['', Validators.required]
+  stripe: any;
+  elements: any;
+  card: any;
+
+  cartItems: CartItem[] = [];
+
+  loading = false;
+  errorMsg: string = '';
+
+  constructor(
+    private orderService: OrderService,
+    private cartService: CartService,
+    private router: Router
+  ) {}
+
+  async ngOnInit() {
+    // 🛒 load cart
+    this.cartService.getCart().subscribe(items => {
+      this.cartItems = items;
     });
 
-    // load cart items
-    this.loadCart();
-  }
-
-  loadCart() {
-    const cart = localStorage.getItem('cart');
-    this.cartProducts = cart ? JSON.parse(cart) : [];
-    this.calculateTotal();
-  }
-
-  calculateTotal() {
-    this.totalPrice = this.cartProducts.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  }
-
-  updateQuantity(item: any, value: number) {
-    const qty = Number(value);
-    if (qty < 1) return;
-    item.quantity = qty;
-    this.calculateTotal();
-    localStorage.setItem('cart', JSON.stringify(this.cartProducts));
-  }
-
-  placeOrder() {
-    if (this.cartProducts.length === 0) {
-      alert("Your cart is empty!");
+    // 💳 setup Stripe
+    this.stripe = await this.orderService.getStripe();
+    if (!this.stripe) {
+      this.errorMsg = 'Stripe failed to load';
       return;
     }
 
-    if (this.checkoutForm.invalid) {
-      alert("Please fill all required fields correctly!");
+    this.elements = this.stripe.elements();
+    this.card = this.elements.create('card');
+    this.card.mount(this.cardElement.nativeElement);
+  }
+
+  async payNow() {
+    if (this.cartItems.length === 0) {
+      this.errorMsg = 'Cart is empty!';
       return;
     }
+
+    this.loading = true;
+    this.errorMsg = '';
 
     const orderData = {
-      items: {
-        products: this.cartProducts.map(p => ({
-          productId: p._id,
-          quantity: p.quantity
-        }))
-      },
-      userDetails: {
-        fullName: this.checkoutForm.value.fullName,
-        email: this.checkoutForm.value.email,
-        address: this.checkoutForm.value.address,
-        phone: this.checkoutForm.value.phone
-      },
-      paymentMethod: this.checkoutForm.value.paymentMethod,
-      totalPrice: this.totalPrice
+      paymentMethod: 'stripe'
     };
 
-    // this.orderService.createOrder(orderData).subscribe({
-    //   next: (res: any) => {
-    //     alert("Order placed successfully!");
-    //     this.cartProducts = [];
-    //     this.totalPrice = 0;
-    //     this.checkoutForm.reset();
-    //     localStorage.removeItem('cart');
-    //   },
-    //   error: err => console.error(err)
-    // });
+    try {
+      // 1️⃣ create order
+      const res: any = await this.orderService
+        .createOrder(this.cartItems, orderData)
+        .toPromise();
+
+      if (!res?.clientSecret) {
+        throw new Error('Client secret not received');
+      }
+
+      // 2️⃣ confirm payment
+      const result = await this.orderService.pay(
+        res.clientSecret,
+        this.card
+      );
+
+      if (result?.error) {
+        throw new Error(result.error.message);
+      }
+
+      // 3️⃣ success
+      alert('Payment Successful 🎉');
+      this.cartService.clearCart().subscribe();
+      this.router.navigate(['/']);
+
+    } catch (err: any) {
+      console.error(err);
+      this.errorMsg = err.message || 'Payment failed';
+    } finally {
+      // ✅ always reset
+      this.loading = false;
+    }
   }
 }

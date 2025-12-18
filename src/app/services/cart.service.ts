@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 export interface CartItem {
@@ -19,11 +19,13 @@ export interface CartItem {
 })
 export class CartService {
   private apiUrl = 'http://localhost:3000/api';
-  private storageKey = 'cart';
 
   // ✅ BehaviorSubject to track cart count (distinct products)
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
+
+  // ✅ keep cart in memory only
+  private localCart: CartItem[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -36,21 +38,9 @@ export class CartService {
     return !!localStorage.getItem('token');
   }
 
-  private saveCart(cart: CartItem[]): void {
-    sessionStorage.setItem(this.storageKey, JSON.stringify(cart));
-    this.updateCartCount(cart);
-  }
-
-  private loadCart(): CartItem[] {
-    const data = sessionStorage.getItem(this.storageKey);
-    const cart = data ? JSON.parse(data) : [];
-    this.updateCartCount(cart);
-    return cart;
-  }
-
-  // ✅ helper to update cart count (distinct products only)
+  // ✅ helper to update cart count
   private updateCartCount(cart: CartItem[]): void {
-    const count = cart.length;
+    const count = cart.length; // distinct products
     this.cartCountSubject.next(count);
   }
 
@@ -91,43 +81,51 @@ export class CartService {
         })
       );
     } else {
-      return of(this.loadCart());
+      this.updateCartCount(this.localCart);
+      return new Observable<CartItem[]>(observer => {
+        observer.next(this.localCart);
+        observer.complete();
+      });
     }
   }
 
   addToCart(item: CartItem): Observable<any> {
     if (this.isLoggedIn()) {
       return this.http.post(`${this.apiUrl}/cart`, item, { headers: this.getAuthHeaders() })
-        .pipe(tap(() => this.getCart().subscribe())); // refresh count
+        .pipe(tap(() => this.getCart().subscribe()));
     } else {
-      const cart = this.loadCart();
-      const index = cart.findIndex((i) => i.productId === item.productId);
+      const index = this.localCart.findIndex((i) => i.productId === item.productId);
       if (index > -1) {
-        cart[index].quantity = item.quantity;
+        this.localCart[index].quantity = item.quantity;
       } else {
-        cart.push(item);
+        this.localCart.push(item);
       }
-      this.saveCart(cart);
-      return of(cart);
+      this.updateCartCount(this.localCart);
+      return new Observable(observer => {
+        observer.next(this.localCart);
+        observer.complete();
+      });
     }
   }
 
   updateCart(item: CartItem): Observable<any> {
     if (this.isLoggedIn()) {
       return this.http.put(`${this.apiUrl}/cart`, item, { headers: this.getAuthHeaders() })
-        .pipe(tap(() => this.getCart().subscribe())); // refresh count
+        .pipe(tap(() => this.getCart().subscribe()));
     } else {
-      const cart = this.loadCart();
-      const index = cart.findIndex((i) => i.productId === item.productId);
+      const index = this.localCart.findIndex((i) => i.productId === item.productId);
       if (index > -1) {
         if (item.quantity === 0) {
-          cart.splice(index, 1);
+          this.localCart.splice(index, 1);
         } else {
-          cart[index].quantity = item.quantity;
+          this.localCart[index].quantity = item.quantity;
         }
       }
-      this.saveCart(cart);
-      return of(cart);
+      this.updateCartCount(this.localCart);
+      return new Observable(observer => {
+        observer.next(this.localCart);
+        observer.complete();
+      });
     }
   }
 
@@ -136,9 +134,12 @@ export class CartService {
       return this.http.delete(`${this.apiUrl}/cart`, { headers: this.getAuthHeaders() })
         .pipe(tap(() => this.cartCountSubject.next(0)));
     } else {
-      sessionStorage.removeItem(this.storageKey);
+      this.localCart = [];
       this.cartCountSubject.next(0);
-      return of([]);
+      return new Observable(observer => {
+        observer.next([]);
+        observer.complete();
+      });
     }
   }
 }
