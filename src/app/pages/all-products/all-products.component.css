@@ -188,3 +188,184 @@ h2 {
     margin-top: 1rem;
   }
 }
+
+
+/* Search and Filters Styling */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search-btn, .toggle-btn, .reset-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.search-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.toggle-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.reset-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.basic-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.basic-filters select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.advanced-filters {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-row select {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.price-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.price-range input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.price-range span {
+  color: #666;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Product Card Updates */
+.brand-model {
+  color: #666;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.stock {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.stock.in-stock {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.stock.out-of-stock {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.rating {
+  color: #ffc107;
+  font-size: 14px;
+}
+
+.card button.disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* No products styling */
+.no-products {
+  text-align: center;
+  padding: 50px 20px;
+  color: #666;
+}
+
+.no-products i {
+  font-size: 48px;
+  color: #ddd;
+  margin-bottom: 15px;
+}
+
+/* Loading spinner */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.fa-spin {
+  margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+  }
+  
+  .filter-row {
+    flex-direction: column;
+  }
+  
+  .filter-row select, .price-range {
+    width: 100%;
+  }
+}

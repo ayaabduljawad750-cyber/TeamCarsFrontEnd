@@ -1,45 +1,99 @@
 <div class="container">
-    <!-- Alerts Section (completely separate) -->
-    <div class="alerts-section">
-      <div *ngIf="successMessage" class="alert success">
-        <i class="fas fa-check-circle"></i>
-        <span>{{ successMessage }}</span>
-      </div>
-      <div *ngIf="errorMessage" class="alert error">
-        <i class="fas fa-exclamation-circle"></i>
-        <span>{{ errorMessage }}</span>
-      </div>
-      <div *ngIf="warningMessage" class="alert warning">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>{{ warningMessage }}</span>
-      </div>
+  <!-- Alerts Section -->
+  <div class="alerts-section">
+    <div *ngIf="successMessage" class="alert success">
+      <i class="fas fa-check-circle"></i>
+      <span>{{ successMessage }}</span>
     </div>
+    <div *ngIf="errorMessage" class="alert error">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+    <div *ngIf="warningMessage" class="alert warning">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ warningMessage }}</span>
+    </div>
+  </div>
 
   <h2>All Products</h2>
 
-  <!-- Filters -->
+  <!-- Main Search and Filters -->
   <div class="filters">
-    <input
-      type="text"
-      placeholder="Search product..."
-      [(ngModel)]="filters.search"
-      (keyup.enter)="search()"
-    />
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search by name, brand, or model..."
+        [(ngModel)]="filters.search"
+        (keyup.enter)="search()"
+      />
+      <button (click)="search()" class="search-btn">
+        <i class="fas fa-search"></i> Search
+      </button>
+      <button (click)="toggleAdvancedFilters()" class="toggle-btn">
+        {{ showAdvancedFilters ? 'Hide Filters' : 'Advanced Filters' }}
+      </button>
+      <button (click)="resetFilters()" class="reset-btn">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    </div>
 
-    <select [(ngModel)]="filters.category" (change)="search()">
-      <option value="">All Categories</option>
-      <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
-    </select>
+    <!-- Basic Filters -->
+    <div class="basic-filters">
+      <select [(ngModel)]="filters.category" (change)="search()">
+        <option value="">All Categories</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
 
-    <select [(ngModel)]="filters.sortBy" (change)="search()">
-      <option value="latest">Latest</option>
-      <option value="price-high">Price High</option>
-      <option value="price-low">Price Low</option>
-    </select>
+      <select [(ngModel)]="filters.sortBy" (change)="search()">
+        <option value="latest">Latest</option>
+        <option value="price-high">Price High to Low</option>
+        <option value="price-low">Price Low to High</option>
+        <option value="name-asc">Name A-Z</option>
+        <option value="name-desc">Name Z-A</option>
+        <option value="high-eval">Highest Rated</option>
+        <option value="low-eval">Lowest Rated</option>
+        <option value="oldest">Oldest</option>
+      </select>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div *ngIf="showAdvancedFilters" class="advanced-filters">
+      <div class="filter-row">
+        <div class="price-range">
+          <input
+            type="number"
+            placeholder="Min Price"
+            [(ngModel)]="filters.minPrice"
+            (change)="search()"
+          />
+          <span>to</span>
+          <input
+            type="number"
+            placeholder="Max Price"
+            [(ngModel)]="filters.maxPrice"
+            (change)="search()"
+          />
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            [(ngModel)]="filters.inStock"
+            (change)="search()"
+          />
+          In Stock Only
+        </label>
+      </div>
+    </div>
   </div>
 
   <!-- Loading -->
-  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="loading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i> Loading products...
+  </div>
 
   <!-- Products Grid -->
   <div class="grid" *ngIf="!loading && products.length > 0">
@@ -48,18 +102,39 @@
         [src]="'data:' + product.image?.contentType + ';base64,' + product.image?.data"
         alt="{{ product.name }}"
         (click)="goToDetailsProduct(product._id)"
-        
       />
       <h3 (click)="goToDetailsProduct(product._id)">{{ product.name }}</h3>
+      <p class="brand-model">
+        <span *ngIf="product.brand">{{ product.brand }}</span>
+        <span *ngIf="product.carModel"> • {{ product.carModel }}</span>
+      </p>
       <p class="category">{{ product.category }}</p>
-      <p class="price">{{ product.price }} EGP</p>
-      <button (click)="addToCart(product)">Add to Cart 🛒</button>
+      <div class="product-info">
+        <p class="price">{{ product.price | currency:'EGP ' }}</p>
+        <p class="stock" [class.in-stock]="product.stock > 0" [class.out-of-stock]="product.stock <= 0">
+          {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+        </p>
+        <p class="rating">
+          <i class="fas fa-star"></i> {{ product.evaluation?.toFixed(1) || 'N/A' }}
+        </p>
+      </div>
+      <button 
+        (click)="addToCart(product)" 
+        [disabled]="product.stock <= 0"
+        [class.disabled]="product.stock <= 0"
+      >
+        <i class="fas fa-cart-plus"></i> 
+        {{ product.stock > 0 ? 'Add to Cart' : 'Out of Stock' }}
+      </button>
     </div>
   </div>
 
   <!-- No products -->
   <div *ngIf="!loading && products.length === 0" class="no-products">
-    No products found 😔
+    <i class="fas fa-search"></i>
+    <h3>No products found</h3>
+    <p>Try adjusting your search or filters</p>
+    <button (click)="resetFilters()" class="reset-btn">Clear All Filters</button>
   </div>
 
   <!-- Pagination -->
@@ -68,7 +143,7 @@
       [disabled]="filters.page === 1"
       (click)="changePage(filters.page - 1)"
     >
-      Prev
+      <i class="fas fa-chevron-left"></i> Prev
     </button>
 
     <button
@@ -83,8 +158,7 @@
       [disabled]="filters.page === totalPages"
       (click)="changePage(filters.page + 1)"
     >
-      Next
+      Next <i class="fas fa-chevron-right"></i>
     </button>
   </div>
-
 </div>

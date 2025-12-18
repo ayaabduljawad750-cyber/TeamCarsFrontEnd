@@ -39,12 +39,19 @@ export class AllProductsComponent implements OnInit {
   totalPages: number = 0;
   successMessage = '';
   errorMessage = '';
-  warningMessage = ''
+  warningMessage = '';
   isLoading = false;
+  
+  // Updated filters with more options
   filters = {
     page: 1,
     limit: 6,
     category: '',
+    brand: '',
+    carModel: '',
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
+    inStock: false,
     search: '',
     sortBy: 'latest',
   };
@@ -56,6 +63,10 @@ export class AllProductsComponent implements OnInit {
     'Batteries',
     'Liquids',
   ];
+  
+  brands: string[] = []; // Will be populated from API
+  carModels: string[] = []; // Will be populated from API
+  showAdvancedFilters = false;
 
   constructor(
     private productService: ProductService,
@@ -66,15 +77,26 @@ export class AllProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProducts();
+    // Optional: Load brands and models if you have endpoints for them
+    // this.loadBrands();
+    // this.loadModels();
   }
 
   loadProducts(): void {
     this.loading = true;
 
-    this.productService.getProducts(this.filters).subscribe({
+    // Clean up filters - remove null/undefined/empty values
+    const cleanFilters: any = {};
+    Object.keys(this.filters).forEach(key => {
+      const value = (this.filters as any)[key];
+      if (value !== null && value !== undefined && value !== '') {
+        cleanFilters[key] = value;
+      }
+    });
+
+    this.productService.getProducts(cleanFilters).subscribe({
       next: (res: any) => {
         console.log('API RESPONSE:', res);
-
         this.products = res?.data?.products || [];
         this.totalPages = res?.data?.pages || 0;
         this.loading = false;
@@ -82,9 +104,12 @@ export class AllProductsComponent implements OnInit {
       error: (err: any) => {
         console.error('Error loading products:', err);
         this.loading = false;
+        this.handleFeedback('error', 'Failed to load products');
       },
     });
   }
+
+
 
   changePage(page: number): void {
     this.filters.page = page;
@@ -93,6 +118,22 @@ export class AllProductsComponent implements OnInit {
 
   search(): void {
     this.filters.page = 1;
+    this.loadProducts();
+  }
+
+  resetFilters(): void {
+    this.filters = {
+      page: 1,
+      limit: 6,
+      category: '',
+      brand: '',
+      carModel: '',
+      minPrice: null,
+      maxPrice: null,
+      inStock: false,
+      search: '',
+      sortBy: 'latest',
+    };
     this.loadProducts();
   }
 
@@ -128,42 +169,39 @@ export class AllProductsComponent implements OnInit {
         } else {
           this.handleFeedback("error", err.error.message || "Something is wrong");
         }
-
       }
     });
   }
-goToDetailsProduct(id:any){
 
-this.router.navigate([`products/${id}`]);
-}
+  goToDetailsProduct(id: any) {
+    this.router.navigate([`products/${id}`]);
+  }
 
+  toggleAdvancedFilters(): void {
+    this.showAdvancedFilters = !this.showAdvancedFilters;
+  }
 
   private handleFeedback(type: 'success' | 'error' | 'warning', msg: string) {
     this.isLoading = false;
     if (type === 'success') {
       this.successMessage = msg;
       this.errorMessage = '';
-      this.warningMessage = ''
-    }
-    else if (type == "warning") {
-      this.warningMessage = msg
+      this.warningMessage = '';
+    } else if (type == "warning") {
+      this.warningMessage = msg;
       this.successMessage = '';
       this.errorMessage = '';
-    }
-    else {
+    } else {
       this.errorMessage = msg;
       this.successMessage = '';
-      this.warningMessage = ''
+      this.warningMessage = '';
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Clear message after 3 seconds
     setTimeout(() => {
       this.successMessage = '';
       this.errorMessage = '';
-      this.warningMessage = ''
+      this.warningMessage = '';
     }, 3000);
   }
-
-
 }
