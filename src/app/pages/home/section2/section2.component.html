@@ -1,35 +1,47 @@
-<div class="search-section">
-  <h1 class="title">more than 100,000
-    Spare parts for your cars</h1>
-  <div class="search-input">
-    <input type="text" id="search" placeholder="Search">
-    <span>
-      <img src="/assets/images/HomeImgs/search-icon.png" alt="">
-    </span>
-  </div>
-  <div class="down-part">
-    <div class="left">
-      <h5>
-        Enter your car data
-      </h5>
-      <app-select-form></app-select-form>
-    </div>
-    <div class="right">
-      <div class="upper">
-        <ul>
-          <li><a href="">Spare parts</a></li>
-          <li><a href="">Tyres</a></li>
-          <li><a href="">Engine oil</a></li>
-          <li><a href="">Batteries</a></li>
-          <li><a href="">Liquids</a></li>
-        </ul>
-      </div>
-      <div class="down">
-        <app-product-card></app-product-card>
-        <app-product-card></app-product-card>
-        <app-product-card></app-product-card>
+<div class="services-centers-container">
+  <div class="container">
+    <h1><i class="fas fa-tools"></i> Service Centers in Your Government</h1>
+    <p>contact with Service Centers in Your Governorate</p>
+    <div *ngIf="loading" class="loading">Loading...</div>
+   <div class="not-found" *ngIf="centers.length <= 0 && !loading" >
+    <i class="fas fa-search"></i>
+    <div class="loading">There are no Centers !!</div>
+   </div>
+    <div class="services-centers" *ngIf="!loading && centers.length > 0">
+      <div class="card" *ngFor="let center of getVisibleCenters()" [@expandCollapse]>
+        <img src="https://tawfiqia.com/images/Group.jpg">
+        <div class="card-p-infos">
+          <div class="card-title"><span class="sp">Name : </span>{{center.name}}</div>
+          <div class="card-location"><span class="sp">Location : </span>{{center.location}}</div>
+          <div class="card-phone"><span class="sp">Phone : </span>{{center.phone}}</div>
+          <div class="card-email"><span class="sp">Email : </span>{{center.email}}</div>
+        </div>
 
+        <div class="center-services">
+          <span class="sp">Services</span>
+          <div class="list">
+            <span class="ser" *ngFor="let service of center.services"> {{service}}</span>
+          </div>
+          <span class="ser not" *ngIf="!center.services || center.services.length === 0"> No services</span>
+        </div>
+
+        <div class="center-workhours">
+          <span class="sp">work Hours</span>
+          <div class="list">
+            <span class="ser" *ngFor="let workhour of center.workingHours"> {{workhour}}</span>
+          </div>
+          <span class="ser not" *ngIf="!center.workingHours || center.workingHours.length === 0"> No
+            Working Hours</span>
+        </div>
       </div>
     </div>
+    
+    <button class="see-more-btn" *ngIf="centers.length > 4" (click)="toggleShowAll()">
+      <i class="fa-solid fa-angle-down" *ngIf=" !showAll"></i>
+      <i class="fa-solid fa-angle-up" *ngIf=" showAll" ></i>
+
+       {{ showAll ? 'See less' : 'See
+      more'}} </button>
   </div>
+
 </div>

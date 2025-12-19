@@ -6,8 +6,7 @@ import { CartItem } from './cart.service';
 // Environment configuration
 const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000',
-  paymobIframeId: 'YOUR_PAYMOB_IFRAME_ID' // Get this from Paymob dashboard
+  apiUrl: 'http://localhost:3000'
 };
 
 export interface OrderData {
@@ -15,7 +14,7 @@ export interface OrderData {
     productId: string;
     quantity: number;
   }>;
-  paymentMethod: 'cash' | 'paymob' | string;
+  paymentMethod: 'cash' | 'card' | string;
   shippingAddress: {
     fullName: string;
     address: string;
@@ -23,21 +22,12 @@ export interface OrderData {
     phone: string;
     email?: string;
   };
-}
-
-export interface PaymobPaymentResponse {
-  success: boolean;
-  paymentKey: string;
-  iframeId: string;
-  orderId: string;
-  amount: number;
-  currency: string;
-}
-
-export interface PaymentVerificationResponse {
-  success: boolean;
-  paymentStatus: 'pending' | 'paid' | 'failed' | 'cancelled';
-  data?: any;
+  cardDetails?: {
+    cardNumber: string;
+    cardHolder: string;
+    expiryDate: string;
+    cvv: string;
+  };
 }
 
 export interface Order {
@@ -51,10 +41,7 @@ export interface Order {
   }>;
   totalPrice: number;
   paymentMethod: string;
-  status: string;
-  paymobOrderId?: string;
-  paymobTransactionId?: string;
-  confirmationCode?: string;
+  status: 'pending' | 'paid' | 'cancelled';
   shippingAddress: {
     fullName: string;
     address: string;
@@ -62,15 +49,19 @@ export interface Order {
     phone: string;
     email?: string;
   };
+  cardDetails?:any;
   orderDate: string;
   createdAt: string;
   updatedAt: string;
 }
 
+export interface StatusUpdate {
+  status: 'paid' | 'cancelled';
+}
+
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private apiUrl = `${environment.apiUrl}/orders`;
-  private paymobIframeId = environment.paymobIframeId;
 
   constructor(private http: HttpClient) {}
 
@@ -83,8 +74,8 @@ export class OrderService {
   }
 
   // Create a new order
-  createOrder(orderData: OrderData): Observable<any> {
-    return this.http.post<any>(
+  createOrder(orderData: OrderData): Observable<{success: boolean; message: string; data: Order}> {
+    return this.http.post<{success: boolean; message: string; data: Order}>(
       this.apiUrl,
       orderData,
       { headers: this.getAuthHeaders() }
@@ -107,118 +98,33 @@ export class OrderService {
         city: orderData.shippingAddress?.city || '',
         phone: orderData.shippingAddress?.phone || '',
         email: orderData.shippingAddress?.email || ''
-      }
+      },
+      cardDetails: orderData.cardDetails
     };
 
     return this.createOrder(body);
   }
 
-  // Get Paymob payment key
-  getPaymobPaymentKey(orderId: string, phone: string, email?: string): Observable<PaymobPaymentResponse> {
-    return this.http.post<PaymobPaymentResponse>(
-      `${this.apiUrl}/paymob/payment-key/${orderId}`,
-      { phone, email },
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
-  // Initialize Paymob payment
-  async initiatePaymobPayment(orderId: string, phone: string, email?: string): Promise<void> {
-    try {
-      const response = await this.getPaymobPaymentKey(orderId, phone, email).toPromise();
-      
-      if (response && response.success) {
-        // Open Paymob iframe in a new window
-        const iframeURL = `https://accept.paymob.com/api/acceptance/iframes/${this.paymobIframeId}?payment_token=${response.paymentKey}`;
-        
-        // Open in new window
-        const paymentWindow = window.open(
-          iframeURL, 
-          'PaymobPayment',
-          'width=500,height=700,scrollbars=yes'
-        );
-
-        if (paymentWindow) {
-          // Start polling for payment status
-          this.startPaymentPolling(orderId, paymentWindow);
-        } else {
-          throw new Error('Please allow popups for payment');
-        }
-      }
-    } catch (error) {
-      console.error('Payment initiation error:', error);
-      throw error;
-    }
-  }
-
-  // Poll for payment status
-  private startPaymentPolling(orderId: string, paymentWindow: Window): void {
-    const pollInterval = setInterval(async () => {
-      try {
-        // Check if window is closed
-        if (paymentWindow.closed) {
-          clearInterval(pollInterval);
-          this.verifyPayment(orderId).subscribe();
-          return;
-        }
-
-        // Verify payment status
-        const verification = await this.verifyPayment(orderId).toPromise();
-        
-        if (verification && verification.paymentStatus === 'paid') {
-          clearInterval(pollInterval);
-          paymentWindow.close();
-          
-          // Show success message or redirect
-          alert('Payment successful!');
-          // You can emit an event or use a service to notify other components
-        } else if (verification && (verification.paymentStatus === 'failed' || verification.paymentStatus === 'cancelled')) {
-          clearInterval(pollInterval);
-          paymentWindow.close();
-          alert('Payment failed. Please try again.');
-        }
-      } catch (error) {
-        console.error('Payment polling error:', error);
-      }
-    }, 3000); // Poll every 3 seconds
-  }
-
-  // Verify payment status
-  verifyPayment(orderId: string): Observable<PaymentVerificationResponse> {
-    return this.http.get<PaymentVerificationResponse>(
-      `${this.apiUrl}/paymob/verify/${orderId}`,
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
   // Get all orders (admin)
-  getAllOrders(): Observable<{success: boolean, data: Order[], results: number}> {
-    return this.http.get<{success: boolean, data: Order[], results: number}>(
+  getAllOrders(): Observable<{success: boolean; data: Order[]; results: number}> {
+    return this.http.get<{success: boolean; data: Order[]; results: number}>(
       `${this.apiUrl}/all`,
       { headers: this.getAuthHeaders() }
     );
   }
 
   // Get my orders
-  getMyOrders(): Observable<{success: boolean, data: Order[], results: number}> {
-    return this.http.get<{success: boolean, data: Order[], results: number}>(
+  getMyOrders(): Observable<{success: boolean; data: Order[]; results: number,message?:string}> {
+    return this.http.get<{success: boolean; data: Order[]; results: number}>(
       `${this.apiUrl}/my`,
       { headers: this.getAuthHeaders() }
     );
   }
 
   // Get order by ID
-  getOrderById(id: string): Observable<{success: boolean, data: Order}> {
-    return this.http.get<{success: boolean, data: Order}>(
+  getOrderById(id: string): Observable<{success: boolean; data: Order;message?:string}> {
+    return this.http.get<{success: boolean; data: Order;message?:string}>(
       `${this.apiUrl}/${id}`,
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
-  // Get orders by user ID (admin)
-  getOrdersByUserId(userId: string): Observable<{success: boolean, data: Order[], results: number}> {
-    return this.http.get<{success: boolean, data: Order[], results: number}>(
-      `${this.apiUrl}/user/${userId}`,
       { headers: this.getAuthHeaders() }
     );
   }
@@ -228,23 +134,34 @@ export class OrderService {
     status?: string;
     userId?: string;
     paymentMethod?: string;
-  }): Observable<{success: boolean, data: Order[], results: number}> {
-    const queryParams = new URLSearchParams();
-    
-    if (filters.status) queryParams.append('status', filters.status);
-    if (filters.userId) queryParams.append('userId', filters.userId);
-    if (filters.paymentMethod) queryParams.append('paymentMethod', filters.paymentMethod);
+  }): Observable<{success: boolean; data: Order[]; results: number}> {
+    const params: any = {};
+    if (filters.status) params.status = filters.status;
+    if (filters.userId) params.userId = filters.userId;
+    if (filters.paymentMethod) params.paymentMethod = filters.paymentMethod;
 
-    return this.http.get<{success: boolean, data: Order[], results: number}>(
-      `${this.apiUrl}?${queryParams.toString()}`,
+    return this.http.get<{success: boolean; data: Order[]; results: number}>(
+      this.apiUrl,
+      { 
+        headers: this.getAuthHeaders(),
+        params 
+      }
+    );
+  }
+
+  // User cancels their own order
+  cancelMyOrder(orderId: string): Observable<{success: boolean; message: string; data: Order}> {
+    return this.http.patch<{success: boolean; message: string; data: Order}>(
+      `${this.apiUrl}/cancel/${orderId}`,
+      {},
       { headers: this.getAuthHeaders() }
     );
   }
 
-  // Update order status (admin)
-  updateOrderStatus(id: string, status: string): Observable<any> {
-    return this.http.patch(
-      `${this.apiUrl}/status/${id}`,
+  // Admin updates order status
+  updateOrderStatus(orderId: string, status: 'paid' | 'cancelled'): Observable<{success: boolean; message: string; data: Order}> {
+    return this.http.patch<{success: boolean; message: string; data: Order}>(
+      `${this.apiUrl}/status/${orderId}`,
       { status },
       { headers: this.getAuthHeaders() }
     );
@@ -262,29 +179,17 @@ export class OrderService {
     );
   }
 
-  // Update item by user
-  updateItemByUser(userId: string, orderId: string, itemId: string, updates: {
-    productId?: string;
-    quantity?: number;
-  }): Observable<any> {
-    return this.http.patch(
-      `${this.apiUrl}/updateItem/${userId}/${orderId}`,
-      { itemId, ...updates },
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
   // Delete order (admin)
-  deleteOrder(id: string): Observable<any> {
-    return this.http.delete(
-      `${this.apiUrl}/${id}`,
+  deleteOrder(orderId: string): Observable<{success: boolean; message: string}> {
+    return this.http.delete<{success: boolean; message: string}>(
+      `${this.apiUrl}/${orderId}`,
       { headers: this.getAuthHeaders() }
     );
   }
 
   // Delete order by user
-  deleteOrderByUser(userId: string, orderId: string): Observable<any> {
-    return this.http.delete(
+  deleteOrderByUser(userId: string, orderId: string): Observable<{success: boolean; message: string}> {
+    return this.http.delete<{success: boolean; message: string}>(
       `${this.apiUrl}/user/${userId}/${orderId}`,
       { headers: this.getAuthHeaders() }
     );

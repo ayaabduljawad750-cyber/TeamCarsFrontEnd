@@ -1,11 +1,18 @@
 .card{
   /* background-color: red; */
-  box-shadow: 0 0 10px rgba(56, 56, 56, 0.096);
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 100%;
   padding: 25px;
   img{
-    width: 130px;
+    width: 100px;
   border-radius: 100%;
+  }
+}
+
+@media (max-width:992px) {
+
+  .card img{
+            width: 95px;
   }
 }
 

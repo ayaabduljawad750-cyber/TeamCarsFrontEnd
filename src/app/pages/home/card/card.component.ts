@@ -8,4 +8,5 @@ import { Icategory } from '../home.component.models';
 })
 export class CardComponent {
   @Input() category: Icategory = {} as Icategory;
+    hoverIndex: number | null = null;
 }

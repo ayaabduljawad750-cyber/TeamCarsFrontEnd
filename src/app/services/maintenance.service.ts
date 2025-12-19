@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface MaintenanceCenter {
   _id?: string;
@@ -45,6 +45,8 @@ export class MaintenanceService {
   getCenters(): Observable<any> {
     return this.http.get(`${this.apiUrl}/centers`, { headers: this.getAuthHeaders() });
   }
+
+  
 
   createCenter(data: MaintenanceCenter): Observable<any> {
     return this.http.post(`${this.apiUrl}/centers`, data, { headers: this.getAuthHeaders() });

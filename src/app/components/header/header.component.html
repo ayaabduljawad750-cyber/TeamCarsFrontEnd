@@ -1,30 +1,55 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
 <div class="navC">
   <nav class="navbar">
-  <div class="left-section">
-    <!-- <img src="assets/images/menu.jpg" class="menu-btn" (click)="openMenu()"> -->
-    <a routerLink="/Home"><img src="assets/images/logo.jpg" class="logo"></a>
-    <a routerLink="/products" routerLinkActive="active-link" class="nav-link">Products</a>
-  </div>
-  <div class="right-section">
-    <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">Login</a>
-    <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">Register</a>
-    <button (click)="logout()" *ngIf="isLogin()" class="logout-btn">Logout</button>
-    <button class="lang-btn" (click)="changeLang()">
-      <img src="assets/images/lang.jpg" class="lang-icon">
-      English
-    </button>
-    <div routerLink="cart" class="cart">
-      <img src="assets/images/cart.jpg" class="cart-img">
-      <span *ngIf="cartCount > 0" class="cart-count">{{ cartCount }}</span>
+    <div class="left-section">
+      <!-- Hamburger menu for mobile -->
+      <button class="menu-btn" (click)="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <a routerLink="/Home"><img src="assets/images/nano2.png" class="logo"></a>
+      
+      <!-- Desktop Navigation -->
+      <div class="desktop-nav">
+        <a routerLink="/products" routerLinkActive="active-link" class="nav-link">Products</a>
+        <a routerLink="/orders" routerLinkActive="active-link" class="nav-link" *ngIf="isLogin()">My Orders</a>
+      </div>
     </div>
-     <a class="dash" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
-  </div>
-
-  <!-- <ul class="menu" *ngIf="toggleMenu">
-    <li *ngFor="let item of menuItems">
-      {{ item }}
-    </li>
-  </ul> -->
-
-</nav>
+    
+    <div class="right-section">
+      <!-- Desktop buttons -->
+      <div class="desktop-buttons">
+        <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">Login</a>
+        <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">Register</a>
+        <button (click)="logout()" *ngIf="isLogin()" class="logout-btn">Logout</button>
+      </div>
+      
+      <button class="lang-btn" (click)="changeLang()">
+        <img src="assets/images/lang3.png" class="lang-icon">
+        <span>English</span>
+      </button>
+      
+      <div routerLink="cart" class="cart">
+        <span class="cart-img">
+        <i class="fa-solid fa-cart-shopping icon" ></i> 
+        </span>
+        <span *ngIf="cartCount > 0" class="cart-count">{{ cartCount }}</span>
+      </div>
+      
+      <a class="dash" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
+    </div>
+    
+    <!-- Mobile Menu (hidden by default) -->
+    <div class="mobile-menu" [class.active]="mobileMenuOpen">
+      <a routerLink="/products" routerLinkActive="active-link" class="mobile-nav-link" (click)="closeMobileMenu()">Products</a>
+      <a routerLink="/login" class="mobile-nav-link" *ngIf="isLogin()==false" (click)="closeMobileMenu()">Login</a>
+      <a routerLink="/register" class="mobile-nav-link" *ngIf="isLogin()==false" (click)="closeMobileMenu()">Register</a>
+      <button (click)="logout(); closeMobileMenu()" *ngIf="isLogin()" class="mobile-logout-btn">Logout</button>
+    </div>
+  </nav>
 </div>

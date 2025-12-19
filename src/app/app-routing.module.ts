@@ -16,6 +16,8 @@ import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 const routes: Routes = [
   {
@@ -74,6 +76,15 @@ const routes: Routes = [
   {
     path: "products/:id",
     component: ProductDetailsComponent
+  },{
+    path:"orders",
+    component:MyOrdersComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path:"orders/:id",
+    component:OrderDetailsComponent,
+    canActivate: [AuthGuard]
   }
 
 ];

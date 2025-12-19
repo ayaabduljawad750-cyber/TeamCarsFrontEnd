@@ -1,4 +1,3 @@
-// order.component.ts
 import { Component, OnInit } from '@angular/core';
 import { OrderService, OrderData } from '../../services/order.service';
 import { CartService, CartItem } from '../../services/cart.service';
@@ -26,14 +25,18 @@ export class OrderComponent implements OnInit {
   loading = false;
   errorMsg = '';
   successMsg = '';
-  shippingCost = 0; // Free shipping for now
+  shippingCost = 0;
+  
+  // Card details (only for card payment)
+  cardDetails = {
+    cardNumber: '',
+    cardHolder: '',
+    expiryDate: '',
+    cvv: ''
+  };
   
   // Cart data
   cartItems: CartItem[] = [];
-  
-  // Payment modal
-  showPaymentModal = false;
-  currentOrderId = '';
 
   constructor(
     private orderService: OrderService,
@@ -84,7 +87,7 @@ export class OrderComponent implements OnInit {
     if (this.paymentMethod === 'cash') {
       return `Place Order - $${this.getTotal() + this.shippingCost}`;
     } else {
-      return `Pay Now - $${this.getTotal() + this.shippingCost}`;
+      return `Pay with Card - $${this.getTotal() + this.shippingCost}`;
     }
   }
 
@@ -108,7 +111,7 @@ export class OrderComponent implements OnInit {
       return false;
     }
 
-    // Check required fields
+    // Check required shipping fields
     const requiredFields = ['fullName', 'email', 'phone', 'address', 'city', 'country'];
     for (const field of requiredFields) {
       if (!this.shippingAddress[field as keyof typeof this.shippingAddress]) {
@@ -128,6 +131,37 @@ export class OrderComponent implements OnInit {
     if (this.shippingAddress.phone.length < 8) {
       this.errorMsg = 'Please enter a valid phone number';
       return false;
+    }
+
+    // Card validation if paying by card
+    if (this.paymentMethod === 'card') {
+      const requiredCardFields = ['cardNumber', 'cardHolder', 'expiryDate', 'cvv'];
+      for (const field of requiredCardFields) {
+        if (!this.cardDetails[field as keyof typeof this.cardDetails]) {
+          this.errorMsg = `Please fill in card ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`;
+          return false;
+        }
+      }
+
+      // Basic card number validation (at least 13 digits)
+      const cardNumber = this.cardDetails.cardNumber.replace(/\s/g, '');
+      if (cardNumber.length < 13 || !/^\d+$/.test(cardNumber)) {
+        this.errorMsg = 'Please enter a valid card number';
+        return false;
+      }
+
+      // CVV validation
+      if (this.cardDetails.cvv.length < 3 || this.cardDetails.cvv.length > 4) {
+        this.errorMsg = 'Please enter a valid CVV (3-4 digits)';
+        return false;
+      }
+
+      // Expiry date validation (MM/YY format)
+      const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+      if (!expiryRegex.test(this.cardDetails.expiryDate)) {
+        this.errorMsg = 'Please enter expiry date in MM/YY format';
+        return false;
+      }
     }
 
     return true;
@@ -165,6 +199,16 @@ export class OrderComponent implements OnInit {
         }
       };
 
+      // Add card details if paying by card
+      if (this.paymentMethod === 'card') {
+        orderData.cardDetails = {
+          cardNumber: this.cardDetails.cardNumber,
+          cardHolder: this.cardDetails.cardHolder.trim(),
+          expiryDate: this.cardDetails.expiryDate.trim(),
+          cvv: this.cardDetails.cvv
+        };
+      }
+
       // Create order
       const response = await this.orderService.createOrder(orderData).toPromise();
       
@@ -172,11 +216,9 @@ export class OrderComponent implements OnInit {
         const orderId = response.data._id;
         
         if (this.paymentMethod === 'cash') {
-          // Cash on delivery
           this.handleCashOrder(orderId);
-        } else if (this.paymentMethod === 'paymob') {
-          // Paymob payment
-          this.handlePaymobPayment(orderId);
+        } else if (this.paymentMethod === 'card') {
+          this.handleCardOrder(orderId);
         }
       } else {
         throw new Error(response?.message || 'Failed to create order');
@@ -202,80 +244,34 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  // Handle Paymob payment
-  private handlePaymobPayment(orderId: string): void {
-    this.currentOrderId = orderId;
-    this.showPaymentModal = true;
+  // Handle card order
+  private handleCardOrder(orderId: string): void {
     this.loading = false;
-  }
-
-  // Proceed to Paymob payment
-  async proceedToPayment() {
-    this.loading = true;
-    this.showPaymentModal = false;
-    
-    try {
-      // Initialize Paymob payment
-      await this.orderService.initiatePaymobPayment(
-        this.currentOrderId,
-        this.shippingAddress.phone,
-        this.shippingAddress.email
-      );
-      
-      // Start checking payment status
-      this.startPaymentStatusCheck();
-      
-    } catch (error: any) {
-      this.loading = false;
-      this.errorMsg = error.message || 'Failed to initiate payment. Please try again.';
-    }
-  }
-
-  // Check payment status periodically
-  private startPaymentStatusCheck(): void {
-    const checkInterval = setInterval(async () => {
-      try {
-        const verification = await this.orderService.verifyPayment(this.currentOrderId).toPromise();
-        
-        if (verification && verification.paymentStatus === 'paid') {
-          clearInterval(checkInterval);
-          this.handleSuccessfulPayment();
-        } else if (verification && (verification.paymentStatus === 'failed' || verification.paymentStatus === 'cancelled')) {
-          clearInterval(checkInterval);
-          this.handleFailedPayment();
-        }
-      } catch (error) {
-        console.error('Payment check error:', error);
-      }
-    }, 5000); // Check every 5 seconds
-    
-    // Stop checking after 5 minutes
-    setTimeout(() => clearInterval(checkInterval), 300000);
-  }
-
-  // Handle successful payment
-  private handleSuccessfulPayment(): void {
-    this.loading = false;
-    this.successMsg = 'Payment successful! Your order has been confirmed.';
+    this.successMsg = `Order #${orderId} placed and paid successfully!`;
     
     // Clear cart
     this.cartService.clearCart().subscribe(() => {
-      // Navigate to order confirmation
+      // Navigate to order confirmation after a delay
       setTimeout(() => {
-        this.router.navigate(['/orders', this.currentOrderId]);
+        this.router.navigate(['/orders', orderId]);
       }, 2000);
     });
   }
 
-  // Handle failed payment
-  private handleFailedPayment(): void {
-    this.loading = false;
-    this.errorMsg = 'Payment failed. Please try again or choose a different payment method.';
+  // Format card number with spaces
+  formatCardNumber(): void {
+    let value = this.cardDetails.cardNumber.replace(/\s/g, '').replace(/\D/g, '');
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    this.cardDetails.cardNumber = value.substring(0, 19); // Max 16 digits + 3 spaces
   }
 
-  // Close payment modal
-  closePaymentModal(): void {
-    this.showPaymentModal = false;
+  // Format expiry date
+  formatExpiryDate(): void {
+    let value = this.cardDetails.expiryDate.replace(/\D/g, '');
+    if (value.length >= 2) {
+      value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    this.cardDetails.expiryDate = value.substring(0, 5); // MM/YY format
   }
 
   // Navigate back to cart

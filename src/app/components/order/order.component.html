@@ -106,16 +106,55 @@
           </label>
 
           <label class="payment-option">
-            <input type="radio" name="paymentMethod" [(ngModel)]="paymentMethod" value="paymob" required>
+            <input type="radio" name="paymentMethod" [(ngModel)]="paymentMethod" value="card" required>
             <div class="payment-content">
               <span class="payment-title">Pay with Card</span>
-              <span class="payment-desc">Secure payment via Paymob</span>
+              <span class="payment-desc">Enter your card details securely</span>
               <div class="card-icons">
                 <span>💳</span>
                 <span>🛡️</span>
               </div>
             </div>
           </label>
+        </div>
+
+        <!-- Card Details (only shown when card payment is selected) -->
+        <div *ngIf="paymentMethod === 'card'" class="card-details">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Card Number *</label>
+              <input type="text" [(ngModel)]="cardDetails.cardNumber" name="cardNumber" 
+                     (input)="formatCardNumber()" maxlength="19" 
+                     placeholder="1234 5678 9012 3456" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Card Holder Name *</label>
+              <input type="text" [(ngModel)]="cardDetails.cardHolder" name="cardHolder" 
+                     placeholder="John Doe" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Expiry Date (MM/YY) *</label>
+              <input type="text" [(ngModel)]="cardDetails.expiryDate" name="expiryDate" 
+                     (input)="formatExpiryDate()" maxlength="5" 
+                     placeholder="12/25" required>
+            </div>
+            
+            <div class="form-group">
+              <label>CVV *</label>
+              <input type="password" [(ngModel)]="cardDetails.cvv" name="cvv" 
+                     maxlength="4" placeholder="123" required>
+            </div>
+          </div>
+
+          <div class="security-note">
+            <span>🛡️ Your card details are securely processed and stored encrypted.</span>
+          </div>
         </div>
       </div>
 
@@ -143,27 +182,6 @@
 
       <div *ngIf="successMsg" class="success-message">
         <span>✅</span> {{ successMsg }}
-      </div>
-
-      <!-- Payment Modal -->
-      <div *ngIf="showPaymentModal" class="payment-modal-overlay">
-        <div class="payment-modal">
-          <div class="modal-header">
-            <h3>Complete Your Payment</h3>
-            <button class="close-modal" (click)="closePaymentModal()">×</button>
-          </div>
-          <div class="modal-body">
-            <p>You will be redirected to a secure payment page to complete your transaction.</p>
-            <p><strong>Amount:</strong> ${{ getTotal() + shippingCost }}</p>
-            <p><strong>Order ID:</strong> {{ currentOrderId }}</p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn-secondary" (click)="closePaymentModal()">Cancel</button>
-            <button class="btn-primary" (click)="proceedToPayment()">
-              Proceed to Payment
-            </button>
-          </div>
-        </div>
       </div>
 
     </form>

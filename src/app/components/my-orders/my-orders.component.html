@@ -1,11 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders</title>
-</head>
-<body>
-    
-</body>
-</html>
+<div class="orders-container">
+  <div class="orders-header">
+    <h1>My Orders</h1>
+    <p>View and manage your orders</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <div class="filters-row">
+      <!-- <div class="search-box">
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (ngModelChange)="filterOrders()"
+          placeholder="Search by Order ID..."
+          class="search-input"
+        >
+        <span class="search-icon">🔍</span>
+      </div> -->
+      
+      <div class="status-filter">
+        <select 
+          [(ngModel)]="statusFilter" 
+          (ngModelChange)="filterOrders()"
+          class="status-select"
+        >
+          <option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+      
+      <button class="refresh-btn" (click)="loadOrders()" [disabled]="isLoading">
+        {{ isLoading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading your orders...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage && !isLoading" class="error-state">
+    <div class="error-icon">⚠️</div>
+    <p>{{ errorMessage }}</p>
+    <button class="retry-btn" (click)="loadOrders()">Retry</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && !errorMessage && filteredOrders.length === 0" class="empty-state">
+    <div class="empty-icon">📦</div>
+    <h3>No Orders Found</h3>
+    <p>You haven't placed any orders yet.</p>
+    <button class="shop-btn" routerLink="/products">Start Shopping</button>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!isLoading && filteredOrders.length > 0" class="orders-list">
+    <div class="orders-count">
+      <span class="count-number">{{ filteredOrders.length }}</span>
+      <span class="count-text">order{{ filteredOrders.length !== 1 ? 's' : '' }} found</span>
+    </div>
+
+    <div class="orders-grid">
+      <div *ngFor="let order of filteredOrders" class="order-card">
+        <div class="order-header">
+          <div class="order-id">
+            <span class="id-label">Order #</span>
+            <span class="id-value">{{ filteredOrders.indexOf(order) + 1 }}...</span>
+          </div>
+          <div class="order-date">{{ formatDate(order.createdAt) }}</div>
+        </div>
+
+        <div class="order-body">
+          <div class="order-info-row">
+            <div class="info-item">
+              <span class="info-label">Status</span>
+              <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                {{ getStatusText(order.status) }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Total</span>
+              <span class="info-value total-price">${{ order.totalPrice }}</span>
+            </div>
+          </div>
+
+          <div class="order-info-row">
+            <div class="info-item">
+              <span class="info-label">Payment</span>
+              <span class="info-value">{{ getPaymentMethodText(order.paymentMethod) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Items</span>
+              <span class="info-value">{{ getOrderItemsSummary(order) }}</span>
+            </div>
+          </div>
+
+          <div class="order-info-row">
+            <div class="info-item full-width">
+              <span class="info-label">Shipping Address</span>
+              <span class="info-value">
+                {{ order.shippingAddress.fullName }}, 
+                {{ order.shippingAddress.address }}, 
+                {{ order.shippingAddress.city }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-actions">
+          <button 
+            class="btn-view" 
+            (click)="viewOrderDetails(order._id)"
+          >
+            View Details
+          </button>
+          
+          <button 
+            *ngIf="canCancel(order)"
+            class="btn-cancel" 
+            (click)="cancelOrder(order._id)"
+          >
+            Cancel Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

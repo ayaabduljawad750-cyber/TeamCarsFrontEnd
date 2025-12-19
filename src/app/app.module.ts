@@ -41,17 +41,22 @@ import { Section4Component } from './pages/home/section4/section4.component';
 import { OrderComponent } from './components/order/order.component';
 import { FooterComponent } from './components/footer/footer.component';
 // import { DashboardMaintenanceCenterComponent } from './components/dashboard-maintenance-center/dashboard-maintenance-center.component';
-import { Section2Component } from './pages/home/section2/section2.component';
-import { ProductCardComponent } from './pages/home/section2/product-card/product-card.component';
-import { SelectFormComponent } from './pages/home/section2/select-form/select-form.component';
+
+// import { ProductCardComponent } from './pages/home/section2/product-card/product-card.component';
+// import { SelectFormComponent } from './pages/home/section2/select-form/select-form.component';
+import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 //import { DashboardMaintenanceCenterComponent } from './components/dashboard-maintenance-center/dashboard-maintenance-center.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-// import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { Section2Component } from './pages/home/section2/section2.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
+// import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
 
+    /* Pages */
     LoginComponent,
     HomeComponent,
     RegisterComponent,
@@ -84,21 +89,26 @@ import { ProductDetailsComponent } from './components/product-details/product-de
     Section4Component,
     FooterComponent,
     DashboardMaintenanceCenterComponent,
-    Section2Component,
-    ProductCardComponent,
-    SelectFormComponent,
+
+    // ProductCardComponent,
+    // SelectFormComponent,
+    // MyOrdersComponent
+
+    Section4Component,
+    BookingPageComponent,
     ProductDetailsComponent,
     // MyOrdersComponent
 
-    Section4Component
-
+    Section4Component,
+    Section2Component,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-
+// BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
 
