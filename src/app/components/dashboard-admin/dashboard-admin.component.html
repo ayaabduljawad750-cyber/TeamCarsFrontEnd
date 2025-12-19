@@ -211,8 +211,8 @@
                 <td>{{c.name}}</td>
                 <td>{{c.location}}</td>
                 <td>
-                  <div *ngIf="c.contactPhone">{{c.contactPhone}}</div>
-                  <div *ngIf="c.contactEmail">{{c.contactEmail}}</div>
+                  <div *ngIf="c.phone">{{c.phone}}</div>
+                  <div *ngIf="c.email">{{c.email}}</div>
                 </td>
                 <td class="actions">
                   <button class="btn btn-danger btn-sm" (click)="deleteCenter(c._id)">Delete</button>
