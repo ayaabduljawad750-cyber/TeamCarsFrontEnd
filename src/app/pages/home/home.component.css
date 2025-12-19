@@ -40,6 +40,12 @@ margin-top: 60px;
 width: 80%;
 }
 
+.best-companies{
+      background-image:url(../../../assets/images/best.png); 
+      background-repeat: no-repeat;  
+  background-size: cover;  
+}
+
 @media (max-width:992px) {
   .homePage .categories {
     width:100%;
@@ -144,7 +150,6 @@ p{
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
-
   }
 
 }
@@ -190,7 +195,12 @@ p{
  text-align: center;
 }
 }
+@media(max-width:992px) {
+.best-companies{
+ background-image: none;
+}
 
+}
 /* h1{
   width:100%;
 } */

@@ -23,7 +23,7 @@ interface Product {
 })
 export class DashboardSellerComponent implements OnInit, OnDestroy {
   // Add '!' to fix strict initialization errors
-  productForm!: FormGroup; 
+  productForm!: FormGroup;
 
   // State
   currentView: 'products' | 'profile' = 'products';
@@ -32,18 +32,19 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
   isEditing = false;
   successMessage = '';
   errorMessage = '';
-  
+  errorMessageProduct = ''
+
   // Data
   products: Product[] = [];
   categories = ['Spare parts', 'Tyres', 'Engine oil', 'Batteries', 'Liquids'];
-  
+
   // Filter & Search (Restored variables for your HTML)
-  searchQuery: string = ''; 
+  searchQuery: string = '';
   selectedCriteria = 'name';
   selectedCategory = '';
-  
+
   selectedFile: File | null = null;
-  
+
   private destroy$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private productService: ProductService) {
@@ -79,14 +80,14 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
 
   loadMyProducts() {
     this.isLoading = true;
-    
+
     const filters: any = {
-      limit: 100, 
+      limit: 100,
       sortBy: 'latest'
     };
 
     if (this.selectedCategory) filters.category = this.selectedCategory;
-    
+
     // Logic for the Search Inputs
     if (this.searchQuery) {
       if (this.selectedCriteria === 'name') filters.search = this.searchQuery;
@@ -111,15 +112,19 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
   // --- RESTORED: This method is required by your HTML [style.backgroundImage]="..." ---
   getProductImage(product: Product): string {
     if (product.image && product.image.data) {
+    
       try {
+          
         const bufferData = product.image.data.data;
+        
         const binary = String.fromCharCode(...new Uint8Array(bufferData));
+        console.log(product.stock)
         return `data:${product.image.contentType};base64,${window.btoa(binary)}`;
       } catch (e) {
         return 'assets/placeholder.png';
       }
     }
-    return 'assets/placeholder.png'; 
+    return 'assets/placeholder.png';
   }
 
   openProductModal() {
@@ -133,7 +138,7 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
   editProduct(product: Product) {
     this.selectedFile = null;
     this.isEditing = true;
-    
+
     this.productForm.patchValue({
       id: product._id,
       name: product.name,
@@ -152,7 +157,7 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     const formVal = this.productForm.value;
-    
+
     if (this.isEditing && formVal.id) {
       // Update logic
       this.productService.updateProduct(formVal.id, formVal, this.selectedFile || undefined)
@@ -169,7 +174,7 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         return;
       }
-      
+
       this.productService.createProduct(formVal, this.selectedFile)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -192,7 +197,7 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
       this.selectedFile = event.target.files[0];
     }
   }
-  
+
   closeProductModal() {
     this.showProductModal = false;
   }
@@ -208,6 +213,7 @@ export class DashboardSellerComponent implements OnInit, OnDestroy {
 
   private handleError(err: any) {
     this.isLoading = false;
-    alert(err.error?.message || 'Operation failed');
+    this.errorMessageProduct = err.error?.message || 'Operation failed';
+    setTimeout(() => this.errorMessageProduct = '', 3000);
   }
 }

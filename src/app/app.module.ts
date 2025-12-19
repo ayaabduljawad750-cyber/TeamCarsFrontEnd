@@ -48,6 +48,7 @@ import { BookingPageComponent } from './pages/booking-page/booking-page.componen
 //import { DashboardMaintenanceCenterComponent } from './components/dashboard-maintenance-center/dashboard-maintenance-center.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { Section2Component } from './pages/home/section2/section2.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -99,7 +100,8 @@ import { Section2Component } from './pages/home/section2/section2.component';
     // MyOrdersComponent
 
     Section4Component,
-    Section2Component
+    Section2Component,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MaintenanceService, MaintenanceCenter } from '../../../services/maintenance.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-section2',
   templateUrl: './section2.component.html',
@@ -26,7 +26,8 @@ export class Section2Component implements OnInit {
 
 visibleCount = 4;
 
-  constructor(private _maintenanceService: MaintenanceService) {
+  constructor(private _maintenanceService: MaintenanceService,
+            private router: Router){
 
   }
 
@@ -37,16 +38,19 @@ visibleCount = 4;
 
   getAllCenters(): void {
     this.loading = true;
-    this._maintenanceService.getCenters().subscribe((res) => {
-      this.centers = res.data.centers;
-      console.log(this.centers)
-      this.loading = false;
-    }, (err) => {
-        console.error('Centers load Error:', err);
-        this.loading = false;
-      },
-    );
-    
+this._maintenanceService.getCenters().subscribe({
+  next: (res) => {
+    console.log('API Response:', res);
+    this.centers = res.data?.centers || res.centers || [];
+    this.loading = false;
+  },
+  error: (err) => {
+    console.error('Centers load Error:', err);
+    this.loading = false;
+  }
+});
+
+
   }
   getVisibleCenters(): MaintenanceCenter[] {
   if (!this.centers) return [];
@@ -56,4 +60,6 @@ visibleCount = 4;
 toggleShowAll(): void {
   this.showAll = !this.showAll;
 }
+  goToBooking(): void
+  { this.router.navigate([`/booking`]); }
 }

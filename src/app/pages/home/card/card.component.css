@@ -1,79 +1,67 @@
 .card {
-  width: 200px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 40px;
+  text-align: center;
+  cursor: pointer;
+ border-top: red 3px solid;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.35s ease;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  box-shadow: 8 1 0px rgba(0, 0, 0, 0.12);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-  padding: 15px;
-  border-radius: 10px;
-  border: 2px solid black;
-  background-color: white;
-  img {
-    width: 50%;
-    height: 40%;
-    margin-bottom: 15px;
-  }
+  gap: 16px;
+
+  position: relative;
+  overflow: hidden;
 }
 
+/* Hover Effect */
 .card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
   background-color: black;
-  h2 {
-    color: white ;
-  }
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
 }
 
-
-
-
-
-@media (max-width:992px) {
-.card{
-        width: 117px;
-  height: 160px;
-  text-align: center;
-
-}
-    .card img {
-
-            width: 70%;
-      height: 40%;
-
-    }
+/* Image */
+.card img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
-@media (max-width:787px) {
-  .card {
-              width: 121px;
-    height: 160px;
-    text-align: center;
-  }
-
-  .card img {
-
-        width: 66%;
-    height: 40%;
-
-  }
+/* Image zoom on hover */
+.card:hover img {
+  transform: scale(1.15);
 }
 
-@media (max-width:512px) {
-  .card {
-        width: 83px;
-    height: 160px;
-    text-align: center;
-  }
-
-  .card img {
-
-          width: 79%;
-    height: 40%;
-
-
-  }
+/* Title */
+.card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+  letter-spacing: 0.3px;
 }
+.card:hover h2{
+color: #ffffff;
+}
+/* Optional subtle line */
+.card::after {
+  content: '';
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #111, transparent);
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::after {
+  opacity: 0.25;
+  background: linear-gradient(90deg, transparent, #e9e6e6, transparent);
+
+}
+

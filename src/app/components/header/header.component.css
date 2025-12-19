@@ -267,6 +267,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.desktop-nav{
+  display: flex;
+  gap: 10px;
+}
+
 .dash:hover {
   /* background: linear-gradient(135deg, #ff4757 0%, #ffed4e 100%); */
   /* transform: scale(1.1) translateY(-2px); */
