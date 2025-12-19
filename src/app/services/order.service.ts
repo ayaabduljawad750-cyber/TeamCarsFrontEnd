@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { CartItem } from './cart.service';
+
 const environment = {
   production: false,
   apiUrl: 'http://localhost:3000',

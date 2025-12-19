@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MaintenanceService, MaintenanceCenter } from '../../../services/maintenance.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-section2',
   templateUrl: './section2.component.html',

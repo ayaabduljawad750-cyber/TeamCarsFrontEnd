@@ -3,7 +3,7 @@
     <h1>Service Centers in Your Government</h1>
     <p>Search for Service Centers in Your Governorate</p>
     <div *ngIf="loading" class="loading">Loading...</div>
-    <div  *ngIf="centers.length <= 0 && !loading" class="loading">There are no Centers !!</div>
+    <div *ngIf="centers.length <= 0 && !loading" class="loading">There are no Centers !!</div>
 
     <div class="services-centers" *ngIf="!loading && centers.length > 0">
       <div class="card" *ngFor="let center of getVisibleCenters()" [@expandCollapse]>
