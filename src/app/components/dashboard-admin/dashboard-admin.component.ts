@@ -77,11 +77,13 @@ loadUsers() {
   // ORDERS
   loadOrders() {
     this.isLoading = true;
-    this.orderService.getOrders()
+    this.orderService.getAllOrders()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: any) => { this.orders = res.data || res; this.isLoading = false; },
-        error: (err: any) => this.handleError(err)
+        error: (err: any) => {
+          console.log("error",err)
+          this.handleError(err)}
       });
   }
 
@@ -138,7 +140,7 @@ loadUsers() {
 
   private handleError(err: any) {
     this.errorMessage = err.error?.message || 'Operation failed';
-    setTimeout(() => this.errorMessage = '', 100000);
+    setTimeout(() => this.errorMessage = '', 3000);
     this.isLoading = false;
   }
 }

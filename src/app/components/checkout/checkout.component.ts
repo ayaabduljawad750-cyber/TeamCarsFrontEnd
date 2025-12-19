@@ -8,87 +8,87 @@ import { Router } from '@angular/router';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent /*implements OnInit*/ {
 
-  @ViewChild('cardElement') cardElement!: ElementRef;
+  // @ViewChild('cardElement') cardElement!: ElementRef;
 
-  stripe: any;
-  elements: any;
-  card: any;
+  // stripe: any;
+  // elements: any;
+  // card: any;
 
-  cartItems: CartItem[] = [];
+  // cartItems: CartItem[] = [];
 
-  loading = false;
-  errorMsg: string = '';
+  // loading = false;
+  // errorMsg: string = '';
 
-  constructor(
-    private orderService: OrderService,
-    private cartService: CartService,
-    private router: Router
-  ) {}
+  // constructor(
+  //   private orderService: OrderService,
+  //   private cartService: CartService,
+  //   private router: Router
+  // ) {}
 
-  async ngOnInit() {
-    // 🛒 load cart
-    this.cartService.getCart().subscribe(items => {
-      this.cartItems = items;
-    });
+  // async ngOnInit() {
+  //   // 🛒 load cart
+  //   this.cartService.getCart().subscribe(items => {
+  //     this.cartItems = items;
+  //   });
 
-    // 💳 setup Stripe
-    this.stripe = await this.orderService.getStripe();
-    if (!this.stripe) {
-      this.errorMsg = 'Stripe failed to load';
-      return;
-    }
+  //   // 💳 setup Stripe
+  //   this.stripe = await this.orderService.getStripe();
+  //   if (!this.stripe) {
+  //     this.errorMsg = 'Stripe failed to load';
+  //     return;
+  //   }
 
-    this.elements = this.stripe.elements();
-    this.card = this.elements.create('card');
-    this.card.mount(this.cardElement.nativeElement);
-  }
+  //   this.elements = this.stripe.elements();
+  //   this.card = this.elements.create('card');
+  //   this.card.mount(this.cardElement.nativeElement);
+  // }
 
-  async payNow() {
-    if (this.cartItems.length === 0) {
-      this.errorMsg = 'Cart is empty!';
-      return;
-    }
+  // async payNow() {
+  //   if (this.cartItems.length === 0) {
+  //     this.errorMsg = 'Cart is empty!';
+  //     return;
+  //   }
 
-    this.loading = true;
-    this.errorMsg = '';
+  //   this.loading = true;
+  //   this.errorMsg = '';
 
-    const orderData = {
-      paymentMethod: 'stripe'
-    };
+  //   const orderData = {
+  //     paymentMethod: 'stripe'
+  //   };
 
-    try {
-      // 1️⃣ create order
-      const res: any = await this.orderService
-        .createOrder(this.cartItems, orderData)
-        .toPromise();
+  //   try {
+  //     // 1️⃣ create order
+  //     const res: any = await this.orderService
+  //       .createOrder(this.cartItems, orderData)
+  //       .toPromise();
 
-      if (!res?.clientSecret) {
-        throw new Error('Client secret not received');
-      }
+  //     if (!res?.clientSecret) {
+  //       throw new Error('Client secret not received');
+  //     }
 
-      // 2️⃣ confirm payment
-      const result = await this.orderService.pay(
-        res.clientSecret,
-        this.card
-      );
+  //     // 2️⃣ confirm payment
+  //     const result = await this.orderService.pay(
+  //       res.clientSecret,
+  //       this.card
+  //     );
 
-      if (result?.error) {
-        throw new Error(result.error.message);
-      }
+  //     if (result?.error) {
+  //       throw new Error(result.error.message);
+  //     }
 
-      // 3️⃣ success
-      alert('Payment Successful 🎉');
-      this.cartService.clearCart().subscribe();
-      this.router.navigate(['/']);
+  //     // 3️⃣ success
+  //     alert('Payment Successful 🎉');
+  //     this.cartService.clearCart().subscribe();
+  //     this.router.navigate(['/']);
 
-    } catch (err: any) {
-      console.error(err);
-      this.errorMsg = err.message || 'Payment failed';
-    } finally {
-      // ✅ always reset
-      this.loading = false;
-    }
-  }
+  //   } catch (err: any) {
+  //     console.error(err);
+  //     this.errorMsg = err.message || 'Payment failed';
+  //   } finally {
+  //     // ✅ always reset
+  //     this.loading = false;
+  //   }
+  // }
 }

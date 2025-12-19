@@ -1,22 +1,38 @@
+<!-- order.component.html -->
 <div class="checkout-layout">
 
   <!-- Cart Preview -->
   <div *ngIf="cartItems.length > 0" class="cart-preview">
     <button class="back-btn" (click)="goBackToCart()">
-  <span class="arrow">←</span> Back to Cart
-</button>
+      <span class="arrow">←</span> Back to Cart
+    </button>
 
-    <h3> Preview </h3>
+    <h3>Order Preview</h3>
     <ul>
       <li *ngFor="let item of cartItems">
-        <img *ngIf="item.image" [src]="getImageSrc(item)">
+        <img *ngIf="item.image" [src]="getImageSrc(item)" alt="{{item.name}}">
         <div class="item-info">
           <span class="name">{{ item.name }}</span>
-          <span class="price">{{ item.quantity }} × ${{ item.price }}</span>
+          <span class="quantity">Quantity: {{ item.quantity }}</span>
+          <span class="price">${{ item.price }} each</span>
+          <span class="item-total">Subtotal: ${{ (item.price || 0) * item.quantity }}</span>
         </div>
       </li>
     </ul>
-    <p class="total">Total: ${{ getTotal() }}</p>
+    <div class="summary">
+      <div class="subtotal">
+        <span>Subtotal:</span>
+        <span>${{ getTotal() }}</span>
+      </div>
+      <div class="shipping">
+        <span>Shipping:</span>
+        <span>{{ shippingCost === 0 ? 'Free' : '$' + shippingCost }}</span>
+      </div>
+      <div class="total">
+        <span>Total:</span>
+        <span>${{ getTotal() + shippingCost }}</span>
+      </div>
+    </div>
   </div>
 
   <!-- Order Form -->
@@ -25,29 +41,131 @@
 
     <form (ngSubmit)="submitOrder()" #orderForm="ngForm">
 
-      <label>Name</label>
-      <input type="text" [(ngModel)]="name" name="name" required />
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" [(ngModel)]="shippingAddress.fullName" name="fullName" required 
+               placeholder="Enter your full name">
+      </div>
 
-      <label>Email</label>
-      <input type="email" [(ngModel)]="email" name="email" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" [(ngModel)]="shippingAddress.email" name="email" required 
+                 placeholder="your@email.com">
+        </div>
+        
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" [(ngModel)]="shippingAddress.phone" name="phone" required 
+                 placeholder="+1 234 567 8900">
+        </div>
+      </div>
 
-      <label>Address</label>
-      <textarea [(ngModel)]="address" name="address" required></textarea>
+      <div class="form-group">
+        <label>Street Address *</label>
+        <input type="text" [(ngModel)]="shippingAddress.address" name="address" required 
+               placeholder="123 Main Street">
+      </div>
 
-      <label>Phone</label>
-      <input type="tel" [(ngModel)]="phone" name="phone" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label>City *</label>
+          <input type="text" [(ngModel)]="shippingAddress.city" name="city" required 
+                 placeholder="New York">
+        </div>
+        
+        <div class="form-group">
+          <label>Postal Code</label>
+          <input type="text" [(ngModel)]="shippingAddress.postalCode" name="postalCode" 
+                 placeholder="10001">
+        </div>
+      </div>
 
-      <label>Payment Method</label>
-      <select [(ngModel)]="paymentMethod" name="paymentMethod" required>
-        <option value="cash">Cash on Delivery</option>
-        <option value="stripe">Credit / Debit Card</option>
-      </select>
+      <div class="form-group">
+        <label>Country *</label>
+        <select [(ngModel)]="shippingAddress.country" name="country" required>
+          <option value="">Select Country</option>
+          <option value="US">United States</option>
+          <option value="CA">Canada</option>
+          <option value="GB">United Kingdom</option>
+          <option value="EG">Egypt</option>
+          <option value="SA">Saudi Arabia</option>
+          <option value="AE">United Arab Emirates</option>
+        </select>
+      </div>
 
-      <button type="submit" [disabled]="loading || !orderForm.form.valid">
-        {{ loading ? 'Processing...' : 'Place Order' }}
-      </button>
+      <div class="payment-section">
+        <h3>Payment Method</h3>
+        <div class="payment-options">
+          <label class="payment-option">
+            <input type="radio" name="paymentMethod" [(ngModel)]="paymentMethod" value="cash" required>
+            <div class="payment-content">
+              <span class="payment-title">Cash on Delivery</span>
+              <span class="payment-desc">Pay when you receive your order</span>
+            </div>
+          </label>
 
-      <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+          <label class="payment-option">
+            <input type="radio" name="paymentMethod" [(ngModel)]="paymentMethod" value="paymob" required>
+            <div class="payment-content">
+              <span class="payment-title">Pay with Card</span>
+              <span class="payment-desc">Secure payment via Paymob</span>
+              <div class="card-icons">
+                <span>💳</span>
+                <span>🛡️</span>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="terms">
+        <label>
+          <input type="checkbox" [(ngModel)]="acceptTerms" name="acceptTerms" required>
+          <span>I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></span>
+        </label>
+      </div>
+
+      <div class="action-buttons">
+        <button type="button" class="btn-secondary" (click)="goBackToCart()">
+          ← Back to Cart
+        </button>
+        
+        <button type="submit" class="btn-primary" [disabled]="loading || !orderForm.form.valid">
+          <span *ngIf="loading" class="spinner"></span>
+          {{ getButtonText() }}
+        </button>
+      </div>
+
+      <div *ngIf="errorMsg" class="error-message">
+        <span>⚠️</span> {{ errorMsg }}
+      </div>
+
+      <div *ngIf="successMsg" class="success-message">
+        <span>✅</span> {{ successMsg }}
+      </div>
+
+      <!-- Payment Modal -->
+      <div *ngIf="showPaymentModal" class="payment-modal-overlay">
+        <div class="payment-modal">
+          <div class="modal-header">
+            <h3>Complete Your Payment</h3>
+            <button class="close-modal" (click)="closePaymentModal()">×</button>
+          </div>
+          <div class="modal-body">
+            <p>You will be redirected to a secure payment page to complete your transaction.</p>
+            <p><strong>Amount:</strong> ${{ getTotal() + shippingCost }}</p>
+            <p><strong>Order ID:</strong> {{ currentOrderId }}</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" (click)="closePaymentModal()">Cancel</button>
+            <button class="btn-primary" (click)="proceedToPayment()">
+              Proceed to Payment
+            </button>
+          </div>
+        </div>
+      </div>
+
     </form>
   </div>
 
