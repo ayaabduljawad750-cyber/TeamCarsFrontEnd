@@ -6,10 +6,8 @@
 }
 
 .services-centers-container {
-
     padding: 100px 0;
     width: 100%;
-
     .container {
         display: flex;
         justify-content: center;
