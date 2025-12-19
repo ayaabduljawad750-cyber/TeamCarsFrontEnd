@@ -102,12 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #e9ecef;
   transition: border-color 0.3s ease;
-}
-
-.img:hover {
-  border-color: #ee3e55;
 }
 
 .product-image {
@@ -227,7 +222,7 @@
   display: inline-block;
 }
 
-.price::before {
+/* .price::before {
   content: '';
   position: absolute;
   left: 0;
@@ -237,7 +232,7 @@
   background: rgba(238, 62, 85, 0.1);
   border-radius: 4px;
   z-index: -1;
-}
+} */
 
 .seller-name {
   font-size: 1.1rem;
@@ -341,6 +336,7 @@
   border-radius: 20px;
   padding: 2.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem;
   margin-bottom: 2rem;
   text-align: center;
   border: 1px solid #e9ecef;
@@ -535,7 +531,7 @@
   display: inline-block;
 }
 
-.specifications h3::after {
+.specifications h3::after{
   content: '';
   position: absolute;
   bottom: -8px;
@@ -556,48 +552,77 @@
 
 .spec-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  text-align: left;
+  justify-content: flex-start;
   padding: 1.25rem;
   background: #f8f9fa;
   border-radius: 12px;
   transition: all 0.3s ease;
-  border: 1px solid transparent;
+  border: 1px solid #000 ;
+  color: #000;/**/
+}
+.spec-item-header {
+  display: flex;        
+  align-items: center;
+  gap: 0.5rem;           
 }
 
+.spec-item i{
+font-size: 1.5rem;
+transition: all 0.3s ease;
+color: inherit;
+}
+
+
 .spec-item:hover {
-  background: white;
-  border-color: #ee3e55;
+  background: #000;
+  color: #fff;
+  /* border-color: #ee3e55; */
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(238, 62, 85, 0.1);
 }
+/* .spec-item:hover i,
+.spec-item:hover .spec-value {
+  color: #fff; 
+} */
 
 .spec-label {
+  display: inline-block;
+  position: relative;
   font-weight: 600;
-  color: #4a5568;
+  font-weight: bold;
+  color: inherit;
   font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: 10px;
 }
 
-.spec-label::before {
-  content: '✓';
-  color: #ee3e55;
-  font-weight: bold;
+
+.spec-label::after{
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #ee3e55;
+  border-radius: 2px;
 }
 
 .spec-value {
-  color: #2d3748;
+  color: inherit;
   font-weight: 500;
-  text-align: right;
+  text-align: left;
   max-width: 200px;
   word-break: break-word;
-  background: white;
+  /* background: #dcdcdc; */
   padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* border-radius: 8px;
+  border: 1px solid #e9ecef; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
 
 /* Animations */

@@ -56,6 +56,67 @@
       </div>
     </div>
 
+    
+
+    <div class="description-section">
+      <h2 class="section-title">Product Description</h2>
+      <div class="description">
+        <p *ngIf="product?.description">{{product.description}}</p>
+        
+        <div class="specifications">
+          <h3>Specifications</h3>
+          <div class="spec-grid">
+            <div class="spec-item" *ngIf="product?.name">
+              <div class="spec-item-header">
+              <i class="fa-solid fa-gears"></i>
+              <span class="spec-label">Name:</span>
+              </div>
+              <span class="spec-value">{{product.name}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.category">
+               <div class="spec-item-header">
+              <i class="fas fa-tags"></i>
+              <span class="spec-label">Category:</span>
+              </div>
+              <span class="spec-value">{{product.category}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.brand">
+              <div class="spec-item-header">
+              <i class="fas fa-industry"></i>
+              <span class="spec-label">Brand:</span>
+              </div>
+              <span class="spec-value">{{product.brand}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.carModel">
+              <div class="spec-item-header">
+              <i class="fas fa-car"></i>
+              <span class="spec-label">Car Model:</span>
+              </div>
+              <span class="spec-value">{{product.carModel}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.createAt">
+              <div class="spec-item-header">
+              <i class="fas fa-calendar-plus"></i>
+              <span class="spec-label">Created:</span>
+            </div>
+              <span class="spec-value">{{formatDate(product.createAt)}}</span>
+            </div>
+            
+            <div class="spec-item" *ngIf="product?.lastUpdateAt">
+              <div class="spec-item-header">
+               <i class="fas fa-calendar-check"></i>
+              <span class="spec-label">Last Updated:</span>
+            </div>
+              <span class="spec-value">{{formatDate(product.lastUpdateAt)}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="add-review">
       <h3>Add your review</h3>
       <div class="stars">
@@ -71,48 +132,6 @@
               class="submit-review-btn">
         Submit Review
       </button>
-    </div>
-
-    <div class="description-section">
-      <h2 class="section-title">Product Description</h2>
-      <div class="description">
-        <p *ngIf="product?.description">{{product.description}}</p>
-        
-        <div class="specifications">
-          <h3>Specifications</h3>
-          <div class="spec-grid">
-            <div class="spec-item" *ngIf="product?.name">
-              <span class="spec-label">Name:</span>
-              <span class="spec-value">{{product.name}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.category">
-              <span class="spec-label">Category:</span>
-              <span class="spec-value">{{product.category}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.brand">
-              <span class="spec-label">Brand:</span>
-              <span class="spec-value">{{product.brand}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.carModel">
-              <span class="spec-label">Car Model:</span>
-              <span class="spec-value">{{product.carModel}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.createAt">
-              <span class="spec-label">Created:</span>
-              <span class="spec-value">{{formatDate(product.createAt)}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.lastUpdateAt">
-              <span class="spec-label">Last Updated:</span>
-              <span class="spec-value">{{formatDate(product.lastUpdateAt)}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
