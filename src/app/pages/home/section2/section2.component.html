@@ -36,7 +36,11 @@
       </div>
     </div>
     
-    <button class="see-more-btn" *ngIf="centers.length > 4" (click)="toggleShowAll()"> {{ showAll ? 'See less' : 'See
+    <button class="see-more-btn" *ngIf="centers.length > 4" (click)="toggleShowAll()">
+      <i class="fa-solid fa-angle-down" *ngIf=" !showAll"></i>
+      <i class="fa-solid fa-angle-up" *ngIf=" showAll" ></i>
+
+       {{ showAll ? 'See less' : 'See
       more'}} </button>
   </div>
 
