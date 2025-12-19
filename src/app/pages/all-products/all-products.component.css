@@ -101,6 +101,7 @@ h2 {
   text-align: center;
   transition: box-shadow 0.3s ease;
   background-color: #fff;
+  align-self: flex-end;
 }
 
 .card:hover {
