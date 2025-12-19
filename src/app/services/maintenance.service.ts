@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
 export interface MaintenanceCenter {
-  _id?: string;
+  _id: string;
   name: string;
   location: string;
   phone: string;
@@ -46,7 +46,7 @@ export class MaintenanceService {
     return this.http.get(`${this.apiUrl}/centers`, { headers: this.getAuthHeaders() });
   }
 
-  
+
 
   createCenter(data: MaintenanceCenter): Observable<any> {
     return this.http.post(`${this.apiUrl}/centers`, data, { headers: this.getAuthHeaders() });

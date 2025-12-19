@@ -16,7 +16,7 @@ import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-
+import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 const routes: Routes = [
   {
     path: "",
@@ -34,6 +34,7 @@ const routes: Routes = [
     path:"Home",
     component: HomeComponent
   },
+
     {
     path:"cart",
     component: CartComponent
@@ -43,8 +44,8 @@ const routes: Routes = [
     component: OrderComponent
   },
   {
-   path: 'checkout', 
-   component: CheckoutComponent 
+   path: 'checkout',
+   component: CheckoutComponent
   },
   {
     path: "login",
@@ -74,7 +75,12 @@ const routes: Routes = [
   {
     path: "products/:id",
     component: ProductDetailsComponent
-  }
+  },
+    {
+    path: 'booking',
+    component: BookingPageComponent
+  },
+
 
 ];
 
