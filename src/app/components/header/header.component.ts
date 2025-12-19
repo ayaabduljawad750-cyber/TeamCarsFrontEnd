@@ -65,4 +65,13 @@ export class HeaderComponent implements OnInit {
   changeLang() {
     alert('Language changed');
   }
+  mobileMenuOpen = false;
+
+toggleMobileMenu() {
+  this.mobileMenuOpen = !this.mobileMenuOpen;
+}
+
+closeMobileMenu() {
+  this.mobileMenuOpen = false;
+}
 }

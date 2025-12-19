@@ -1,227 +1,585 @@
-.navC{
-  position:static;
-  margin-bottom: 90px;
-}
-.navbar {
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #000;
-  padding: 14px 25px;
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  display: flex;
-  position: fixed;
+}
+
+/* Navbar styles for auto parts store */
+.navC {
+  width: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  position: sticky;
+  top: 0;
   z-index: 1000;
-  top: 0%;
-  left: 0;
+  border-bottom: 3px solid #e63946; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.navbar {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  padding: 0 30px;
+  max-width: 1800px;
+  margin: 0 auto;
+  height: 80px;
 }
-.left-section,
+
+/* Left section - improved for auto parts */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.menu-btn span {
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Animated hamburger */
+.menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.logo {
+  height: 65px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: white; 
+  /* background: rgba(230, 57, 70, 0.2); */
+  border-color: #e63946;
+  /* transform: translateY(-2px); */
+}
+
+.nav-link.active-link {
+  color: whitesmoke;
+  /* background: rgba(230, 57, 70, 0.3); */
+  border-color: #e63946;
+  /* box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3); */
+}
+
+/* Right section - improved layout */
 .right-section {
   display: flex;
   align-items: center;
-  gap: 18px; 
+  gap: 25px;
 }
-.logo {
-  height: 46px;
-  object-fit: contain;
-}
-.nav-link {
-  text-decoration: none;
-  color: #333333b7;
-  font-size: 16px;
-  white-space: nowrap;
-}
-.active-link {
-  color: #ee3e55;
-}
-.lang-btn {
-  display: inline-flex;
+
+.desktop-buttons {
+  display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 16px;
-  white-space: nowrap;
-  flex: 0 0 auto;
-  width: auto;
-  background: #fff;
-  border: 1px solid #b3b3b3;
+  gap: 15px;
+}
+
+/* Button styles for auto parts theme */
+.login-btn, .register-btn, .logout-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: none;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  min-width: 100px;
+  text-align: center;
+}
+
+.login-btn {
+  color: #e63946;
+  background-color: transparent;
+  border: 2px solid #e63946;
+}
+
+.login-btn:hover {
+  color: white;
+  background-color: #e63946;
+  /* transform: translateY(-2px); */
+  /* box-shadow: 0 4px 8px rgba(230, 57, 70, 0.4); */
+}
+
+.register-btn {
+  color: white;
+  background: linear-gradient(135deg, #e63946 0%, #b91d2a 100%);
+  border: 2px solid #e63946;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #ff4757 0%, #e63946 100%);
+  /* transform: translateY(-2px); */
+  /* box-shadow: 0 4px 12px rgba(230, 57, 70, 0.4); */
+}
+
+.logout-btn {
+  color: white;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 2px solid #666;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+  /* transform: translateY(-2px); */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Language button for auto parts */
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  /* transition: all 0.3s ease; */
+  color: white;
+}
+
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #e63946;
+  /* transform: translateY(-2px); */
 }
 
 .lang-icon {
-  width: 25px;
-  object-fit: contain;
+  width: 24px;
+  height: 24px;
+  /* filter: invert(1); */
 }
+
+/* Cart styles - emphasized for auto parts */
 .cart {
   position: relative;
   cursor: pointer;
-}
-
-.cart-img {
-  width: 28px;
-}
-
- .cart-count {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: rgb(255, 254, 254);
-  color: rgb(248, 0, 0);
-  border: #ee3e55 1px solid;
-  padding: 3px 7px;
-  border-radius: 50%;
-  font-size: 12px;
-} 
-
-.login-btn,
-.logout-btn{
-  display: inline-flex;
+  padding: 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  color: white;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
-  border-radius: 8px;
-  white-space: nowrap;
-  text-decoration: none;
-  color: #000;
-  border: 1px solid #b3b3b3;
-  cursor: pointer;
-  flex: 0 0 auto;
-  width: auto;
-}
-.login-btn:hover {
-  background: #eeeff5;
-}
-.register-btn {
-  display: inline-flex;
-    text-decoration: none;
-    padding: 8px 14px;
-  background: #ee3e55;
-  color: #fff;
-  border-radius: 10%;
-  white-space: nowrap;
-  flex: 0 0 auto;
-  width: auto;
+  /* background: rgba(255, 255, 255, 0.1); */
+  border: 2px solid transparent;
+  min-width: 60px;
+  min-height: 60px;
+  font-size: 25px;
 }
 
-.dash{
-  margin: 10px;
-  border: 2px rgba(255, 0, 0, 0.747) solid;
-  padding: 10px;
-  height: 20px;
-  width: 20px;
-  text-align: center;
-  align-items: center;
-  border-radius: 50%;
-  text-decoration: none;
-  font-size: 20px;
+.cart:hover {
+  background: rgba(230, 57, 70, 0.2);
+  border-color: #e63946;
+  /* transform: translateY(-2px); */
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #e63946 0%, #b91d2a 100%);
+  color: white;
+  font-size: 14px;
   font-weight: bold;
-  background-color: #f0e3e34f;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #1a1a1a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
- @media (max-width: 1200px) {
-  .navbar {
-    padding: 18px 40px;
-  }
 
-  .logo {
-    width: 100px;
+/* Dashboard/user avatar - auto parts style */
+.dash {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  /* background: linear-gradient(135deg, #e63946 0%, #ffd700 100%); */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 3px solid #444;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dash:hover {
+  /* background: linear-gradient(135deg, #ff4757 0%, #ffed4e 100%); */
+  /* transform: scale(1.1) translateY(-2px); */
+  border-color: #e63946;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Mobile Menu Styles */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  flex-direction: column;
+  padding: 20px;
+  z-index: 999;
+  border-top: 2px solid #e63946;
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.mobile-nav-link {
+  padding: 15px 20px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  border-bottom: 1px solid #444;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.mobile-nav-link:hover {
+  background: rgba(230, 57, 70, 0.2);
+  padding-left: 25px;
+}
+
+.mobile-logout-btn {
+  padding: 15px 20px;
+  text-align: left;
+  background: linear-gradient(135deg, #e63946 0%, #b91d2a 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.mobile-logout-btn:hover {
+  background: linear-gradient(135deg, #ff4757 0%, #e63946 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(230, 57, 70, 0.4);
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 0 20px;
+  }
+  
+  .left-section {
+    gap: 30px;
+  }
+  
+  .right-section {
+    gap: 20px;
   }
 }
+
 @media (max-width: 992px) {
   .navbar {
-    padding: 16px 30px;
+    padding: 0 15px;
+    height: 70px;
   }
-
-  .nav-link {
-    font-size: 15px;
-  }
-
+  
   .logo {
-    width: 90px;
+    height: 50px;
   }
-  .login-btn,
-  .logout-btn,
-  .register-btn {
-    padding: 5px 12px;
+  
+  .left-section {
+    gap: 20px;
+  }
+  
+  .nav-link {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  .right-section {
+    gap: 15px;
+  }
+  
+  .login-btn, .register-btn, .logout-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-width: 80px;
+  }
+  
+  .lang-btn {
+    padding: 8px 12px;
     font-size: 13px;
   }
-   .lang-btn {
-    padding: 5px 10px;
-    font-size: 13px;
-    gap: 5px;
+  
+  .dash {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
   }
+  
+  .cart {
+    min-width: 50px;
+    min-height: 50px;
+  }
+}
 
+@media (max-width: 768px) {
+  .navbar {
+    height: 65px;
+    padding: 0 12px;
+  }
+  
+  /* Show hamburger and hide desktop items */
+  .menu-btn {
+    display: flex;
+  }
+  
+  .desktop-nav {
+    display: none;
+  }
+  
+  .desktop-buttons {
+    display: none;
+  }
+  
+  .logo {
+    height: 45px;
+    margin-right: 0;
+  }
+  
+  .left-section {
+    gap: 15px;
+  }
+  
+  .right-section {
+    gap: 12px;
+  }
+  
+  .lang-btn span {
+    display: none;
+  }
+  
+  .lang-btn {
+    padding: 8px;
+    min-width: 50px;
+    justify-content: center;
+  }
+  
   .lang-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .cart {
+    min-width: 45px;
+    min-height: 45px;
+    padding: 8px;
+  }
+  
+  .cart-img {
     width: 22px;
     height: 22px;
   }
+  
+  .cart-count {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+  
+  .dash {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
 }
-@media (max-width: 768px) {
 
+@media (max-width: 576px) {
   .navbar {
-    padding: 15px 20px;
-    gap: 15px;
+    height: 60px;
+    padding: 0 10px;
   }
-
-  /* كل سيكشن صف كامل */
-  .left-section,
-  .right-section {
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
+  
   .logo {
-    width: 80px;
+    height: 40px;
   }
-
- .login-btn,
- .logout-btn,
-  .register-btn {
-    padding: 4px 10px;
-    font-size: 12.5px;
+  
+  .menu-btn {
+    width: 25px;
+    height: 20px;
   }
+  
+  .menu-btn span {
+    height: 3px;
+  }
+  
+  .left-section {
+    gap: 10px;
+  }
+  
+  .right-section {
+    gap: 8px;
+  }
+  
   .lang-btn {
-    padding: 4px 8px;
-    font-size: 12.5px;
-    gap: 4px;
+    padding: 6px;
+    min-width: 45px;
   }
-
+  
   .lang-icon {
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .cart {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 6px;
+  }
+  
+  .cart-img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+  }
+  
+  .dash {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+    border-width: 2px;
   }
 }
-@media (max-width: 480px) {
 
+@media (max-width: 400px) {
   .navbar {
-    padding: 12px 15px;
+    padding: 0 8px;
   }
-
-  .left-section {
-    justify-content: center;
+  
+  .logo {
+    height: 35px;
   }
-
-  .right-section {
-    justify-content: center;
+  
+  .menu-btn {
+    width: 22px;
+    height: 18px;
+    margin-right: 8px;
   }
-
- .login-btn,
- .logout-btn,
-  .register-btn {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
+  
   .lang-btn {
-    padding: 4px 6px;
-    font-size: 12px;
+    display: none; /* Hide language button on very small screens */
   }
+  
+  .right-section {
+    gap: 6px;
+  }
+  
+  .dash {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+  
+  .cart {
+    min-width: 38px;
+    min-height: 38px;
+  }
+}
 
-  .lang-icon {
-    width: 16px;
-    height: 16px;
+/* Fix for body padding to prevent navbar from covering content */
+body {
+  padding-top: 80px;
+}
+
+@media (max-width: 992px) {
+  body {
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 65px;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    padding-top: 60px;
   }
 }

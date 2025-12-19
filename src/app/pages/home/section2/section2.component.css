@@ -16,11 +16,27 @@
         align-items: center;
         flex-direction: column;
     }
+h1 {
+  color: #1a1a1a;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
 
-    h1 {
-        font-weight: bold;
-        font-size: 30px;
-    }
+h1:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(135deg, #e63946 0%, #b91d2a 100%);
+  border-radius: 2px;
+}
 
     .services-centers {
         margin-bottom: 35px;

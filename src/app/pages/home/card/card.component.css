@@ -10,6 +10,7 @@
     box-shadow 0.25s ease;
   padding: 15px;
   border-radius: 10px;
+  border: 2px solid black;
   background-color: white;
   img {
     width: 50%;
