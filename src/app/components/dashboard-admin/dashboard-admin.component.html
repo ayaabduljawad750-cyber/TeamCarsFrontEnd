@@ -1,103 +1,236 @@
 <div class="dashboard-container">
   <div class="card full-width">
     <div class="card-header dashboard-header">
-      <h2>Admin Dashboard</h2>
+      <div class="header-title">
+        <h2>Admin Dashboard</h2>
+        <p class="subtitle">Manage your platform efficiently</p>
+      </div>
       <div class="view-toggles">
-        <button class="btn" [class.btn-primary]="currentView==='users'" (click)="currentView='users'; loadUsers()">Users</button>
-        <button class="btn" [class.btn-primary]="currentView==='orders'" (click)="currentView='orders'; loadOrders()">Orders</button>
-        <button class="btn" [class.btn-primary]="currentView==='centers'" (click)="currentView='centers'; loadCenters()">Maintenance Centers</button>
-        <button class="btn" [class.btn-primary]="currentView==='profiles'" (click)="currentView='profiles'">Profiles</button>
+        <button class="btn btn-tab" [class.btn-primary]="currentView==='users'" 
+                (click)="switchView('users')">
+          <span>Users</span>
+        </button>
+        <button class="btn btn-tab" [class.btn-primary]="currentView==='orders'" 
+                (click)="switchView('orders')">
+          <span>Orders</span>
+        </button>
+        <button class="btn btn-tab" [class.btn-primary]="currentView==='centers'" 
+                (click)="switchView('centers')">
+          <span>Maintenance Centers</span>
+        </button>
+        <button class="btn btn-tab" [class.btn-primary]="currentView==='profiles'" 
+                (click)="switchView('profiles')">
+          <span>Profiles</span>
+        </button>
       </div>
     </div>
 
     <!-- Alerts -->
-    <div *ngIf="successMessage" class="alert success fade-in">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="alert error fade-in">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert success fade-in">
+      <div class="alert-content">{{ successMessage }}</div>
+      <button class="alert-close" (click)="successMessage = ''">&times;</button>
+    </div>
+    <div *ngIf="errorMessage" class="alert error fade-in">
+      <div class="alert-content">{{ errorMessage }}</div>
+      <button class="alert-close" (click)="errorMessage = ''">&times;</button>
+    </div>
 
     <div class="card-body">
-      <!-- USERS -->
-      <div *ngIf="currentView==='users'" class="fade-in">
-        <h3>Users</h3>
+      <!-- Loading Indicator -->
+      <div *ngIf="isLoading" class="loading-overlay">
+        <div class="spinner"></div>
+      </div>
 
-        <!-- Filters -->
-        <div class="filters">
-          <input type="text" placeholder="Search by name or email" [(ngModel)]="searchTerm" />
-          <select [(ngModel)]="roleFilter">
-            <option value="">All Roles</option>
-            <option value="admin">Admin</option>
-            <option value="seller">Seller</option>
-            <option value="maintenanceCenter">Maintenance Center</option>
-            <option value="user">User</option>
-          </select>
-          <button class="btn" (click)="loadUsers()">Apply Filters</button>
+      <!-- USERS VIEW -->
+      <div *ngIf="currentView==='users'" class="fade-in">
+        <div class="section-header">
+          <h3>Users</h3>
+          <div class="filters">
+            <input type="text" 
+                   placeholder="Search by name or email" 
+                   [(ngModel)]="searchTerm" 
+                   class="search-input" />
+            <select [(ngModel)]="roleFilter" class="filter-select">
+              <option value="">All Roles</option>
+              <option value="admin">Admin</option>
+              <option value="seller">Seller</option>
+              <option value="maintenanceCenter">Maintenance Center</option>
+              <option value="user">User</option>
+            </select>
+            <button class="btn" (click)="loadUsers()">Apply Filters</button>
+          </div>
         </div>
 
         <!-- Table -->
-        <table class="table">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let u of users">
-              <td><input [(ngModel)]="u.firstName" /></td>
-              <td><input [(ngModel)]="u.lastName" /></td>
-              <td>{{u.email}}</td>
-              <td><span class="role-tag">{{u.role}}</span></td>
-              <td class="actions">
-                <button class="btn save" (click)="updateUserName(u._id, u.firstName, u.lastName)">Save</button>
-                <button class="btn delete" (click)="deleteUser(u._id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table" *ngIf="users.length > 0">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of users">
+                <td><input class="form-input" [(ngModel)]="u.firstName" /></td>
+                <td><input class="form-input" [(ngModel)]="u.lastName" /></td>
+                <td>{{u.email}}</td>
+                <td><span class="role-tag">{{u.role}}</span></td>
+                <td class="actions">
+                  <button class="btn save" (click)="updateUserName(u._id, u.firstName, u.lastName)">Save</button>
+                  <button class="btn delete" (click)="deleteUser(u._id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="users.length === 0 && !isLoading" class="empty-state">
+          No users found
+        </div>
       </div>
 
-      <!-- ORDERS -->
+      <!-- ORDERS VIEW -->
       <div *ngIf="currentView==='orders'" class="fade-in">
-        <h3>Orders</h3>
-        <table class="table">
-          <thead><tr><th>ID</th><th>User</th><th>Status</th><th>Total</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr *ngFor="let o of orders">
-              <td>{{o._id}}</td>
-              <td>{{o.userId?.email}}</td>
-              <td>
-                <select [(ngModel)]="o.status" (ngModelChange)="updateOrderStatus(o._id, $event)">
-                  <option value="pending">Pending</option>
-                  <option value="confirmed">Confirmed</option>
-                </select>
-              </td>
-              <td>{{o.totalPrice}}</td>
-              <td><button class="btn-icon delete" (click)="deleteOrder(o._id)">Delete</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="section-header">
+          <h3>Orders</h3>
+          <div class="order-filters">
+            <select [(ngModel)]="orderStatusFilter" (change)="loadOrders()" class="filter-select">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="paid">Paid</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button class="btn" (click)="loadOrders()">Refresh</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table" *ngIf="orders.length > 0">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td class="order-id">{{order._id | slice:0:8}}...</td>
+                <td>
+                  <div *ngIf="order.userId">
+                    <div>{{getUserDisplay(order.userId)}}</div>
+                    <small *ngIf="getUserEmail(order.userId)" class="text-muted">
+                      {{getUserEmail(order.userId)}}
+                    </small>
+                    <small *ngIf="!getUserEmail(order.userId)" class="text-muted">
+                      ID: {{order.userId | slice:0:8}}...
+                    </small>
+                  </div>
+                  <div *ngIf="!order.userId">Unknown User</div>
+                </td>
+                <td>{{getOrderItemsSummary(order)}}</td>
+                <td>${{order.totalPrice}}</td>
+                <td>
+                  <span class="payment-method">{{order.paymentMethod || 'cash'}}</span>
+                </td>
+                <td>{{formatDate(order.createdAt)}}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                    {{getStatusText(order.status)}}
+                  </span>
+                </td>
+                <td class="order-actions">
+                  <!-- Only show status actions for pending orders -->
+                  <div class="status-actions" *ngIf="order.status === 'pending'">
+                    <button class="btn btn-success btn-sm" 
+                            (click)="updateOrderStatus(order._id, 'paid')">
+                      Mark as Paid
+                    </button>
+                    <button class="btn btn-warning btn-sm" 
+                            (click)="updateOrderStatus(order._id, 'cancelled')">
+                      Cancel
+                    </button>
+                  </div>
+                  
+                  <!-- For paid orders, admin can cancel to restore stock -->
+                  <div class="status-actions" *ngIf="order.status === 'paid'">
+                    <button class="btn btn-warning btn-sm" 
+                            (click)="updateOrderStatus(order._id, 'cancelled')">
+                      Cancel & Restock
+                    </button>
+                  </div>
+                  
+                  <!-- View and Delete actions -->
+                  <div class="other-actions">
+                    <button class="btn btn-info btn-sm" 
+                            [routerLink]="['/orders', order._id]"
+                            title="View Order Details">
+                      View
+                    </button>
+                    <button class="btn btn-danger btn-sm" 
+                            (click)="deleteOrder(order._id)"
+                            title="Delete Order">
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="orders.length === 0 && !isLoading" class="empty-state">
+          No orders found
+        </div>
       </div>
 
-      <!-- MAINTENANCE CENTERS -->
+      <!-- MAINTENANCE CENTERS VIEW -->
       <div *ngIf="currentView==='centers'" class="fade-in">
-        <h3>Maintenance Centers</h3>
-        <table class="table">
-          <thead><tr><th>Name</th><th>Address</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr *ngFor="let c of centers">
-              <td>{{c.name}}</td>
-              <td>{{c.location}}</td>
-              <td><button class="btn-icon delete" (click)="deleteCenter(c._id)">Delete</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="section-header">
+          <h3>Maintenance Centers</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table" *ngIf="centers.length > 0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of centers">
+                <td>{{c.name}}</td>
+                <td>{{c.location}}</td>
+                <td>
+                  <div *ngIf="c.phone">{{c.phone}}</div>
+                  <div *ngIf="c.email">{{c.email}}</div>
+                </td>
+                <td class="actions">
+                  <button class="btn btn-danger btn-sm" (click)="deleteCenter(c._id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="centers.length === 0 && !isLoading" class="empty-state">
+          No maintenance centers found
+        </div>
       </div>
 
-      <!-- PROFILES -->
+      <!-- PROFILES VIEW -->
       <div *ngIf="currentView==='profiles'" class="fade-in">
-        <h3>Profiles</h3>
+        <div class="section-header">
+          <h3>Profiles</h3>
+        </div>
         <app-dashboard-user></app-dashboard-user>
       </div>
     </div>

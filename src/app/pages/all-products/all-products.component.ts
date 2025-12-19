@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener } from '@angular/core';
 import { ProductService } from '../../services/all-products.service';
 import { CartService, CartItem } from '../../services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -41,11 +41,12 @@ export class AllProductsComponent implements OnInit {
   errorMessage = '';
   warningMessage = '';
   isLoading = false;
+  limit = 8
   
   // Updated filters with more options
   filters = {
     page: 1,
-    limit: 6,
+    limit: this.limit,
     category: '',
     brand: '',
     carModel: '',
@@ -76,6 +77,7 @@ export class AllProductsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.updateLimitByScreen();
     this.loadProducts();
     // Optional: Load brands and models if you have endpoints for them
     // this.loadBrands();
@@ -124,7 +126,7 @@ export class AllProductsComponent implements OnInit {
   resetFilters(): void {
     this.filters = {
       page: 1,
-      limit: 6,
+      limit: this.limit,
       category: '',
       brand: '',
       carModel: '',
@@ -142,7 +144,6 @@ export class AllProductsComponent implements OnInit {
       this.router.navigate(['login']);
       return;
     }
-
     const cartItem: CartItem = {
       productId: product._id,
       name: product.name,
@@ -204,4 +205,35 @@ export class AllProductsComponent implements OnInit {
       this.warningMessage = '';
     }, 3000);
   }
+
+updateLimitByScreen(): void {
+  const width = window.innerWidth;
+
+  if (width > 1290) {
+    this.limit = 8;
+  } else if (width > 930) {
+    this.limit = 6;
+  } else if(width >630){
+    this.limit = 4; 
+  }else if(width>330){
+    this.limit=2
+  }else{
+    this.limit=1
+  }
+
+  this.filters.limit = this.limit;
 }
+
+@HostListener('window:resize')
+onResize() {
+  const oldLimit = this.limit;
+  this.updateLimitByScreen();
+
+  if (oldLimit !== this.limit) {
+    this.filters.page = 1;
+    this.loadProducts();
+  }
+}
+  
+}
+

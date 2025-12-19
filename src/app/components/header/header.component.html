@@ -17,6 +17,7 @@
       <!-- Desktop Navigation -->
       <div class="desktop-nav">
         <a routerLink="/products" routerLinkActive="active-link" class="nav-link">Products</a>
+        <a routerLink="/orders" routerLinkActive="active-link" class="nav-link" *ngIf="isLogin()">My Orders</a>
       </div>
     </div>
     

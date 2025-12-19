@@ -117,6 +117,7 @@
       <h3>{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h3>
       <button class="close-btn" (click)="closeProductModal()">×</button>
     </div>
+    <div *ngIf="errorMessageProduct" class="alert error fade-in">{{errorMessageProduct}}</div>
     <div class="modal-body">
       <form [formGroup]="productForm" (ngSubmit)="onSaveProduct()">
         

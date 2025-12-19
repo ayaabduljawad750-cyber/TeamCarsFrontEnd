@@ -1,57 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="./booking-page.component.css">
-</head>
-
-<body>
-  <div class="booking-page">
-    <!-- <img src="/assets/images/bookService/bg.webp" alt=""> -->
-   <div class="container">
+<div class="booking-page">
+  <div class="container">
     <div class="left">
-      <img src="C:\Users\Elnour Tech\Desktop\final project front\TeamCarsFrontEnd\src\assets\images\bookService\bg.webp"
-        alt="">
+      <img src="assets/images/bookService/bg.webp" alt="">
     </div>
     <div class="right">
-      <form id="booking-services-form" action="">
+      <form id="booking-services-form" #bookingForm="ngForm" (ngSubmit)="submitBooking(bookingForm.value)">
         <div class="user-info">
-          <label for="">Enter your full name</label>
-          <input type="text"><br>
+          <span class="sp">User Information :</span>
+          <label>Enter your Full Name</label>
+          <input type="text" name="customerName" ngModel><br>
 
-          <label for="">Enter your number phone</label>
-          <input type="text"><br>
+          <label>Enter your Phone Number</label>
 
-          <label for="">Enter your Email</label>
-          <input type="text">
-        </div>
+          <input type="text" name="phone" ngModel>
+
+          <label>Enter your Email</label>
+          <input type="email" name="email" ngModel>
+        </div><br><br>
+
         <div class="car-info">
-          <h3>Enter Your Car Information</h3>
-          <label for="">Enter Your car model</label>
-          <input type="text"><br>
+          <span class="sp">Car Information :</span>
+          <label>Enter Your car model</label>
+          <input type="text" name="carModel" ngModel>
 
-          <label for="">Enter model year</label>
-          <input type="text"><br>
-          <select name="" id="">
-            <option value="">Regular Service</option>
-            <option value="">General Repair</option>
-            <option value="">Other</option>
-          </select><br>
+          <label>Enter model year</label>
+          <input type="text" name="modelYear" ngModel>
+          <label for="">Select Servies : </label>
+          <select name="serviceType" ngModel>
+            <option value="Regular Service">Regular Service</option>
+            <option value="General Repair">General Repair</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
-        <textarea name="" id="">
-              There are no comments
-            </textarea><br>
+        <label for="">Do You Have Any Comments ?</label>
+        <textarea name="comments" ngModel placeholder="There are no comments"></textarea><br>
 
-
-        <button type="">book aservice</button>
+        <button class="book-btn" type="submit">Book a service</button>
       </form>
     </div>
-   </div>
   </div>
-
-</body>
-
-</html>
+</div>
