@@ -2,7 +2,8 @@
   /* position: relative;
   bottom: 0; */
   width: 100%;
-    background: #2f3140;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+   border-top: 3px solid #e63946; 
     color: #fff;
     padding: 40px 80px;
   box-sizing: border-box;
