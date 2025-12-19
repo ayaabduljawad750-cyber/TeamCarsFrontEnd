@@ -10,45 +10,81 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(248, 249, 251);
+  padding: 100px 0;
 
+  /* background-color: black; */
   /* flex-self: */
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
     align-self: stretch;
-    flex-direction: column;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.363);
+    vertical-align: middle;
+    /* flex-direction: column; */
+
     /* height: 60%; */
 
     .left {
+      align-self: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.363);
       /* width: 50%; */
-      margin-bottom: 20px;
+      height: 520px;
+      /* margin-bottom: 20px; */
+      flex-basis: 50%;
+      border-radius: 20px;
+
       img {
         width: 100%;
         height: 100%;
-        border-radius: 20px;
+
+        border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
       }
     }
 
     .right {
+      align-self: center;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
       /* overflow-y: scroll; */
       /* width: 50%; */
+      background-color: rgb(248, 249, 251);
+      flex-basis: 50%;
+      overflow-y: scroll;
+      height: 520px;
 
-width: 100%;
       #booking-services-form {
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.363);
+        border-radius: 8px;
         display: flex;
         flex-direction: column;
+        /* justify-content: center; */
+        /* align-items: center; */
 
         .user-info,
         .car-info {
           display: flex;
-          justify-content: center;
           /* align-items: center; */
           flex-direction: column;
+          margin-bottom: 20px;
+        }
+
+        .book-btn {
+          background: transparent;
+          color: #b30000;
+          border: 1px solid #e50914;
+          padding: 6px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          margin-top: 10px;
+          padding: 12px 22px;
+        }
+
+        .book-btn:hover {
+          transition: .5s;
+          background: #b30000;
+          color: #fff;
         }
 
 
@@ -57,12 +93,16 @@ width: 100%;
 
         }
 
-        input {
+        input,
+        select,
+        textarea {
           border: 1px solid rgb(196, 200, 227);
           border-radius: 8px;
           padding: 8px 10px;
           outline: none;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.164);
+          /* width: 100%; */
+          margin-bottom: 10px;
         }
 
         input:hover {
@@ -71,7 +111,45 @@ width: 100%;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.445);
         }
 
+
       }
+
+      .sp {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #1f2937;
+
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #b30000, #ff3c3c);
+    border-radius: 8px;
+    border: 2px solid #1f2937;
+
+  }
+
+}
+
+
+@media (max-width:1000px) {
+  .container {
+    flex-direction: column;
+
+    .left,
+    .right {
+      width: 100%;
+      border-radius: 0;
     }
   }
 }

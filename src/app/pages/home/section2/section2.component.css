@@ -130,6 +130,10 @@ margin-bottom: 20px;
 
     }
 
+    .btns{
+      display  : flex;
+      gap : 10px
+    }
     .see-more-btn {
         background: transparent;
         color: #b30000;
@@ -146,7 +150,7 @@ margin-bottom: 20px;
         background: #b30000;
         color: #fff;
     }
-    
+
 }
 
 
