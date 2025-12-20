@@ -10,11 +10,27 @@
   margin: auto;
 }
 
-.content h2 {
-  font-size: 36px;
-  text-align: center;
-  margin-bottom: 10px;
-}
+ .content h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    position: relative;
+    text-align: center;
+    padding-bottom: 12px;
+  }
+
+ .content h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(135deg, #e63946, #b30000);
+    border-radius: 4px;
+  }
 
 .content h3 {
   font-size: 22px;

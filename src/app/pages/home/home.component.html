@@ -14,13 +14,14 @@
  <br><br>
    <div class="searchAbout">
   <h1 class="title"><i class="fas fa-search"></i> What are you searching for?</h1>
- <div class="categories">
-        <app-card [category]="category1"></app-card>
-        <app-card [category]="category2"></app-card>
-        <app-card [category]="category3"></app-card>
-        <app-card [category]="category4"></app-card>
-        <app-card [category]="category5"></app-card>
-      </div>
+<div class="categories">
+  <app-card
+    *ngFor="let category of categories"
+    [category]="category"
+    (categoryClicked)="goToCategory($event)">
+  </app-card>
+</div>
+
 </div>
     <div class="centers-container">
 
@@ -34,12 +35,10 @@
       <h1 class="title" ><i class="fas fa-trophy"></i> The Best Companies</h1>
       <p>For your car spare parts</p>
       <div class="companies">
-        <app-section4 [company]="company1"></app-section4>
-        <app-section4 [company]="company2"></app-section4>
-        <app-section4 [company]="company3"></app-section4>
-        <app-section4 [company]="company4"></app-section4>
-        <app-section4 [company]="company5"></app-section4>
-        <app-section4 [company]="company6"></app-section4>
+     <app-section4
+    *ngFor="let company of companies"
+    [company]="company">
+    </app-section4>
         <br><br><br><br><br><br><br><br><br><br><br><br>
       </div>
    </div>
