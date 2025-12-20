@@ -11,45 +11,50 @@
         <span></span>
         <span></span>
       </button>
-      
+
       <a routerLink="/Home"><img src="assets/images/nano2.png" class="logo"></a>
-      
+
       <!-- Desktop Navigation -->
       <div class="desktop-nav">
-        <a routerLink="/products" routerLinkActive="active-link" class="nav-link">Products</a>
-        <a routerLink="/orders" routerLinkActive="active-link" class="nav-link" *ngIf="isLogin()">My Orders</a>
+        <a routerLink="/products" routerLinkActive="active-link" class="nav-link">{{ 'NAV.PRODUCTS' | translate }}</a>
+        <a routerLink="/orders" routerLinkActive="active-link" class="nav-link" *ngIf="isLogin()">{{ 'NAV.ORDERS' | translate }}</a>
       </div>
     </div>
-    
+
     <div class="right-section">
       <!-- Desktop buttons -->
       <div class="desktop-buttons">
-        <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">Login</a>
-        <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">Register</a>
-        <button (click)="logout()" *ngIf="isLogin()" class="logout-btn">Logout</button>
+        <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">{{ 'NAV.LOGIN' | translate }}</a>
+        <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">{{ 'NAV.REGISTER' | translate }}></a>
+        <button (click)="logout()" *ngIf="isLogin()" class="logout-btn">{{ 'NAV.LOGOUT' | translate }}</button>
       </div>
-      
-      <button class="lang-btn" (click)="changeLang()">
-        <img src="assets/images/lang3.png" class="lang-icon">
-        <span>English</span>
-      </button>
-      
+
+<select class="lang-btn" (change)="changeLang($event)">
+  <option value="en">English</option>
+  <option value="ar">العربية</option>
+</select>
+
+
       <div routerLink="cart" class="cart">
         <span class="cart-img">
-        <i class="fa-solid fa-cart-shopping icon" ></i> 
+        <i class="fa-solid fa-cart-shopping icon" ></i>
         </span>
         <span *ngIf="cartCount > 0" class="cart-count">{{ cartCount }}</span>
       </div>
-      
+
       <a class="dash" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
     </div>
-    
+
     <!-- Mobile Menu (hidden by default) -->
     <div class="mobile-menu" [class.active]="mobileMenuOpen">
-      <a routerLink="/products" routerLinkActive="active-link" class="mobile-nav-link" (click)="closeMobileMenu()">Products</a>
-      <a routerLink="/login" class="mobile-nav-link" *ngIf="isLogin()==false" (click)="closeMobileMenu()">Login</a>
-      <a routerLink="/register" class="mobile-nav-link" *ngIf="isLogin()==false" (click)="closeMobileMenu()">Register</a>
-      <button (click)="logout(); closeMobileMenu()" *ngIf="isLogin()" class="mobile-logout-btn">Logout</button>
+      <a routerLink="/products" routerLinkActive="active-link" class="mobile-nav-link" (click)="closeMobileMenu()">{{
+        'NAV.PRODUCTS' | translate }}</a>
+      <a routerLink="/login" class="mobile-nav-link" *ngIf="isLogin()==false" (click)="closeMobileMenu()">{{ 'NAV.LOGIN' |
+        translate }}</a>
+      <a routerLink="/register" class="mobile-nav-link" *ngIf="isLogin()==false" (click)="closeMobileMenu()">{{
+        'NAV.REGISTER' | translate }}</a>
+      <button (click)="logout(); closeMobileMenu()" *ngIf="isLogin()" class="mobile-logout-btn">{{ 'NAV.REGISTER' |
+        translate }}</button>
     </div>
   </nav>
 </div>

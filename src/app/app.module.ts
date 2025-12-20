@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -52,10 +52,14 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
 
 // import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/' , ".json");
+}
 @NgModule({
   declarations: [
     AppComponent,
-
     /* Pages */
     LoginComponent,
     HomeComponent,
@@ -111,9 +115,16 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
 // BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide:TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps:[HttpClient]
+      }
+    }),
+
   ],
   providers: [],
   bootstrap: [AppComponent]

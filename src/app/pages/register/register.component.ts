@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -13,11 +14,11 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   currentStep = 1;
   selectedRole = '';
-  
+
   commercialFile: File | null = null;
   commercialFileError = '';
   errorMessage = '';
-  
+
   typePassword = false;
   typeConfirm = false;
   isLoading = false;
@@ -25,12 +26,18 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private translate: TranslateService)
+    {
+    const savedLang = localStorage.getItem('lang') || 'en';
+  translate.setDefaultLang(savedLang);
+  translate.use(savedLang);
+  document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+     }
 
   ngOnInit(): void {
     this.initForm();
-    
+
     // Check for saved role
     const storedRole = localStorage.getItem('temp_reg_role');
     if (storedRole) {
@@ -43,19 +50,19 @@ export class RegisterComponent implements OnInit {
   initForm() {
     this.registerForm = this.fb.group({
       firstName: ['', [
-        Validators.required, 
-        Validators.minLength(3), 
+        Validators.required,
+        Validators.minLength(3),
         Validators.pattern('^[A-Z][a-zA-Z]*$') // Starts with Cap, letters only
       ]],
       lastName: ['', [
-        Validators.required, 
-        Validators.minLength(3), 
+        Validators.required,
+        Validators.minLength(3),
         Validators.pattern('^[A-Z][a-zA-Z]*$')
       ]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
-        Validators.required, 
-        Validators.minLength(8), 
+        Validators.required,
+        Validators.minLength(8),
         Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}$/) // Number, upper, lower
       ]],
       confirmPassword: ['', Validators.required]
@@ -132,7 +139,7 @@ export class RegisterComponent implements OnInit {
     formData.append('lastName', this.f['lastName'].value);
     formData.append('email', this.f['email'].value);
     formData.append('password', this.f['password'].value);
-    
+
     if (this.commercialFile) {
       formData.append('commercial', this.commercialFile);
     }

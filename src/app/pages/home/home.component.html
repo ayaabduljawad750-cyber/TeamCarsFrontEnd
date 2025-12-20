@@ -2,18 +2,18 @@
 
     <div class="categories-section">
     <h1 class="hero-title">
-  Nice To Meet You 
+{{ 'HOME.HELLO' | translate }}
   <i class="fa-solid fa-gear hero-icon"></i>
 </h1>
 
 <button class="cta-btn"  [routerLink]="['/products']">
   <i class="fa-solid fa-cart-shopping"></i>
-  Start Shopping
+{{ 'HOME.START_SHOPPING' | translate }}
 </button>
     </div>
  <br><br>
    <div class="searchAbout">
-  <h1 class="title"><i class="fas fa-search"></i> What are you searching for?</h1>
+  <h1 class="title"><i class="fas fa-search"></i> {{ 'HOME.SEARCH_TITLE' | translate }}</h1>
  <div class="categories">
         <app-card [category]="category1"></app-card>
         <app-card [category]="category2"></app-card>
@@ -31,8 +31,8 @@
 
     <div class="best-companies">
       <br><br>
-      <h1 class="title" ><i class="fas fa-trophy"></i> The Best Companies</h1>
-      <p>For your car spare parts</p>
+      <h1 class="title" ><i class="fas fa-trophy"></i> {{ 'HOME.BEST_COMPANIES' | translate }}</h1>
+      <p>{{ 'HOME.SPARE_PARTS' | translate }}</p>
       <div class="companies">
         <app-section4 [company]="company1"></app-section4>
         <app-section4 [company]="company2"></app-section4>

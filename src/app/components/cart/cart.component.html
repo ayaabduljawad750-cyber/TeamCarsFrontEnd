@@ -1,28 +1,27 @@
 <div class="cartImg">
-<img src="../../../assets/images/Shop.jpg" alt="">
+  <img src="../../../assets/images/Shop.jpg" alt="">
 </div>
 <div class="cart-container">
-  
-    <!-- Alerts Section (completely separate) -->
-    <div class="alerts-section">
-      <div *ngIf="successMessage" class="alert success">
-        <i class="fas fa-check-circle"></i>
-        <span>{{ successMessage }}</span>
-      </div>
-      <div *ngIf="errorMessage" class="alert error">
-        <i class="fas fa-exclamation-circle"></i>
-        <span>{{ errorMessage }}</span>
-      </div>
-      <div *ngIf="warningMessage" class="alert warning">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>{{ warningMessage }}</span>
-      </div>
-    </div>
 
-  <h2>Your Cart</h2> 
+  <!-- Alerts Section (completely separate) -->
+  <div class="alerts-section">
+    <div *ngIf="successMessage" class="alert success">
+      <i class="fas fa-check-circle"></i>
+      <span>{{ successMessage }}</span>
+    </div>
+    <div *ngIf="errorMessage" class="alert error">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+    <div *ngIf="warningMessage" class="alert warning">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ warningMessage }}</span>
+    </div>
+  </div>
+  <h2>{{"CART.TITLE" | translate}}</h2>
 
   <div *ngIf="cart.length === 0" class="empty-message">
-    Your cart is empty 🛒
+    {{ 'CART.EMPTY' | translate }}
   </div>
 
   <div class="cart-item" *ngFor="let item of cart">
@@ -32,8 +31,8 @@
       <h3>{{ item.name }}</h3>
       <!-- <p class="category">Brand: {{ item.brand }}</p>
       <p class="category">Model: {{ item.carModel }}</p> -->
-      <p class="category">Stock: {{ item.stock }}</p>
-      <p class="price">Price: {{ item.price ?? 0 }} $</p>
+      <p class="category">{{ 'CART.STOCK' | translate }} {{ item.stock }}</p>
+      <p class="price">{{ 'CART.PRICE' | translate }} {{ item.price ?? 0 }} $</p>
 
       <div class="quantity-control">
         <button (click)="decrease(item)">-</button>
@@ -43,14 +42,14 @@
     </div>
 
     <div class="actions">
-      <p class="price">Total: {{ (item.price ?? 0) * item.quantity }} $</p>
-      <button class="delete-btn" (click)="remove(item.productId)">Remove</button>
+      <p class="price">{{ 'CART.TOTAL' | translate }} {{ (item.price ?? 0) * item.quantity }} $</p>
+      <button class="delete-btn" (click)="remove(item.productId)">{{ 'CART.REMOVE' | translate }}</button>
     </div>
   </div>
 
   <div class="cart-summary" *ngIf="cart.length > 0">
-    <h3>Grand Total: {{ getTotal() }} $</h3>
-    <button class="checkout-btn" routerLink="/order" (click)="Checkout()">Checkout</button>
-    <button class="clear-btn" (click)="clear()">Clear Cart</button>
+    <h3>{{ 'CART.GRAND_TOTAL' | translate }} {{ getTotal() }} $</h3>
+    <button class="checkout-btn" routerLink="/order" (click)="Checkout()">{{ 'CART.CHECKOUT' | translate }}</button>
+    <button class="clear-btn" (click)="clear()">{{ 'CART.CLEAR' | translate }}</button>
   </div>
 </div>

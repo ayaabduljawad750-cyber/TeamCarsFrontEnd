@@ -1,63 +1,54 @@
 <div class="login-page">
   <div class="login-card fade-in">
-    
+
     <div class="header">
-      <h2>Welcome Back</h2>
-      <p>Login to continue managing your account</p>
+      <h2>{{ 'LOGIN.WELCOME' | translate }}</h2>
+      <p>{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
-      
+
       <!-- Email Input -->
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label for="email">{{ 'LOGIN.EMAIL_LABEL' | translate }}</label>
         <div class="input-wrapper">
           <i class="fas fa-envelope input-icon"></i>
-          <input
-            type="email"
-            id="email"
-            formControlName="email"
-            placeholder="Enter your email"
-            [class.error-happen]="isFieldInvalid('email')"
-          />
+          <input type="email" id="email" formControlName="email" [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
+            [class.error-happen]="isFieldInvalid('email')" />
         </div>
-        
+
         <!-- Reactive Error Messages -->
         <div class="error-text" *ngIf="isFieldInvalid('email')">
-          <span *ngIf="loginForm.get('email')?.hasError('required')">Email is required</span>
-          <span *ngIf="loginForm.get('email')?.hasError('email')">Please enter a valid email address</span>
+          <span *ngIf="loginForm.get('email')?.hasError('required')">{{ 'LOGIN.EMAIL_REQUIRED' | translate }}</span>
+          <span *ngIf="loginForm.get('email')?.hasError('email')">{{ 'LOGIN.EMAIL_INVALID' | translate }}</span>
         </div>
       </div>
 
       <!-- Password Input -->
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label>
         <div class="input-wrapper">
           <i class="fas fa-lock input-icon"></i>
-          <input
-            [type]="fieldTextType ? 'text' : 'password'"
-            id="password"
-            formControlName="password"
-            placeholder="Enter your password"
-            [class.error-happen]="isFieldInvalid('password')"
-          />
-          
+          <input [type]="fieldTextType ? 'text' : 'password'" id="password" formControlName="password"
+            [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
+            [class.error-happen]="isFieldInvalid('password')" />
+
           <span class="toggle-eye" (click)="togglePasswordVisibility()">
             <i class="fas" [ngClass]="fieldTextType ? 'fa-eye-slash' : 'fa-eye'"></i>
           </span>
         </div>
 
         <div class="error-text" *ngIf="isFieldInvalid('password')">
-          <span>Password is required</span>
+          <span>{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</span>
         </div>
       </div>
 
       <div class="form-footer">
-        <a routerLink="/forgot-password">Forgot Password?</a>
+        <a routerLink="/forgot-password">{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</a>
       </div>
 
       <button type="submit" class="submit-btn" [disabled]="isLoading">
-        {{ isLoading ? 'Signing In...' : 'Sign In' }}
+        {{ isLoading ? ('LOGIN.SIGNING_IN' | translate) : ('LOGIN.SIGN_IN' | translate) }}
       </button>
 
       <!-- Global API Error -->
@@ -67,8 +58,9 @@
     </form>
 
     <div class="question-box">
-      <p>Don't have an account? <a class="register-link" routerLink="/register">Sign Up</a></p>
+      <p>{{ 'LOGIN.NO_ACCOUNT' | translate }} <a class="register-link" routerLink="/register">{{ 'LOGIN.SIGN_UP' |
+          translate }}</a></p>
     </div>
-    
+
   </div>
 </div>

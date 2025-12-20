@@ -3,6 +3,7 @@ import { ProductService } from '../../services/all-products.service';
 import { CartService, CartItem } from '../../services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+ import { TranslateService } from '@ngx-translate/core';
 
 interface Product {
   _id: string;
@@ -42,7 +43,7 @@ export class AllProductsComponent implements OnInit {
   warningMessage = '';
   isLoading = false;
   limit = 8
-  
+
   // Updated filters with more options
   filters = {
     page: 1,
@@ -57,14 +58,14 @@ export class AllProductsComponent implements OnInit {
     sortBy: 'latest',
   };
 
-  categories: string[] = [
-    'Spare parts',
-    'Tyres',
-    'Engine oil',
-    'Batteries',
-    'Liquids',
-  ];
-  
+ categories: string[] = [
+  'CATEGORIES.SPARE_PARTS',
+  'CATEGORIES.TYRES',
+  'CATEGORIES.ENGINE_OIL',
+  'CATEGORIES.BATTERIES',
+  'CATEGORIES.LIQUIDS'
+];
+
   brands: string[] = []; // Will be populated from API
   carModels: string[] = []; // Will be populated from API
   showAdvancedFilters = false;
@@ -74,7 +75,13 @@ export class AllProductsComponent implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private router: Router,
-  ) {}
+    private translate: TranslateService) {
+        const savedLang = localStorage.getItem('lang') || 'en';
+    translate.setDefaultLang(savedLang);
+    translate.use(savedLang);
+    document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+       }
+
 
   ngOnInit(): void {
     this.updateLimitByScreen();
@@ -214,7 +221,7 @@ updateLimitByScreen(): void {
   } else if (width > 930) {
     this.limit = 6;
   } else if(width >630){
-    this.limit = 4; 
+    this.limit = 4;
   }else if(width>330){
     this.limit=2
   }else{
@@ -234,6 +241,6 @@ onResize() {
     this.loadProducts();
   }
 }
-  
+
 }
 

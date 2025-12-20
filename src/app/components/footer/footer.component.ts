@@ -1,25 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit  {
   hotline = "15145";
+  moreLinks: any[] = [];
+  solutions: any[] = [];
+  constructor(
+    private translate: TranslateService) {
+      const savedLang = localStorage.getItem('lang') || 'en';
+  translate.setDefaultLang(savedLang);
+  translate.use(savedLang);
+  document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+     }
+  ngOnInit(): void {
+    this.loadLinks();
 
-  moreLinks = [
-    { name: 'About Us', path: '/aboutus' },
-    { name: 'Contact Us', path: '/contactus' },
-    { name: 'Terms & Conditions', path: '/terms' },
-    { name: 'Privacy & Policy', path: '/privacy' }
-  ];
 
-  solutions = [
-    { name: 'Exchange And Return Policy', path: '/exchange' },
-    { name: 'Our Products', path: '/products' }
-  ];
-  address = "Qena, Egypt";
+    this.translate.onLangChange.subscribe(() => {
+      this.loadLinks();
+    });
+  }
+
+    private loadLinks(): void {
+      this.moreLinks = [
+      { name: this.translate.instant('FOOTER.MORE_LINKS.ABOUT_US'), path: '/aboutus' },
+      { name: this.translate.instant('FOOTER.MORE_LINKS.CONTACT_US'), path: '/contactus' },
+      { name: this.translate.instant('FOOTER.MORE_LINKS.TERMS'), path: '/terms' },
+      { name: this.translate.instant('FOOTER.MORE_LINKS.PRIVACY'), path: '/privacy' }
+    ];
+
+    this.solutions = [
+      { name: this.translate.instant('FOOTER.SOLUTIONS_LINKS.EXCHANGE'), path: '/exchange' },
+      { name: this.translate.instant('FOOTER.SOLUTIONS_LINKS.PRODUCTS'), path: '/products' }
+    ];
+}
+  address: string = this.translate.instant('FOOTER.ADDRESS');
 
   socialIcons = [
     { img: 'assets/images/facebook.jpg', link:'https://www.facebook.com' },

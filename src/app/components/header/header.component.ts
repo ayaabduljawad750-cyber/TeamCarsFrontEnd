@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -24,8 +25,15 @@ export class HeaderComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private cartService: CartService
-  ) { }
+    private cartService: CartService,
+    private translate: TranslateService) {
+      const savedLang = localStorage.getItem('lang') || 'en';
+  translate.setDefaultLang(savedLang);
+  translate.use(savedLang);
+  document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+     }
+
+
 
   ngOnInit() {
     if(this.auth.isLogin()){
@@ -45,7 +53,7 @@ export class HeaderComponent implements OnInit {
   });
 
     }
-  
+
   }
 
   isLogin() {
@@ -62,9 +70,17 @@ export class HeaderComponent implements OnInit {
     this.toggleMenu = !this.toggleMenu;
   }
 
-  changeLang() {
-    alert('Language changed');
-  }
+
+
+
+changeLang(lang: any) {
+  const selectElement = lang.target as HTMLSelectElement;
+  const selectedLang = selectElement.value;
+  localStorage.setItem('lang', selectedLang);
+  this.translate.use(selectedLang);
+  document.documentElement.dir = selectedLang === 'ar' ? 'rtl' : 'ltr';
+}
+
   mobileMenuOpen = false;
 
 toggleMobileMenu() {

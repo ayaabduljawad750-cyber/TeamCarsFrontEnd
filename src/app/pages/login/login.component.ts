@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService , CartItem} from '../../services/cart.service';
 import { Observable,map } from 'rxjs';
+ import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Observable,map } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
+
   loginForm!: FormGroup;
   fieldTextType: boolean = false;
   isLoading: boolean = false;
@@ -22,12 +23,17 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-   private cartService: CartService
-  ) {
-    // this.cart$ = this.cartService.getMyCart().pipe(
-    // map((res:any)=>res.data?.cart)
-    // )
-  }
+    private cartService: CartService,
+       private translate: TranslateService) {
+           const savedLang = localStorage.getItem('lang') || 'en';
+       translate.setDefaultLang(savedLang);
+       translate.use(savedLang);
+       document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+       // this.cart$ = this.cartService.getMyCart().pipe(
+       // map((res:any)=>res.data?.cart)
+       // )
+          }
+
 
   ngOnInit(): void {
     // Initialize Reactive Form
