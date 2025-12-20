@@ -87,9 +87,16 @@ export class AllProductsComponent implements OnInit {
     this.updateLimitByScreen();
     this.loadProducts();
     // Optional: Load brands and models if you have endpoints for them
-    // this.loadBrands();
-    // this.loadModels();
+    // this.loadBrands();ngOnInit() {
+  const savedCategory = localStorage.getItem('selectedCategory');
+  if (savedCategory) {
+    this.filters.category = savedCategory;
+    this.search();
+    localStorage.removeItem('selectedCategory'); 
   }
+}
+    // this.loadModels();
+  
 
   loadProducts(): void {
     this.loading = true;

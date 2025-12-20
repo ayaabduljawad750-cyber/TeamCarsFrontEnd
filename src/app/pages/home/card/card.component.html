@@ -1,6 +1,7 @@
-<div class="card" (mouseenter)="img.src = category.hover" (mouseleave)="img.src = category.imgUrl">
-      <img [src]="category.imgUrl"  #img
-        alt="">
+<div class="card"
+     (mouseenter)="img.src = category.hover"
+     (mouseleave)="img.src = category.imgUrl"
+       (click)="onClick()">
+  <img [src]="category.imgUrl"  #img alt="">
   <h2>{{ category.title | translate }}</h2>
 </div>
-

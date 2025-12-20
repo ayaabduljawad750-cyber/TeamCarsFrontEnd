@@ -42,7 +42,7 @@
         <span *ngIf="cartCount > 0" class="cart-count">{{ cartCount }}</span>
       </div>
 
-      <a class="dash" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
+      <a class="dash" routerLinkActive="active-link" routerLink="/dashboard" *ngIf="isLogin()">{{FirstChar}}</a>
     </div>
 
     <!-- Mobile Menu (hidden by default) -->

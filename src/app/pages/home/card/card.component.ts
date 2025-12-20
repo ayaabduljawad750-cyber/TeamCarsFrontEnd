@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Icategory } from '../home.component.models';
 
 @Component({
@@ -7,8 +7,11 @@ import { Icategory } from '../home.component.models';
   styleUrls: ['./card.component.css']
 })
 export class CardComponent {
-  @Input() category: Icategory = {} as Icategory;
-    hoverIndex: number | null = null;
 
-  
+  @Input() category!: Icategory;   // الكاتيجوري جاي من الهوم
+  @Output() categoryClicked = new EventEmitter<string>(); // event رايح للهوم
+
+  onClick() {
+    this.categoryClicked.emit(this.category.title);
+  }
 }
