@@ -1,4 +1,8 @@
+<div class="cartImg">
+<img src="../../../assets/images/Shop.jpg" alt="">
+</div>
 <div class="cart-container">
+  
     <!-- Alerts Section (completely separate) -->
     <div class="alerts-section">
       <div *ngIf="successMessage" class="alert success">
@@ -14,7 +18,8 @@
         <span>{{ warningMessage }}</span>
       </div>
     </div>
-  <h2>Your Cart</h2>
+
+  <h2>Your Cart</h2> 
 
   <div *ngIf="cart.length === 0" class="empty-message">
     Your cart is empty 🛒

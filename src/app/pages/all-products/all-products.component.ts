@@ -197,7 +197,7 @@ export class AllProductsComponent implements OnInit {
       this.successMessage = '';
       this.warningMessage = '';
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 600, behavior: 'smooth' });
 
     setTimeout(() => {
       this.successMessage = '';

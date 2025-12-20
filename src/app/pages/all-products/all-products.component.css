@@ -8,6 +8,28 @@
   min-height: calc(100vh - 80px);
 }
 
+.sec2{
+   background-image: url(../../../assets/images/uni.png); 
+   /* height: 600px; */
+   padding: 180px 0;
+   color: hsl(0, 88%, 55%);
+
+   text-align: center;
+ 
+}
+.sec2 h1{
+  font-size: 40px;
+  margin-bottom: 30px;
+  /* display: none; */
+}
+.sec2 .text{
+  background-color: #1a1d207a;
+  padding: 20px 0;
+}
+.imgC{
+  /* background-image: url(../../../assets/images/uni.png); */
+  background-color: #ffffff;
+}
 /* Alerts Section */
 .alerts-section {
   margin-bottom: 30px;
@@ -83,12 +105,12 @@ h2:after {
 
 /* Filters Section */
 .filters {
-  background: white;
-  padding: 25px;
+  /* background: white; */
+  /* padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); */
   margin-bottom: 40px;
-  border: 2px solid #e9ecef;
+  /* border: 2px solid #e9ecef; */
 }
 
 /* Search Bar */
@@ -103,7 +125,7 @@ h2:after {
   flex: 1;
   /* min-width: 250px; */
   padding: 12px 15px;
-  border: 2px solid #dee2e6;
+  border: 2px solid #746c6c;
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -113,7 +135,7 @@ h2:after {
 .search-bar input:focus {
   outline: none;
   border-color: #e63946;
-  background: white;
+  /* background: white; */
   box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
 }
 
@@ -166,14 +188,15 @@ h2:after {
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .basic-filters select {
   flex: 1;
-  min-width: 200px;
-  padding: 12px;
-  border: 2px solid #dee2e6;
+  /* min-width: 200px; */
+  padding: 8px;
+  max-width: 200px;
+  border: 2px solid #e6dede;
   border-radius: 8px;
   font-size: 16px;
   background: #f8f9fa;
@@ -184,7 +207,7 @@ h2:after {
 .basic-filters select:focus {
   outline: none;
   border-color: #e63946;
-  background: white;
+  /* background: white; */
   box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
 }
 
@@ -193,7 +216,7 @@ h2:after {
   background: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
-  border: 2px solid #dee2e6;
+  border: 2px solid #e6dede;
   margin-top: 20px;
   animation: fadeIn 0.3s ease;
 }
@@ -218,7 +241,7 @@ h2:after {
   border: 2px solid #dee2e6;
   border-radius: 6px;
   font-size: 15px;
-  background: white;
+  /* background: white; */
 }
 
 .price-range input:focus {
@@ -285,7 +308,7 @@ h2:after {
 
 /* Product Card */
 .card {
-  background: white;
+  background: rgb(255, 255, 255);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -295,22 +318,28 @@ h2:after {
 }
 
 .card:hover {
-  transform: translateY(-8px);
+  /* transform: translateY(-4px); */
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-  border-color: #e63946;
 }
-
+.imgC{
+  text-align: center;
+}
 .card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
+  width: 220px;
+  height: 180px;
+  /* object-fit: cover; */
   cursor: pointer;
   transition: transform 0.3s ease;
-  border-bottom: 2px solid #f1f3f5;
+  /* padding: 10px 30px; */
+  margin: 10px auto;
+
+  /* border: 6px solid; */
+  /* border-image: linear-gradient(135deg, #e63946 0%, #b91d2a 100%); */
+  /* border-image-slice: 1; */
 }
 
 .card img:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .card h3 {
@@ -362,8 +391,8 @@ h2:after {
 
 .price {
   color: #1a1a1a;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
   margin: 0;
 }
 
@@ -403,7 +432,7 @@ h2:after {
   width: calc(100% - 40px);
   margin: 20px;
   padding: 12px;
-  background: linear-gradient(135deg, #e63946 0%, #b91d2a 100%);
+  background: linear-gradient(135deg, #000000 0%, #3f3b3b 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -418,7 +447,7 @@ h2:after {
 }
 
 .card button:hover:not(.disabled) {
-  background: linear-gradient(135deg, #ff4757 0%, #e63946 100%);
+  background: linear-gradient(135deg, #e63946 0%, #b91d2a 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
 }
@@ -512,6 +541,9 @@ h2:after {
 }
 
 @media (max-width: 992px) {
+  .sec2 h1{
+   display: none;
+  }
   .container {
     padding: 20px;
   }

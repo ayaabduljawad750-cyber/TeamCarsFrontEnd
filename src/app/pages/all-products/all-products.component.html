@@ -1,19 +1,14 @@
+ <div class="sec2">
+    <div class="text">
+      <h1>Enjoy Shopping Online With High Quality & Best Prices</h1>
+      <h2 style="color: white;">Receive All Your Orders From Home </h2>
+    </div>
+       <!-- <img src="../../../assets/images/Shop.jpg" alt=""> -->
+   </div>
 <div class="container">
   <!-- Alerts Section -->
-  <div class="alerts-section">
-    <div *ngIf="successMessage" class="alert success">
-      <i class="fas fa-check-circle"></i>
-      <span>{{ successMessage }}</span>
-    </div>
-    <div *ngIf="errorMessage" class="alert error">
-      <i class="fas fa-exclamation-circle"></i>
-      <span>{{ errorMessage }}</span>
-    </div>
-    <div *ngIf="warningMessage" class="alert warning">
-      <i class="fas fa-exclamation-triangle"></i>
-      <span>{{ warningMessage }}</span>
-    </div>
-  </div>
+  <div class="cardC">
+  
 
   <h2>All Products</h2>
 
@@ -90,6 +85,20 @@
     </div>
   </div>
 
+<div class="alerts-section">
+    <div *ngIf="successMessage" class="alert success">
+      <i class="fas fa-check-circle"></i>
+      <span>{{ successMessage }}</span>
+    </div>
+    <div *ngIf="errorMessage" class="alert error">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+    <div *ngIf="warningMessage" class="alert warning">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ warningMessage }}</span>
+    </div>
+  </div>
   <!-- Loading -->
   <div *ngIf="loading" class="loading">
     <i class="fas fa-spinner fa-spin"></i> Loading products...
@@ -98,11 +107,13 @@
   <!-- Products Grid -->
   <div class="grid" *ngIf="!loading && products.length > 0">
     <div class="card" *ngFor="let product of products">
+     <div class="imgC">
       <img
         [src]="'data:' + product.image?.contentType + ';base64,' + product.image?.data"
         alt="{{ product.name }}"
         (click)="goToDetailsProduct(product._id)"
       />
+      </div>
       <h3 (click)="goToDetailsProduct(product._id)">{{ product.name }}</h3>
       <p class="brand-model">
         <span *ngIf="product.brand">{{ product.brand }}</span>
@@ -136,7 +147,7 @@
     <p>Try adjusting your search or filters</p>
     <button (click)="resetFilters()" class="reset-btn">Clear All Filters</button>
   </div>
-
+  </div>
   <!-- Pagination -->
   <div class="pagination" *ngIf="totalPages > 1">
     <button
