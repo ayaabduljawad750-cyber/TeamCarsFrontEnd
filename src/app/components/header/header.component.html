@@ -25,7 +25,7 @@
       <!-- Desktop buttons -->
       <div class="desktop-buttons">
         <a routerLink="/login" class="login-btn" *ngIf="isLogin()==false">{{ 'NAV.LOGIN' | translate }}</a>
-        <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">{{ 'NAV.REGISTER' | translate }}></a>
+        <a routerLink="/register" class="register-btn" *ngIf="isLogin()==false">{{ 'NAV.REGISTER' | translate }}</a>
         <button (click)="logout()" *ngIf="isLogin()" class="logout-btn">{{ 'NAV.LOGOUT' | translate }}</button>
       </div>
 

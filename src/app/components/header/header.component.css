@@ -12,7 +12,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 3px solid #e63946; 
+  border-bottom: 3px solid #e63946;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -100,7 +100,7 @@
 }
 
 .nav-link:hover {
-  color: white; 
+  color: white;
   /* background: rgba(230, 57, 70, 0.2); */
   border-color: #e63946;
   /* transform: translateY(-2px); */
@@ -192,7 +192,7 @@
   font-size: 14px;
   font-weight: 700;
   /* transition: all 0.3s ease; */
-  color: white;
+  color: black;
 }
 
 .lang-btn:hover {
@@ -342,11 +342,11 @@
   .navbar {
     padding: 0 20px;
   }
-  
+
   .left-section {
     gap: 30px;
   }
-  
+
   .right-section {
     gap: 20px;
   }
@@ -357,41 +357,41 @@
     padding: 0 15px;
     height: 70px;
   }
-  
+
   .logo {
     height: 50px;
   }
-  
+
   .left-section {
     gap: 20px;
   }
-  
+
   .nav-link {
     font-size: 14px;
     padding: 8px 16px;
   }
-  
+
   .right-section {
     gap: 15px;
   }
-  
+
   .login-btn, .register-btn, .logout-btn {
     padding: 8px 16px;
     font-size: 13px;
     min-width: 80px;
   }
-  
+
   .lang-btn {
     padding: 8px 12px;
     font-size: 13px;
   }
-  
+
   .dash {
     width: 50px;
     height: 50px;
     font-size: 18px;
   }
-  
+
   .cart {
     min-width: 50px;
     min-height: 50px;
@@ -403,65 +403,65 @@
     height: 65px;
     padding: 0 12px;
   }
-  
+
   /* Show hamburger and hide desktop items */
   .menu-btn {
     display: flex;
   }
-  
+
   .desktop-nav {
     display: none;
   }
-  
+
   .desktop-buttons {
     display: none;
   }
-  
+
   .logo {
     height: 45px;
     margin-right: 0;
   }
-  
+
   .left-section {
     gap: 15px;
   }
-  
+
   .right-section {
     gap: 12px;
   }
-  
+
   .lang-btn span {
     display: none;
   }
-  
+
   .lang-btn {
     padding: 8px;
     min-width: 50px;
     justify-content: center;
   }
-  
+
   .lang-icon {
     width: 20px;
     height: 20px;
   }
-  
+
   .cart {
     min-width: 45px;
     min-height: 45px;
     padding: 8px;
   }
-  
+
   .cart-img {
     width: 22px;
     height: 22px;
   }
-  
+
   .cart-count {
     width: 20px;
     height: 20px;
     font-size: 12px;
   }
-  
+
   .dash {
     width: 45px;
     height: 45px;
@@ -474,55 +474,55 @@
     height: 60px;
     padding: 0 10px;
   }
-  
+
   .logo {
     height: 40px;
   }
-  
+
   .menu-btn {
     width: 25px;
     height: 20px;
   }
-  
+
   .menu-btn span {
     height: 3px;
   }
-  
+
   .left-section {
     gap: 10px;
   }
-  
+
   .right-section {
     gap: 8px;
   }
-  
+
   .lang-btn {
     padding: 6px;
     min-width: 45px;
   }
-  
+
   .lang-icon {
     width: 18px;
     height: 18px;
   }
-  
+
   .cart {
     min-width: 40px;
     min-height: 40px;
     padding: 6px;
   }
-  
+
   .cart-img {
     width: 20px;
     height: 20px;
   }
-  
+
   .cart-count {
     width: 18px;
     height: 18px;
     font-size: 11px;
   }
-  
+
   .dash {
     width: 40px;
     height: 40px;
@@ -535,31 +535,31 @@
   .navbar {
     padding: 0 8px;
   }
-  
+
   .logo {
     height: 35px;
   }
-  
+
   .menu-btn {
     width: 22px;
     height: 18px;
     margin-right: 8px;
   }
-  
+
   .lang-btn {
     display: none; /* Hide language button on very small screens */
   }
-  
+
   .right-section {
     gap: 6px;
   }
-  
+
   .dash {
     width: 38px;
     height: 38px;
     font-size: 14px;
   }
-  
+
   .cart {
     min-width: 38px;
     min-height: 38px;

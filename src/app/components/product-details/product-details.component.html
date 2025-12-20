@@ -27,98 +27,84 @@
             <span class="badges-category">{{product.category}}</span>
             <span *ngIf="product.brand" class="product-brand">{{product.brand}}</span>
           </div>
-          
+
           <h1 class="product-name">{{product.name}}</h1>
 
           <div class="rating">
             <div class="stars">
-              <span *ngFor="let star of getStarArray(product.evaluation); let i = index" 
-                    [class.filled]="star" 
+              <span *ngFor="let star of getStarArray(product.evaluation); let i = index"
+                    [class.filled]="star"
                     class="star">★</span>
             </div>
             <span class="rating-text">{{product.evaluation | number:'1.1-1'}} from 5</span>
           </div>
-          
+
           <div class="price">{{product.price | currency:'EGP ':'symbol':'1.0-0'}}</div>
           <div class="seller-name">Seller: {{getSellerName()}}</div>
-          
+
           <div class="action" *ngIf="product.stock">
             <button (click)="addToCart(product)" class="addToCart-btn">
               <i class="fa-solid fa-cart-plus"></i>
-              Add to Cart
+            {{ 'PRODUCT_DETAILS.ADD_TO_CART' | translate }}
             </button>
           </div>
-          
+
           <div *ngIf="product.stock === 0" class="out-of-stock">
-            Out of stock
+                    {{ 'PRODUCT_DETAILS.OUT_OF_STOCK' | translate }}
+
           </div>
         </div>
       </div>
     </div>
 
-    
 
-    <div class="description-section">
-      <h2 class="section-title">Product Description</h2>
-      <div class="description">
-        <p *ngIf="product?.description">{{product.description}}</p>
-        
-        <div class="specifications">
-          <h3>Specifications</h3>
-          <div class="spec-grid">
-            <div class="spec-item" *ngIf="product?.name">
-              <div class="spec-item-header">
-              <i class="fa-solid fa-gears"></i>
-              <span class="spec-label">Name:</span>
+        <div class="description-section">
+          <h2 class="section-title">{{ 'PRODUCT_DETAILS.DESCRIPTION' | translate }}</h2>
+          <div class="description">
+            <p *ngIf="product?.description">{{product.description}}</p>
+
+            <div class="specifications">
+              <h3>{{ 'PRODUCT_DETAILS.SPECIFICATIONS' | translate }}</h3>
+              <div class="spec-grid">
+                <div class="spec-item" *ngIf="product?.name">
+                  <span class="spec-label">{{ 'PRODUCT_DETAILS.NAME' | translate }}</span>
+                  <span class="spec-value">{{product.name}}</span>
+                </div>
+
+                <div class="spec-item" *ngIf="product?.category">
+                  <span class="spec-label">{{ 'PRODUCT_DETAILS.CATEGORY' | translate }}</span>
+                  <span class="spec-value">{{product.category}}</span>
+                </div>
+
+                <div class="spec-item" *ngIf="product?.brand">
+                  <span class="spec-label">{{ 'PRODUCT_DETAILS.BRAND' | translate }}</span>
+                  <span class="spec-value">{{product.brand}}</span>
+                </div>
+
+                <div class="spec-item" *ngIf="product?.carModel">
+                  <span class="spec-label">{{ 'PRODUCT_DETAILS.CAR_MODEL' | translate }}</span>
+                  <span class="spec-value">{{product.carModel}}</span>
+                </div>
+
+                <div class="spec-item" *ngIf="product?.createAt">
+                  <span class="spec-label">{{ 'PRODUCT_DETAILS.CREATED' | translate }}</span>
+                  <span class="spec-value">{{formatDate(product.createAt)}}</span>
+                </div>
+
+                <div class="spec-item" *ngIf="product?.lastUpdateAt">
+                  <span class="spec-label">{{ 'PRODUCT_DETAILS.LAST_UPDATED' | translate }}</span>
+                  <span class="spec-value">{{formatDate(product.lastUpdateAt)}}</span>
+                </div>
               </div>
-              <span class="spec-value">{{product.name}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.category">
-               <div class="spec-item-header">
-              <i class="fas fa-tags"></i>
-              <span class="spec-label">Category:</span>
-              </div>
-              <span class="spec-value">{{product.category}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.brand">
-              <div class="spec-item-header">
-              <i class="fas fa-industry"></i>
-              <span class="spec-label">Brand:</span>
-              </div>
-              <span class="spec-value">{{product.brand}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.carModel">
-              <div class="spec-item-header">
-              <i class="fas fa-car"></i>
-              <span class="spec-label">Car Model:</span>
-              </div>
-              <span class="spec-value">{{product.carModel}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.createAt">
-              <div class="spec-item-header">
-              <i class="fas fa-calendar-plus"></i>
-              <span class="spec-label">Created:</span>
-            </div>
-              <span class="spec-value">{{formatDate(product.createAt)}}</span>
-            </div>
-            
-            <div class="spec-item" *ngIf="product?.lastUpdateAt">
-              <div class="spec-item-header">
-               <i class="fas fa-calendar-check"></i>
-              <span class="spec-label">Last Updated:</span>
-            </div>
-              <span class="spec-value">{{formatDate(product.lastUpdateAt)}}</span>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+
+
+
     <div class="add-review">
-      <h3>Add your review</h3>
+      <h3>{{ 'PRODUCT_DETAILS.ADD_REVIEW' | translate }}</h3>
       <div class="stars">
         <span *ngFor="let star of [1,2,3,4,5]"
               (click)="setRating(star)"
@@ -127,10 +113,10 @@
           ★
         </span>
       </div>
-      <button (click)="submitReview()" 
+      <button (click)="submitReview()"
               [disabled]="!selectedRating"
               class="submit-review-btn">
-        Submit Review
+      {{ 'PRODUCT_DETAILS.SUBMIT_REVIEW' | translate }}
       </button>
     </div>
   </div>
