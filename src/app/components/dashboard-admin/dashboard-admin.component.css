@@ -332,7 +332,7 @@
   
   .status-actions, .other-actions {
     flex-direction: column;
-    width: 100%;
+    /* width: 100%; */
   }
   
   .status-actions .btn,
