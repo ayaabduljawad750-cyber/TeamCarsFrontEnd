@@ -1,47 +1,90 @@
 .contact-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 40px;
-}
-.contact-container .cont {
-    border: #ee3e569f 2px solid;
-}
-.contact-container h2 {
-    color: #ee3e55;
-    margin-bottom: 12px;
+  padding: 100px 20px;
+  background: linear-gradient(90deg, #f4f4f4 0%, #ffffff 70%);
+  text-align: center;
+  position: relative;
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 15px;
     position: relative;
-}
+    padding-bottom: 12px;
+  }
 
-.contact-container p {
-    margin-bottom: 12px;
-}
+  h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(135deg, #e63946, #b30000);
+    border-radius: 4px;
+  }
 
-.contact-link {
-    display: block;
-    font-weight: bold;
+  p {
+    color: #666;
+    font-size: 15px;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 10px;
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(179, 0, 0, 0.3);
+    color: #b30000;
     text-decoration: none;
-    margin: 10px 0;
-    padding: 10px 14px;
-    color: #000;
-}
+    font-size: 14px;
+    transition: all 0.3s ease;
 
-.contact-link span {
-    color: #ee3e55;
-    font-weight: bold;
-}
+    span {
+      font-weight: 600;
+    }
 
-.hotline {
-    margin-top: 20px;
-    margin-left: 10px;
-    font-weight: bold;
-}
+    &:hover {
+      background: #b30000;
+      color: #fff;
+      border-color: #b30000;
+    }
+  }
 
-.hotline span {
-    color: #ee3e55;
-}
-
-.map-container {
+  .hotline {
     margin-top: 25px;
-    overflow: hidden;
-    /* box-shadow: 0 6px 10px rgba(0,0,0,0.15); */
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+
+    span {
+      color: #b30000;
+      margin-right: 6px;
+    }
+  }
+
+  .map-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+
+    .cont {
+      width: 90%;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+
+    iframe {
+      border-radius: 12px;
+    }
+  }
 }

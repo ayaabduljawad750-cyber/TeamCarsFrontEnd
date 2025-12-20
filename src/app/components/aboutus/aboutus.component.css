@@ -1,96 +1,144 @@
+/* ===== Page Wrapper ===== */
 .about-page {
-    padding: 40px;
+  background: #f8f9fa;
+  padding: 60px 20px;
 }
 
-.offer-wrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 40px;
-    margin-top: 25px;
-    flex-wrap: wrap;
-}
-
-.text-box {
-    flex: 1;
-    min-width: 300px;
-}
-
+/* ===== Main Content ===== */
 .content {
-    max-width: 1000px;
-    margin: auto;
-    padding-top: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .content h2 {
-    font-size: 30px;
-    margin-bottom: 12px;
-    color: #ee3e55;
-    position: relative;
-}
-
-.content p {
-    margin-bottom: 15px;
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .content h3 {
-    margin-top: 25px;
-    color: #ee3e55;
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #E63946;
 }
 
+/* ===== Offer Wrapper ===== */
+.offer-wrapper {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+/* ===== Text Box ===== */
+.text-box {
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.text-box p {
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.text-box strong {
+  color: #1f1f1f;
+}
+
+/* ===== Address ===== */
 address {
-    padding: 6px 15px;
-    display: inline-block;
+  font-style: normal;
+  color: #666;
+  margin-bottom: 25px;
 }
 
-.contacts {
-    padding-left: 15px;
-    margin-top: 10px;
+/* ===== Contact Section ===== */
+.question {
+  margin-top: 25px;
 }
-.question p{
-    font-weight: bold;
-}
-.question span{
-    color: #000;
-    font-weight: bold;
-}
+
 .question a {
-    color: #000;
-    text-decoration: none;
+  display: inline-block;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #1f1f1f;
+  font-weight: 500;
 }
 
+.question a span {
+  color: #E63946;
+  margin-right: 6px;
+}
+
+.question a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Hotline ===== */
+.hotline {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #E63946;
+}
+
+/* ===== Image Box ===== */
 .image-box {
-    width: 420px;
-    min-height: 420px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #e53935 40%, #b71c1c 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 15px;
-    transition: transform 260ms ease, box-shadow 260ms ease;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg, #E63946, #b91d2a);
+  padding: 25px;
+  border-radius: 22px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.image-box strong{
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 10px;
+.image-box strong {
+  font-size: 26px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
 }
 
+/* ===== Image ===== */
 .image {
-    width: 90%;
-    overflow: hidden;
-    border-radius: 14px;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
 .image img {
-    width: 100%;
-    display: block;
-    transition: transform 0.4s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
-.image:hover img {
-    cursor: pointer;
-    transform: scale(1.08);
+
+.image img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .offer-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .image-box {
+    order: -1;
+  }
+}
+
+@media (max-width: 576px) {
+  .content h2 {
+    font-size: 28px;
+  }
+
+  .text-box {
+    padding: 25px;
+  }
 }
